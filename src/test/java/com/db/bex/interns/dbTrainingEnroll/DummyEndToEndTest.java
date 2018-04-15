@@ -29,13 +29,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class DummyTest {
+public class DummyEndToEndTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Mock
-    private DummyService dummyService;
 
     @Autowired
     private WebApplicationContext context;
