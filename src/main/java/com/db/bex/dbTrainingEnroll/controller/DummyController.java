@@ -1,7 +1,7 @@
-package com.db.bex.interns.controller;
+package com.db.bex.dbTrainingEnroll.controller;
 
-import com.db.bex.interns.dto.DummyDto;
-import com.db.bex.interns.service.DummyService;
+import com.db.bex.dbTrainingEnroll.dto.DummyDto;
+import com.db.bex.dbTrainingEnroll.service.DummyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

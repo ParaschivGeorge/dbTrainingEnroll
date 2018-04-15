@@ -1,8 +1,14 @@
-package com.db.bex.interns.dto;
+package com.db.bex.dbTrainingEnroll.entity;
 
-public class DummyDto {
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+@Entity
+public class Dummy {
+
+    @Id
     Long id;
+
     String name;
 
     public Long getId() {

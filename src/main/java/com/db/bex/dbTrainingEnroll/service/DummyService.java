@@ -1,8 +1,8 @@
-package com.db.bex.interns.service;
+package com.db.bex.dbTrainingEnroll.service;
 
-import com.db.bex.interns.dao.DummyRepository;
-import com.db.bex.interns.dto.DummyDTOTransformer;
-import com.db.bex.interns.dto.DummyDto;
+import com.db.bex.dbTrainingEnroll.dao.DummyRepository;
+import com.db.bex.dbTrainingEnroll.dto.DummyDTOTransformer;
+import com.db.bex.dbTrainingEnroll.dto.DummyDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,8 +1,8 @@
 package com.db.bex.interns.dbTrainingEnroll;
 
-import com.db.bex.interns.controller.DummyController;
-import com.db.bex.interns.dao.DummyRepository;
-import com.db.bex.interns.entity.Dummy;
+import com.db.bex.dbTrainingEnroll.controller.DummyController;
+import com.db.bex.dbTrainingEnroll.dao.DummyRepository;
+import com.db.bex.dbTrainingEnroll.entity.Dummy;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

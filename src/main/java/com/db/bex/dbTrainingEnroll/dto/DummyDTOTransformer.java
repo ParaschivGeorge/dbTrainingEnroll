@@ -1,6 +1,6 @@
-package com.db.bex.interns.dto;
+package com.db.bex.dbTrainingEnroll.dto;
 
-import com.db.bex.interns.entity.Dummy;
+import com.db.bex.dbTrainingEnroll.entity.Dummy;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
