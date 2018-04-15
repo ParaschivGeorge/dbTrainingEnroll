@@ -3,14 +3,8 @@ package com.db.bex.interns.dbTrainingEnroll;
 import com.db.bex.interns.controller.DummyController;
 import com.db.bex.interns.dao.DummyRepository;
 import com.db.bex.interns.entity.Dummy;
-import com.db.bex.interns.service.DummyService;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -35,19 +28,7 @@ public class DummyEndToEndTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private WebApplicationContext context;
-
-    @Autowired
     private DummyRepository dummyRepository;
-
-    @InjectMocks
-    @Spy
-    DummyController dummyController;
-
-    @Before
-    public void setUp(){
-        MockitoAnnotations.initMocks(this);
-    }
 
     @Test
     @Rollback
