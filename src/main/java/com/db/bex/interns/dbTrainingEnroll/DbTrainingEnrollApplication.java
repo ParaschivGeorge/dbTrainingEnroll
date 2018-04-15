@@ -19,15 +19,4 @@ public class DbTrainingEnrollApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DbTrainingEnrollApplication.class, args);
 	}
-
-	@Bean
-	CommandLineRunner insertDemoValues(DummyRepository repo){
-		return (args) -> {
-			// save a couple of customers
-			Dummy dummy1 = new Dummy();
-			dummy1.setId(1l);
-			dummy1.setName("Zzzz");
-			repo.save(dummy1);
-		};
-	}
 }
