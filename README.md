@@ -14,5 +14,9 @@
 8. A confirmation e-mail and an outlook invitation will be generated for each approved attendee and the list of attendees will be updated with selected students.
 #### Statistics module
 Display trainings and attendees
-##### Technologies:
+#### Technologies:
 JAVA, Maven, Spring, Spring security, JPA, H2 / mySQL, Devtools, Angular 5
+
+
+### Operational documentation
+1. Infrastructure (MySQL DB Connection Details) [Wiki Link](https://docs.google.com/document/d/1k7pUnWurTup-SHAWuCbntgvyJzybui2--Ll2jM8ZuCo/edit?usp=sharing)
