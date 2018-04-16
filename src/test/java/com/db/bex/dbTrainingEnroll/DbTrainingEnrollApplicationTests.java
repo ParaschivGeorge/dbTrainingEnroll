@@ -1,4 +1,4 @@
-package com.db.bex.interns.dbTrainingEnroll;
+package com.db.bex.dbTrainingEnroll;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,8 +1,8 @@
-package com.db.bex.interns.dbTrainingEnroll;
+package com.db.bex.dbTrainingEnroll;
 
 import com.db.bex.dbTrainingEnroll.controller.DummyController;
 import com.db.bex.dbTrainingEnroll.dao.DummyRepository;
-import com.db.bex.dbTrainingEnroll.entity.Dummy;
+import com.db.bex.dbTrainingEnroll.entity.Dummy1;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,12 +50,12 @@ public class DummyEndToEndTest {
     }
 
     private void insertTestData() {
-        Dummy dummy1 = new Dummy();
+        Dummy1 dummy1 = new Dummy1();
         dummy1.setName("dummy1");
         dummy1.setId(1L);
         dummyRepository.save(dummy1);
 
-        Dummy dummy2 = new Dummy();
+        Dummy1 dummy2 = new Dummy1();
         dummy2.setName("dummy2");
         dummy2.setId(2L);
         dummyRepository.save(dummy2);
