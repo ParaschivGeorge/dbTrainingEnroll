@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
 
-    List<Enrollment> findAllByStatusAndTraining(long idStatus, long idTraining);
+//    List<Enrollment> findAllByStatusAndTraining(long idStatus, long idTraining);
+    List<Enrollment> findAllByStatusAndTraining(Enum status, long idTraining);
 
 }
