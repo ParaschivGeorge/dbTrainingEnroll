@@ -14,7 +14,7 @@ public class Enrollment implements Serializable {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "book_id")
+    @JoinColumn(name = "training_id")
     private Training training;
 
     @Id
