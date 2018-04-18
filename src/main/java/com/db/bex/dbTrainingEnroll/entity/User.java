@@ -1,6 +1,11 @@
 package com.db.bex.dbTrainingEnroll.entity;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import org.springframework.data.repository.cdi.Eager;
+
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,16 +26,17 @@ public class User {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private UserType type;
+//    private String type;
 
     @ManyToOne(cascade={CascadeType.ALL})
     @JoinColumn(name="manager_id")
     private User manager;
 
-    @OneToMany(mappedBy="manager")
-    private Set<User> subordinates;
-
-    @OneToMany(mappedBy = "user")
-    public Set<Enrollment> enrollments;
+//    @OneToMany(mappedBy="manager" , fetch = FetchType.EAGER)
+//    private List<User> subordinates;
+//
+//    @OneToMany(mappedBy = "user")
+//    private List<Enrollment> enrollments;
 
     public User() {
     }
@@ -59,6 +65,23 @@ public class User {
         this.mail = mail;
     }
 
+//    public UserType getType() {
+//        return type;
+//    }
+//
+//    public void setType(UserType type) {
+//        this.type = type;
+//    }
+
+//    public String getType() {
+//        return type;
+//    }
+//
+//    public void setType(String type) {
+//        this.type = type;
+//    }
+
+
     public UserType getType() {
         return type;
     }
@@ -75,19 +98,19 @@ public class User {
         this.manager = manager;
     }
 
-    public Set<User> getSubordinates() {
-        return subordinates;
-    }
-
-    public void setSubordinates(Set<User> subordinates) {
-        this.subordinates = subordinates;
-    }
-
-    public Set<Enrollment> getEnrollments() {
-        return enrollments;
-    }
-
-    public void setEnrollments(Set<Enrollment> enrollments) {
-        this.enrollments = enrollments;
-    }
+//    public List<User> getSubordinates() {
+//        return subordinates;
+//    }
+//
+//    public void setSubordinates(List<User> subordinates) {
+//        this.subordinates = subordinates;
+//    }
+//
+//    public List<Enrollment> getEnrollments() {
+//        return enrollments;
+//    }
+//
+//    public void setEnrollments(List<Enrollment> enrollments) {
+//        this.enrollments = enrollments;
+//    }
 }

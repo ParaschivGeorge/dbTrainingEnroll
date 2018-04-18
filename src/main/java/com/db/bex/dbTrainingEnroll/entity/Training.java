@@ -27,7 +27,7 @@ public class Training {
     private Date endDate;
 
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, orphanRemoval = true)
-    public Set<Enrollment> enrollments;
+    private Set<Enrollment> enrollments;
 
     public Training() {
     }
