@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.mail.MessagingException;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -23,14 +21,10 @@ public class UserController {
         this.emailService = emailService;
     }
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
     private TrainingRepository trainingRepository;
 
     private UserService userService;
-
+    
     private EmailService emailService;
 
     @GetMapping("/subordinates")
