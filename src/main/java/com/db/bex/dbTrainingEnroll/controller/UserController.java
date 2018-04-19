@@ -17,6 +17,11 @@ import java.util.List;
 @RestController
 public class UserController {
 
+    public UserController(TrainingRepository trainingRepository, UserService userService, EmailService emailService) {
+        this.trainingRepository = trainingRepository;
+        this.userService = userService;
+        this.emailService = emailService;
+    }
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -26,7 +31,6 @@ public class UserController {
 
     private UserService userService;
 
-    @Autowired
     private EmailService emailService;
 
     @GetMapping("/subordinates")
