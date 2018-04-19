@@ -13,8 +13,11 @@ import java.util.List;
 @RestController
 public class DummyController{
 
-    @Autowired
     private DummyService dummyService;
+
+    public DummyController(DummyService dummyService) {
+        this.dummyService = dummyService;
+    }
 
     @GetMapping("/dummy/")
     public @ResponseBody

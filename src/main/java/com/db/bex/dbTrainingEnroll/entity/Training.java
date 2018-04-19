@@ -1,5 +1,7 @@
 package com.db.bex.dbTrainingEnroll.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
@@ -26,6 +28,7 @@ public class Training {
     @Column(name = "end_date", nullable = false)
     private Date endDate;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Enrollment> enrollments;
 
@@ -78,5 +81,17 @@ public class Training {
 
     public void setEnrollments(Set<Enrollment> enrollments) {
         this.enrollments = enrollments;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Training{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", category=" + category +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                '}';
     }
 }

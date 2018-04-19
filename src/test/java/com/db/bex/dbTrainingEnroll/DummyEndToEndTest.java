@@ -24,11 +24,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class DummyEndToEndTest {
 
-    @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
     private DummyRepository dummyRepository;
+
+    public DummyEndToEndTest(MockMvc mockMvc, DummyRepository dummyRepository) {
+        this.mockMvc = mockMvc;
+        this.dummyRepository = dummyRepository;
+    }
 
     @Test
     @Rollback
