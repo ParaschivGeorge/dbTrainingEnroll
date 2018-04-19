@@ -16,13 +16,16 @@ import java.util.stream.Collectors;
 @Component
 public class UserDTOTransformer {
 
-    @Autowired
+    public UserDTOTransformer(UserRepository userRepository, TrainingRepository trainingRepository, EnrollmentRepository enrollmentRepository) {
+        this.userRepository = userRepository;
+        this.trainingRepository = trainingRepository;
+        this.enrollmentRepository = enrollmentRepository;
+    }
+
     UserRepository userRepository;
 
-    @Autowired
     TrainingRepository trainingRepository;
 
-    @Autowired
     EnrollmentRepository enrollmentRepository;
 
     public List<UserDTO> getUserSubordinates(List<User> user, long id){

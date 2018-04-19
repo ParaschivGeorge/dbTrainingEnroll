@@ -45,6 +45,6 @@ public class UserController {
 
     @GetMapping("/crapa")
     public Training getTraining() {
-        return trainingRepository.findById(1);
+        return trainingRepository.findById(3);
     }
 }

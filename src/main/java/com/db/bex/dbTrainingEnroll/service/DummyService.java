@@ -1,9 +1,8 @@
 package com.db.bex.dbTrainingEnroll.service;
 
 import com.db.bex.dbTrainingEnroll.dao.DummyRepository;
-import com.db.bex.dbTrainingEnroll.dto.DummyDTOTransformer;
 import com.db.bex.dbTrainingEnroll.dto.DummyDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.db.bex.dbTrainingEnroll.dto.DummyDtoTransformer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,14 +11,14 @@ import java.util.List;
 public class DummyService {
 
     private DummyRepository dummyRepository;
-    private DummyDTOTransformer dummyDTOTransformer;
+    private DummyDtoTransformer dummyDtoTransformer;
 
-    public DummyService(DummyRepository dummyRepository, DummyDTOTransformer dummyDTOTransformer) {
+    public DummyService(DummyRepository dummyRepository, DummyDtoTransformer dummyDtoTransformer) {
         this.dummyRepository = dummyRepository;
-        this.dummyDTOTransformer = dummyDTOTransformer;
+        this.dummyDtoTransformer = dummyDtoTransformer;
     }
 
     public List<DummyDto> search(){
-        return dummyDTOTransformer.transform(dummyRepository.findAll());
+        return dummyDtoTransformer.transform(dummyRepository.findAll());
     }
 }

@@ -1,12 +1,7 @@
 package com.db.bex.dbTrainingEnroll.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.springframework.data.repository.cdi.Eager;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
