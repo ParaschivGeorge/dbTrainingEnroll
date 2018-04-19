@@ -5,12 +5,10 @@ import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
 import com.db.bex.dbTrainingEnroll.entity.Enrollment;
 import com.db.bex.dbTrainingEnroll.entity.User;
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -28,25 +26,25 @@ public class UserDTOTransformer {
 
     EnrollmentRepository enrollmentRepository;
 
-    public List<UserDTO> getUserSubordinates(List<User> user, long id){
+    public List<UserDto> getUserSubordinates(List<User> user, long id){
 //        return user.stream().map(this::transform).collect(Collectors.toList());
-        List<UserDTO> userDTOList = user.stream().map(this::transform).collect(Collectors.toList());
-        return this.filterUsers(userDTOList, id);
+        List<UserDto> userDtoList = user.stream().map(this::transform).collect(Collectors.toList());
+        return this.filterUsers(userDtoList, id);
     }
 
 
-    public UserDTO transform(User user){
-        UserDTO userDTO = new UserDTO();
-        userDTO.setId(user.getId());
-        userDTO.setName(user.getName());
-        userDTO.setMail(user.getMail());
-        userDTO.setUserType(user.getType());
-        return userDTO;
+    public UserDto transform(User user){
+        UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
+        userDto.setName(user.getName());
+        userDto.setMail(user.getMail());
+        userDto.setUserType(user.getType());
+        return userDto;
     }
 
-    public List<UserDTO> filterUsers(List<UserDTO> listDTO, long id){
-        List<UserDTO> newList = new ArrayList<>();
-        for(UserDTO i: listDTO){
+    public List<UserDto> filterUsers(List<UserDto> listDTO, long id){
+        List<UserDto> newList = new ArrayList<>();
+        for(UserDto i: listDTO){
             List<Enrollment> list = enrollmentRepository.findAllByTrainingId(id);
             System.out.println(list);
             int ok = 0;

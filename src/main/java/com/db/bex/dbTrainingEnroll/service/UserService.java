@@ -1,7 +1,7 @@
 package com.db.bex.dbTrainingEnroll.service;
 
 import com.db.bex.dbTrainingEnroll.dao.EnrollmentRepository;
-import com.db.bex.dbTrainingEnroll.dto.UserDTO;
+import com.db.bex.dbTrainingEnroll.dto.UserDto;
 import com.db.bex.dbTrainingEnroll.dto.UserDTOTransformer;
 import com.db.bex.dbTrainingEnroll.entity.Enrollment;
 import com.db.bex.dbTrainingEnroll.entity.User;
@@ -24,8 +24,8 @@ public class UserService {
         this.enrollmentRepository = enrollmentRepository;
     }
 
-    public List<UserDTO> findSubordinates(String email, long trainingId){
-        List<UserDTO> userDTOList = new ArrayList<>();
+    public List<UserDto> findSubordinates(String email, long trainingId){
+        List<UserDto> userDtoList = new ArrayList<>();
         List<User> users = userRepository.findAllByManagerId(userRepository.findByMail(email).getId());
         if (users == null)
             return null;
@@ -35,10 +35,10 @@ public class UserService {
             System.out.println(user.getMail());
             System.out.println(enrollments);
             if (enrollments.isEmpty()) {
-                userDTOList.add(userDTOTransformer.transform(user));
+                userDtoList.add(userDTOTransformer.transform(user));
             }
         }
-        return userDTOList;
+        return userDtoList;
     }
 
 }

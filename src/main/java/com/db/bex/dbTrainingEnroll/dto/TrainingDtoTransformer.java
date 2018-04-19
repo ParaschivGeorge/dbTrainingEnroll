@@ -21,6 +21,9 @@ public class TrainingDtoTransformer {
         return training.stream().map(this::transform).collect(Collectors.toList());
     }
 
+    public List<TrainingDto> getSpecialTrainings(List<Training> training){
+        return training.stream().map(this::transform).collect(Collectors.toList());
+    }
 
     public TrainingDto transform(Training training){
         TrainingDto trainingDto = new TrainingDto();

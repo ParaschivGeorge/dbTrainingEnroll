@@ -3,7 +3,7 @@ package com.db.bex.dbTrainingEnroll.dto;
 import com.db.bex.dbTrainingEnroll.entity.User;
 import com.db.bex.dbTrainingEnroll.entity.UserType;
 
-public class UserDTO {
+public class UserDto {
 
     private long id;
     private String name;
@@ -11,13 +11,13 @@ public class UserDTO {
     private UserType userType;
 //    private String userType;
 //    private User manager;
-//    private List<UserDTO> subordinates;
+//    private List<UserDto> subordinates;
 //    private List<Training> enrollments;
 
-    public UserDTO() {
+    public UserDto() {
     }
 
-    public UserDTO(User user) {
+    public UserDto(User user) {
     }
 //    private Set<Enrollment> enrollments;
 
@@ -69,12 +69,12 @@ public class UserDTO {
 //        this.manager = manager;
 //    }
 
-//    public List<UserDTO> getSubordinates() {
+//    public List<UserDto> getSubordinates() {
 //        return subordinates;
 //    }
 //
 //    public void setSubordinates(List<User> subordinates) {
-//        this.subordinates = subordinates.stream().map(UserDTO::new).collect(Collectors.toList());
+//        this.subordinates = subordinates.stream().map(UserDto::new).collect(Collectors.toList());
 //    }
 
 }

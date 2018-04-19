@@ -9,6 +9,7 @@ import java.util.List;
 
 @Repository
 public interface TrainingRepository extends JpaRepository<Training, Long> {
+
     List<Training> findByIdIn(List<Long> id);
     Training findById(long id);
 }
