@@ -2,7 +2,7 @@ package com.db.bex.dbTrainingEnroll.service;
 
 import com.db.bex.dbTrainingEnroll.dao.EnrollmentRepository;
 import com.db.bex.dbTrainingEnroll.dto.UserDto;
-import com.db.bex.dbTrainingEnroll.dto.UserDTOTransformer;
+import com.db.bex.dbTrainingEnroll.dto.UserDtoTransformer;
 import com.db.bex.dbTrainingEnroll.entity.Enrollment;
 import com.db.bex.dbTrainingEnroll.entity.User;
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
@@ -15,12 +15,12 @@ import java.util.List;
 public class UserService {
 
     private UserRepository userRepository;
-    private UserDTOTransformer userDTOTransformer;
+    private UserDtoTransformer userDtoTransformer;
     private EnrollmentRepository enrollmentRepository;
 
-    public UserService(UserRepository userRepository, UserDTOTransformer userDTOTransformer, EnrollmentRepository enrollmentRepository) {
+    public UserService(UserRepository userRepository, UserDtoTransformer userDtoTransformer, EnrollmentRepository enrollmentRepository) {
         this.userRepository = userRepository;
-        this.userDTOTransformer = userDTOTransformer;
+        this.userDtoTransformer = userDtoTransformer;
         this.enrollmentRepository = enrollmentRepository;
     }
 
@@ -35,7 +35,7 @@ public class UserService {
             System.out.println(user.getMail());
             System.out.println(enrollments);
             if (enrollments.isEmpty()) {
-                userDtoList.add(userDTOTransformer.transform(user));
+                userDtoList.add(userDtoTransformer.transform(user));
             }
         }
         return userDtoList;

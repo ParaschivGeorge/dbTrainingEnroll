@@ -12,9 +12,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class UserDTOTransformer {
+public class UserDtoTransformer {
 
-    public UserDTOTransformer(UserRepository userRepository, TrainingRepository trainingRepository, EnrollmentRepository enrollmentRepository) {
+    public UserDtoTransformer(UserRepository userRepository, TrainingRepository trainingRepository, EnrollmentRepository enrollmentRepository) {
         this.userRepository = userRepository;
         this.trainingRepository = trainingRepository;
         this.enrollmentRepository = enrollmentRepository;
