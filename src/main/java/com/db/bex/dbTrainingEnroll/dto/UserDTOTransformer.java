@@ -26,7 +26,6 @@ public class UserDTOTransformer {
         userDTO.setName(user.getName());
         userDTO.setMail(user.getMail());
         userDTO.setUserType(user.getType());
-//        userDTO.setSubordinates(user.getSubordinates());
         return userDTO;
     }
 }

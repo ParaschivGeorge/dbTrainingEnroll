@@ -1,8 +1,9 @@
 package com.db.bex.dbTrainingEnroll.entity;
 
+
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.data.repository.cdi.Eager;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
@@ -26,17 +27,18 @@ public class User {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private UserType type;
-//    private String type;
 
-    @ManyToOne(cascade={CascadeType.ALL})
+    @ManyToOne(cascade={CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn(name="manager_id")
     private User manager;
 
-//    @OneToMany(mappedBy="manager" , fetch = FetchType.EAGER)
-//    private List<User> subordinates;
-//
-//    @OneToMany(mappedBy = "user")
-//    private List<Enrollment> enrollments;
+    @JsonIgnore
+    @OneToMany(mappedBy="manager")
+    private Set<User> subordinates;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private Set<Enrollment> enrollments;
 
     public User() {
     }
@@ -65,22 +67,6 @@ public class User {
         this.mail = mail;
     }
 
-//    public UserType getType() {
-//        return type;
-//    }
-//
-//    public void setType(UserType type) {
-//        this.type = type;
-//    }
-
-//    public String getType() {
-//        return type;
-//    }
-//
-//    public void setType(String type) {
-//        this.type = type;
-//    }
-
 
     public UserType getType() {
         return type;
@@ -97,20 +83,5 @@ public class User {
     public void setManager(User manager) {
         this.manager = manager;
     }
-
-//    public List<User> getSubordinates() {
-//        return subordinates;
-//    }
-//
-//    public void setSubordinates(List<User> subordinates) {
-//        this.subordinates = subordinates;
-//    }
-//
-//    public List<Enrollment> getEnrollments() {
-//        return enrollments;
-//    }
-//
-//    public void setEnrollments(List<Enrollment> enrollments) {
-//        this.enrollments = enrollments;
-//    }
+    
 }
