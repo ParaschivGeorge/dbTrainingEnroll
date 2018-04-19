@@ -1,5 +1,7 @@
 package com.db.bex.dbTrainingEnroll.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -12,13 +14,13 @@ public class Enrollment implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Id
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(optional=true, fetch=FetchType.LAZY)
     @JoinColumn(name = "training_id")
     private Training training;
 
-    @Id
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(optional=true, fetch=FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -59,5 +61,15 @@ public class Enrollment implements Serializable {
 
     public void setStatus(EnrollmentStatusType status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Enrollment{" +
+                "id=" + id +
+                ", training=" + training +
+                ", user=" + user +
+                ", status=" + status +
+                '}';
     }
 }

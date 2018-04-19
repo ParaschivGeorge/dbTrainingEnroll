@@ -11,11 +11,13 @@ import java.util.List;
 @Service
 public class DummyService {
 
-    @Autowired
     private DummyRepository dummyRepository;
-
-    @Autowired
     private DummyDTOTransformer dummyDTOTransformer;
+
+    public DummyService(DummyRepository dummyRepository, DummyDTOTransformer dummyDTOTransformer) {
+        this.dummyRepository = dummyRepository;
+        this.dummyDTOTransformer = dummyDTOTransformer;
+    }
 
     public List<DummyDto> search(){
         return dummyDTOTransformer.transform(dummyRepository.findAll());
