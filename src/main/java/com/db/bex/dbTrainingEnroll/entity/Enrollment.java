@@ -15,12 +15,12 @@ public class Enrollment implements Serializable {
     private Long id;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional=true, fetch=FetchType.LAZY)
     @JoinColumn(name = "training_id")
     private Training training;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional=true, fetch=FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -61,5 +61,15 @@ public class Enrollment implements Serializable {
 
     public void setStatus(EnrollmentStatusType status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "Enrollment{" +
+                "id=" + id +
+                ", training=" + training +
+                ", user=" + user +
+                ", status=" + status +
+                '}';
     }
 }

@@ -1,6 +1,6 @@
 package com.db.bex.dbTrainingEnroll.entity;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.data.repository.cdi.Eager;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,12 +28,14 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserType type;
 
+
+    @JsonIgnore
     @ManyToOne(cascade={CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn(name="manager_id")
     private User manager;
 
     @JsonIgnore
-    @OneToMany(mappedBy="manager")
+    @OneToMany(mappedBy="manager" , fetch = FetchType.EAGER)
     private Set<User> subordinates;
 
     @JsonIgnore
@@ -67,6 +69,13 @@ public class User {
         this.mail = mail;
     }
 
+    public User getManager() {
+        return manager;
+    }
+
+    public void setManager(User manager) {
+        this.manager = manager;
+    }
 
     public UserType getType() {
         return type;
@@ -76,12 +85,31 @@ public class User {
         this.type = type;
     }
 
-    public User getManager() {
-        return manager;
+    public Set<User> getSubordinates() {
+        return subordinates;
     }
 
-    public void setManager(User manager) {
-        this.manager = manager;
+    public void setSubordinates(Set<User> subordinates) {
+        this.subordinates = subordinates;
     }
-    
+
+    public Set<Enrollment> getEnrollments() {
+        return enrollments;
+    }
+
+    public void setEnrollments(Set<Enrollment> enrollments) {
+        this.enrollments = enrollments;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", mail='" + mail + '\'' +
+                ", type=" + type +
+                ", manager=" + manager +
+                '}';
+    }
+
 }

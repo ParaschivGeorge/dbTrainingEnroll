@@ -1,13 +1,7 @@
 package com.db.bex.dbTrainingEnroll.dto;
 
-import com.db.bex.dbTrainingEnroll.entity.Enrollment;
 import com.db.bex.dbTrainingEnroll.entity.User;
 import com.db.bex.dbTrainingEnroll.entity.UserType;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class UserDTO {
 
@@ -18,6 +12,7 @@ public class UserDTO {
 //    private String userType;
 //    private User manager;
 //    private List<UserDTO> subordinates;
+//    private List<Training> enrollments;
 
     public UserDTO() {
     }
@@ -81,4 +76,5 @@ public class UserDTO {
 //    public void setSubordinates(List<User> subordinates) {
 //        this.subordinates = subordinates.stream().map(UserDTO::new).collect(Collectors.toList());
 //    }
+
 }
