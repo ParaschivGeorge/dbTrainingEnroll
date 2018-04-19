@@ -1,7 +1,10 @@
 package com.db.bex.dbTrainingEnroll.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,6 +29,7 @@ public class Training {
     @Column(name = "end_date", nullable = false)
     private Date endDate;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Enrollment> enrollments;
 

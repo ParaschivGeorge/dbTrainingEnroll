@@ -12,7 +12,10 @@ import java.util.List;
 @RestController
 public class UserController {
 
-    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
     private UserService userService;
 
     @GetMapping("/subordinates")
