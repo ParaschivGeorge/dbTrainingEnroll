@@ -1,13 +1,12 @@
 package com.db.bex.dbTrainingEnroll.controller;
 
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
+import com.db.bex.dbTrainingEnroll.dto.ManagerRequestDto;
 import com.db.bex.dbTrainingEnroll.dto.UserDto;
 import com.db.bex.dbTrainingEnroll.entity.Training;
 import com.db.bex.dbTrainingEnroll.service.EmailService;
 import com.db.bex.dbTrainingEnroll.service.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,9 +25,9 @@ public class UserController {
     
     private EmailService emailService;
 
-    @GetMapping("/subordinates")
-    public List<UserDto> getSubordinates(@RequestParam(required = false) String email,
-                                         @RequestParam(required = false) Long id){
+//    @GetMapping("/subordinates")
+//    public List<UserDto> getSubordinates(@RequestParam(required = false) String email,
+//                                         @RequestParam(required = false) Long id){
 //        List<String> list = new ArrayList<>();
 //        list.add("stefaneva25@yahoo.com");
 //        list.add("stefaneva52@gmail.com");
@@ -37,6 +36,14 @@ public class UserController {
 //        } catch (MessagingException e) {
 //            e.printStackTrace();
 //        }
+//        return userService.findSubordinates(email, id);
+//    }
+
+    @PostMapping("/subordinates")
+    public List<UserDto> getSubordinates(@RequestBody ManagerRequestDto managerRequestDto){
+        String email = managerRequestDto.getEmail();
+        Long id = managerRequestDto.getId();
+        System.out.println(email + " " + id);
         return userService.findSubordinates(email, id);
     }
 
