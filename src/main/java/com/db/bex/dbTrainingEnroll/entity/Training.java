@@ -19,6 +19,9 @@ public class Training {
     private String name;
 
     @Column(nullable = false)
+    private String technology;
+
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private TrainingCategoryType category;
 
@@ -83,15 +86,24 @@ public class Training {
         this.enrollments = enrollments;
     }
 
+    public String getTechnology() {
+        return technology;
+    }
+
+    public void setTechnology(String technology) {
+        this.technology = technology;
+    }
 
     @Override
     public String toString() {
         return "Training{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", technology='" + technology + '\'' +
                 ", category=" + category +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
+                ", enrollments=" + enrollments +
                 '}';
     }
 }
