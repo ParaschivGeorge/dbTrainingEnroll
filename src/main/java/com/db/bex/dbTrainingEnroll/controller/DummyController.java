@@ -23,7 +23,7 @@ public class DummyController{
         return dummyService.search();
     }
 
-    @PostMapping("/dummypost")
+    @PostMapping("/dummypost/")
     public String test(@RequestBody String data) {
         return data + "aaa";
     }
