@@ -17,21 +17,21 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http
+        http
 //                .authorizeRequests()
 //                .antMatchers("/index.html").permitAll()
 //                .antMatchers("/persons/**").hasRole("ADMIN")
 //                .and()
 //                .httpBasic()
 //                .and()
-//                .formLogin()
-//                .loginPage("/login")
-//                .defaultSuccessUrl("/persons")
-//                .and()
-//                .exceptionHandling().accessDeniedPage("/login")
+                .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/")
+                .and()
+                .exceptionHandling().accessDeniedPage("/login")
 ////            .exceptionHandling().accessDeniedHandler(accessDeniedHandler())
-//                .and()
-//                .logout().permitAll();
+                .and()
+                .logout().permitAll();
 
         http.csrf().disable();
 
