@@ -63,13 +63,13 @@ public class Enrollment implements Serializable {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "Enrollment{" +
-                "id=" + id +
-                ", training=" + training +
-                ", user=" + user +
-                ", status=" + status +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Enrollment{" +
+//                "id=" + id +
+//                ", training=" + training +
+//                ", user=" + user +
+//                ", status=" + status +
+//                '}';
+//    }
 }

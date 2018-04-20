@@ -3,8 +3,10 @@ package com.db.bex.dbTrainingEnroll.service;
 import com.db.bex.dbTrainingEnroll.dao.EnrollmentRepository;
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
+import com.db.bex.dbTrainingEnroll.dto.EmailDto;
 import com.db.bex.dbTrainingEnroll.dto.TrainingDto;
 import com.db.bex.dbTrainingEnroll.dto.TrainingDtoTransformer;
+import com.db.bex.dbTrainingEnroll.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +26,11 @@ public class TrainingService {
     private EnrollmentRepository enrollmentRepository;
     private TrainingRepository trainingRepository;
 
-    public List<TrainingDto> findPendingTrainings(String email) {
-        long id = userRepository.findByMail(email).getId();
+    public List<TrainingDto> findPendingTrainings(EmailDto email) {
+        User user = userRepository.findByMail(email.getEmail());
+        if (user == null)
+            return null;
+        long id = user.getId();
         return trainingDtoTransformer.getTrainings(enrollmentRepository.findTrainingsThatHavePendingParticipants(id));
     }
 

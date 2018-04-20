@@ -94,16 +94,16 @@ public class Training {
         this.technology = technology;
     }
 
-    @Override
-    public String toString() {
-        return "Training{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", technology='" + technology + '\'' +
-                ", category=" + category +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", enrollments=" + enrollments +
-                '}';
-    }
+//    @Override
+//    public String toString() {
+//        return "Training{" +
+//                "id=" + id +
+//                ", name='" + name + '\'' +
+//                ", technology='" + technology + '\'' +
+//                ", category=" + category +
+//                ", startDate=" + startDate +
+//                ", endDate=" + endDate +
+//                ", enrollments=" + enrollments +
+//                '}';
+//    }
 }

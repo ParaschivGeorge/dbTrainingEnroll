@@ -11,7 +11,9 @@ import java.util.List;
 @Repository
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
 
-    @Query("select t from Enrollment e join e.training t where e.status = 'PENDING' and e.user.id IN (select u.id from User u where u.manager.id IN(select uu.id from User uu where uu.manager.id =:id) )")
+    @Query("select t from Enrollment e join e.training t where e.status = 'PENDING' " +
+            "and e.user.id IN (select u.id from User u where u.manager.id IN" +
+            "(select uu.id from User uu where uu.manager.id =:id))")
         List<Training> findTrainingsThatHavePendingParticipants(@Param("id") Long id);
 
 

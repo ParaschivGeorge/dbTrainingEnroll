@@ -26,12 +26,16 @@ public class UserDtoTransformer {
 
     EnrollmentRepository enrollmentRepository;
 
-    public List<UserDto> getUserSubordinates(List<User> user, long id){
+    public List<UserDto> getUserSubordinates(List<User> user, long id) {
 //        return user.stream().map(this::transform).collect(Collectors.toList());
         List<UserDto> userDtoList = user.stream().map(this::transform).collect(Collectors.toList());
         return this.filterUsers(userDtoList, id);
     }
 
+    public List<UserDto> getUserSubordinates1(List<User> user) {
+//        return user.stream().map(this::transform).collect(Collectors.toList());
+       return user.stream().map(this::transform).collect(Collectors.toList());
+    }
 
     public UserDto transform(User user){
         UserDto userDto = new UserDto();
