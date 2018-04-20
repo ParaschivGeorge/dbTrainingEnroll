@@ -25,4 +25,4 @@ JAVA, Maven, Spring, Spring security, JPA, H2 / mySQL, Devtools, Angular 5
 1. The application is deployed at: https://db-training-enroll.herokuapp.com
 2. Every push to master branch will update the deploy.
 3. You can access the backend like on local-host by replacing http://localhost:PORT/ with the URL above.
-4. Don't cange the port settings in application.properties.
+4. Don't change the port settings in application.properties.
