@@ -2,6 +2,7 @@ package com.db.bex.dbTrainingEnroll.controller;
 
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
 import com.db.bex.dbTrainingEnroll.dto.ManagerRequestDto;
+import com.db.bex.dbTrainingEnroll.dto.ManagerResponseDto;
 import com.db.bex.dbTrainingEnroll.dto.UserDto;
 import com.db.bex.dbTrainingEnroll.entity.Training;
 import com.db.bex.dbTrainingEnroll.service.EmailService;
@@ -43,8 +44,15 @@ public class UserController {
     public List<UserDto> getSubordinates(@RequestBody ManagerRequestDto managerRequestDto){
         String email = managerRequestDto.getEmail();
         Long id = managerRequestDto.getId();
-        System.out.println(email + " " + id);
         return userService.findSubordinates(email, id);
+    }
+
+    @PostMapping("/subordinatesResult")
+    public void saveSubordinates(@RequestBody ManagerResponseDto managerResponseDto){
+        Long trainingId = managerResponseDto.getTrainingId();
+        List<String> emails = managerResponseDto.getEmails();
+        System.out.println(trainingId);
+        userService.savePendingSubordinates(trainingId, emails);
     }
 
     @GetMapping("/crapa")
