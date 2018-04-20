@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@ComponentScan(basePackages = { "com.db.bex.dbTrainingEnroll"} )
+@ComponentScan(basePackages = { "com.db.bex.dbTrainingEnroll"})
 @EnableJpaRepositories("com.db.bex.dbTrainingEnroll")
 @EntityScan("com.db.bex.dbTrainingEnroll.entity")
 public class DbTrainingEnrollApplication {
