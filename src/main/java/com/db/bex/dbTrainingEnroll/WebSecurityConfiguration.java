@@ -17,23 +17,23 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+//        http
 //                .authorizeRequests()
 //                .antMatchers("/index.html").permitAll()
 //                .antMatchers("/persons/**").hasRole("ADMIN")
 //                .and()
 //                .httpBasic()
 //                .and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/")
-                .and()
-                .exceptionHandling().accessDeniedPage("/login")
-////            .exceptionHandling().accessDeniedHandler(accessDeniedHandler())
-                .and()
-                .logout().permitAll();
+//                .formLogin()
+//                .loginPage("/login")
+//                .defaultSuccessUrl("/")
+//                .and()
+//                .exceptionHandling().accessDeniedPage("/login")
+//////            .exceptionHandling().accessDeniedHandler(accessDeniedHandler())
+//                .and()
+//                .logout().permitAll();
 
-        http.csrf().disable();
+//        http.csrf().disable();
 
         http
                 .httpBasic().and()
@@ -54,12 +54,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .withUser("user").password("{noop}password").roles("USER");
 //    }
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+//    @Bean
+//    CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE"));
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
 }
