@@ -24,7 +24,10 @@ public class DummyController{
     }
 
     @PostMapping("/dummypost/")
-    public String test(@RequestBody String data) {
-        return data + "aaa";
+    public DummyDto test(@RequestBody String data) {
+        DummyDto dummyDto = new DummyDto();
+        dummyDto.setId(new Long(1));
+        dummyDto.setName("vasile");
+        return dummyDto;
     }
 }
