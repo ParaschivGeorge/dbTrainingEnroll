@@ -1,5 +1,6 @@
 package com.db.bex.dbTrainingEnroll.controller;
 
+import com.db.bex.dbTrainingEnroll.dto.EmailDto;
 import com.db.bex.dbTrainingEnroll.dto.TrainingDto;
 import com.db.bex.dbTrainingEnroll.dto.UserDto;
 import com.db.bex.dbTrainingEnroll.service.TrainingService;
@@ -23,7 +24,7 @@ public class TrainingController {
     }
 
     @PostMapping("/pendingTrainings")
-    public List<TrainingDto> getPendingTrainings(@RequestBody String email) {
+    public List<TrainingDto> getPendingTrainings(@RequestBody EmailDto email){
         return trainingService.findPendingTrainings(email);
     }
 }
