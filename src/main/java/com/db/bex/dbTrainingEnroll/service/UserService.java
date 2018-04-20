@@ -41,4 +41,11 @@ public class UserService {
         return userDtoList;
     }
 
+    public List<UserDto> findPendingUsers(Long idTraining, String email) {
+
+        Long idPm = userRepository.findByMail(email).getId();
+
+        return userDtoTransformer.getUserSubordinates1(userRepository.findPendingUsers(idTraining, idPm));
+    }
+
 }
