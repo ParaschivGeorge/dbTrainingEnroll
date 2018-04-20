@@ -23,7 +23,7 @@ public class TrainingService {
     private TrainingRepository trainingRepository;
 
     public List<TrainingDto> findPendingTrainings() {
-        return trainingDtoTransformer.getSpecialTrainings(enrollmentRepository.findTrainingsThatHavePendingParticipants());
+        return trainingDtoTransformer.getTrainings(enrollmentRepository.findTrainingsThatHavePendingParticipants());
     }
 
     public List<TrainingDto> findTrainings() {
