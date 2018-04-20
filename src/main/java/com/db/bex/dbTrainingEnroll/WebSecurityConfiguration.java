@@ -35,16 +35,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
 
-        http
-                .httpBasic().and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/dummypost/").permitAll()
-                .antMatchers(HttpMethod.PUT, "/**").permitAll()
-                .antMatchers(HttpMethod.PATCH, "/**").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/**").permitAll();
+//        http
+//                .httpBasic().and()
+//                .authorizeRequests()
+//                .antMatchers(HttpMethod.GET, "/**").permitAll()
+//                .antMatchers(HttpMethod.POST, "/**").permitAll()
+//                .antMatchers(HttpMethod.PUT, "/**").permitAll()
+//                .antMatchers(HttpMethod.PATCH, "/**").permitAll()
+//                .antMatchers(HttpMethod.DELETE, "/**").permitAll();
+
+        http.httpBasic();
+        http.authorizeRequests().antMatchers("/dummypost/").permitAll();
     }
+
 
 //    @Override
 //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
