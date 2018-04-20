@@ -3,9 +3,7 @@ package com.db.bex.dbTrainingEnroll.controller;
 import com.db.bex.dbTrainingEnroll.dto.DummyDto;
 import com.db.bex.dbTrainingEnroll.service.DummyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -20,8 +18,16 @@ public class DummyController{
     }
 
     @GetMapping("/dummy/")
-    public @ResponseBody
-    List<DummyDto> search(Principal principal){
-        return dummyService.search();
+    public @ResponseBody DummyDto search(Principal principal){
+        DummyDto dummyDto = new DummyDto();
+        dummyDto.setId(new Long(1));
+        dummyDto.setName("ION");
+        return dummyDto;
+    }
+
+    @PostMapping("/dummypost/")
+    public DummyDto test(@RequestBody DummyDto dummyDto) {
+        dummyDto.setName("Vasile");
+        return dummyDto;
     }
 }
