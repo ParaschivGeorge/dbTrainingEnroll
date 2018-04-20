@@ -19,26 +19,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeRequests()
-////                .antMatchers("/index.html").permitAll()
-////                .antMatchers("/persons/**").hasRole("ADMIN")
-//                .and()
-//                .httpBasic()
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")
-//                .defaultSuccessUrl("/")
-//                .and()
-//                .exceptionHandling().accessDeniedPage("/login")
-//////            .exceptionHandling().accessDeniedHandler(accessDeniedHandler())
-//                .and()
-//                .logout().permitAll();
-
         http.csrf().disable();
-
         http
                 .authorizeRequests()
+                // this should be set later, only for testing
                     .antMatchers(HttpMethod.GET, "/**").permitAll()
                     .antMatchers(HttpMethod.POST, "/**").permitAll()
                     .antMatchers(HttpMethod.PUT, "/**").permitAll()
@@ -54,27 +38,5 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedPage("/login")
                 .and()
                 .logout().permitAll();
-
-
-        http.httpBasic();
-        http.authorizeRequests().antMatchers("/dummypost/").permitAll();
     }
-
-
-//    @Override
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//                .withUser("admin").password("{noop}admin").roles("ADMIN")
-//                .and()
-//                .withUser("user").password("{noop}password").roles("USER");
-//    }
-
-//    @Bean
-//    CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedMethods(Arrays.asList("GET","POST", "PUT", "DELETE"));
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
 }
