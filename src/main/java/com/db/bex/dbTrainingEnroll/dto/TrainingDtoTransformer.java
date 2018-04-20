@@ -2,7 +2,6 @@ package com.db.bex.dbTrainingEnroll.dto;
 
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
 import com.db.bex.dbTrainingEnroll.entity.Training;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
@@ -27,9 +26,12 @@ public class TrainingDtoTransformer {
         TrainingDto trainingDto = new TrainingDto();
         trainingDto.setId(training.getId());
         trainingDto.setName(training.getName());
-//        trainingDto.setStartDate(training.getStartDate());
-//        trainingDto.setEndDate(training.getEndDate());
+        dateSetter(training, trainingDto);
 
+        return trainingDto;
+    }
+
+    private void dateSetter(Training training, TrainingDto trainingDto) {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         String reportDateStart = dateFormat.format(training.getStartDate());
         String reportDateEnd = dateFormat.format(training.getEndDate());
@@ -69,8 +71,6 @@ public class TrainingDtoTransformer {
                 trainingDto.setDate(reportDateStart + " - " + reportDateEnd);
                 trainingDto.setDuration(-1);
             }
-
-        return trainingDto;
     }
 
 }

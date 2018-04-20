@@ -22,8 +22,8 @@ public class TrainingService {
     private EnrollmentRepository enrollmentRepository;
     private TrainingRepository trainingRepository;
 
-    public List<TrainingDto> findPendingTrainings() {
-        return trainingDtoTransformer.getTrainings(enrollmentRepository.findTrainingsThatHavePendingParticipants());
+    public List<TrainingDto> findPendingTrainings(Long id) {
+        return trainingDtoTransformer.getTrainings(enrollmentRepository.findTrainingsThatHavePendingParticipants(id));
     }
 
     public List<TrainingDto> findTrainings() {
