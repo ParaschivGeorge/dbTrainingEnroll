@@ -19,8 +19,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 //        http
 //                .authorizeRequests()
-//                .antMatchers("/index.html").permitAll()
-//                .antMatchers("/persons/**").hasRole("ADMIN")
+////                .antMatchers("/index.html").permitAll()
+////                .antMatchers("/persons/**").hasRole("ADMIN")
 //                .and()
 //                .httpBasic()
 //                .and()
@@ -35,14 +35,24 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
 
-//        http
-//                .httpBasic().and()
-//                .authorizeRequests()
-//                .antMatchers(HttpMethod.GET, "/**").permitAll()
-//                .antMatchers(HttpMethod.POST, "/**").permitAll()
-//                .antMatchers(HttpMethod.PUT, "/**").permitAll()
-//                .antMatchers(HttpMethod.PATCH, "/**").permitAll()
-//                .antMatchers(HttpMethod.DELETE, "/**").permitAll();
+        http
+                .authorizeRequests()
+                    .antMatchers(HttpMethod.GET, "/**").permitAll()
+                    .antMatchers(HttpMethod.POST, "/**").permitAll()
+                    .antMatchers(HttpMethod.PUT, "/**").permitAll()
+                    .antMatchers(HttpMethod.PATCH, "/**").permitAll()
+                    .antMatchers(HttpMethod.DELETE, "/**").permitAll()
+                .and()
+                .httpBasic()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/")
+                .and()
+                .exceptionHandling().accessDeniedPage("/login")
+                .and()
+                .logout().permitAll();
+
 
         http.httpBasic();
         http.authorizeRequests().antMatchers("/dummypost/").permitAll();
