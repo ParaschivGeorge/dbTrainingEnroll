@@ -21,8 +21,8 @@ public class TrainingController {
     }
 
     @PostMapping("/pendingTrainings")
-    public List<TrainingDto> getPendingTrainings(@RequestBody Long id){
-        return trainingService.findPendingTrainings(id);
+    public List<TrainingDto> getPendingTrainings(@RequestBody String email){
+        return trainingService.findPendingTrainings(email);
     }
 
 }
