@@ -18,16 +18,16 @@ public class DummyController{
     }
 
     @GetMapping("/dummy/")
-    public @ResponseBody
-    List<DummyDto> search(Principal principal){
-        return dummyService.search();
+    public @ResponseBody DummyDto search(Principal principal){
+        DummyDto dummyDto = new DummyDto();
+        dummyDto.setId(new Long(1));
+        dummyDto.setName("ION");
+        return dummyDto;
     }
 
     @PostMapping("/dummypost/")
-    public DummyDto test(@RequestBody String data) {
-        DummyDto dummyDto = new DummyDto();
-        dummyDto.setId(new Long(1));
-        dummyDto.setName("vasile");
+    public DummyDto test(@RequestBody DummyDto dummyDto) {
+        dummyDto.setName("Vasile");
         return dummyDto;
     }
 }
