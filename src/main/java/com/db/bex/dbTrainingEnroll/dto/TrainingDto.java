@@ -8,8 +8,10 @@ public class TrainingDto {
 
     private Long id;
     private String name;
-    private Date startDate;
-    private Date endDate;
+    private String date;
+    private int duration;
+//    private Date startDate;
+//    private Date endDate;
 
     public TrainingDto() {
     }
@@ -33,19 +35,35 @@ public class TrainingDto {
         this.name = name;
     }
 
-    public Date getStartDate() {
-        return startDate;
+//    public Date getStartDate() {
+//        return startDate;
+//    }
+//
+//    public void setStartDate(Date startDate) {
+//        this.startDate = startDate;
+//    }
+//
+//    public Date getEndDate() {
+//        return endDate;
+//    }
+//
+//    public void setEndDate(Date endDate) {
+//        this.endDate = endDate;
+//    }
+
+    public String getDate() {
+        return date;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public Date getEndDate() {
-        return endDate;
+    public int getDuration() {
+        return duration;
     }
 
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 }
