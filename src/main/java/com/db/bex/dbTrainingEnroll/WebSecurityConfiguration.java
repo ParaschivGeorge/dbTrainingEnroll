@@ -31,10 +31,10 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .httpBasic().and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/**").authenticated()
-                .antMatchers(HttpMethod.PUT, "/**").authenticated()
-                .antMatchers(HttpMethod.PATCH, "/**").authenticated()
-                .antMatchers(HttpMethod.DELETE, "/**").authenticated();
+                .antMatchers(HttpMethod.POST, "/**").permitAll()
+                .antMatchers(HttpMethod.PUT, "/**").permitAll()
+                .antMatchers(HttpMethod.PATCH, "/**").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/**").permitAll();
     }
 
 //    @Override
