@@ -3,7 +3,7 @@ package com.db.bex.dbTrainingEnroll.dto;
 import java.util.List;
 
 public class ManagerResponseDto {
-    private long trainingId;
+    private Long trainingId;
     private List<String> emails;
 
     public ManagerResponseDto() {
@@ -14,11 +14,11 @@ public class ManagerResponseDto {
         this.emails = emails;
     }
 
-    public long getTrainingId() {
+    public Long getTrainingId() {
         return trainingId;
     }
 
-    public void setTrainingId(long trainingId) {
+    public void setTrainingId(Long trainingId) {
         this.trainingId = trainingId;
     }
 
