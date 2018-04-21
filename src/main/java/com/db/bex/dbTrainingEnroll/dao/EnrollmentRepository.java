@@ -25,5 +25,10 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
     Enrollment findByUserIdAndTrainingId(Long user_id, Long training_id);
     Enrollment findByTrainingId(Long training_id);
 
+    @Query("select count(e) from Enrollment e " +
+            "where e.status = 'ACCEPTED'" +
+            "and e.training.id =?1")
+    Integer countAcceptedUsers(Long idTraining);
+
 }
 

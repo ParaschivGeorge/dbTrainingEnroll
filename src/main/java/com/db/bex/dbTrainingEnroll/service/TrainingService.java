@@ -6,6 +6,7 @@ import com.db.bex.dbTrainingEnroll.dao.UserRepository;
 import com.db.bex.dbTrainingEnroll.dto.EmailDto;
 import com.db.bex.dbTrainingEnroll.dto.TrainingDto;
 import com.db.bex.dbTrainingEnroll.dto.TrainingDtoTransformer;
+import com.db.bex.dbTrainingEnroll.entity.Training;
 import com.db.bex.dbTrainingEnroll.entity.User;
 import org.springframework.stereotype.Service;
 
@@ -36,6 +37,10 @@ public class TrainingService {
 
     public List<TrainingDto> findTrainings() {
         return trainingDtoTransformer.getTrainings(trainingRepository.findAll());
+    }
+
+    public Integer countAcceptedUsers(Long idTraining) {
+        return enrollmentRepository.countAcceptedUsers(idTraining);
     }
 
 }

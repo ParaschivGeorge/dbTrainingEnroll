@@ -1,5 +1,6 @@
 package com.db.bex.dbTrainingEnroll.dto;
 
+import com.db.bex.dbTrainingEnroll.dao.EnrollmentRepository;
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
 import com.db.bex.dbTrainingEnroll.entity.Training;
 import org.springframework.stereotype.Component;
@@ -12,11 +13,13 @@ import java.util.stream.Collectors;
 @Component
 public class TrainingDtoTransformer {
 
-    public TrainingDtoTransformer(TrainingRepository trainingRepository) {
+    public TrainingDtoTransformer(TrainingRepository trainingRepository, EnrollmentRepository enrollmentRepository) {
         this.trainingRepository = trainingRepository;
+        this.enrollmentRepository = enrollmentRepository;
     }
 
     TrainingRepository trainingRepository;
+    EnrollmentRepository enrollmentRepository;
 
     public List<TrainingDto> getTrainings(List<Training> training){
         return training.stream().map(this::transform).collect(Collectors.toList());
@@ -29,6 +32,8 @@ public class TrainingDtoTransformer {
         trainingDto.setTechnology(training.getTechnology());
         trainingDto.setCategoryType(training.getCategory());
         dateSetter(training, trainingDto);
+
+        trainingDto.setAcceptedUsers(enrollmentRepository.countAcceptedUsers(training.getId()).toString());
 
         return trainingDto;
     }

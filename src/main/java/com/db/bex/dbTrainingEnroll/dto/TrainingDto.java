@@ -13,6 +13,7 @@ public class TrainingDto {
     private String duration;
     private String technology;
     private TrainingCategoryType categoryType;
+    private String acceptedUsers;
 
     //    private Date startDate;
 //    private Date endDate;
@@ -86,5 +87,13 @@ public class TrainingDto {
 
     public void setCategoryType(TrainingCategoryType categoryType) {
         this.categoryType = categoryType;
+    }
+
+    public String getAcceptedUsers() {
+        return acceptedUsers;
+    }
+
+    public void setAcceptedUsers(String acceptedUsers) {
+        this.acceptedUsers = acceptedUsers;
     }
 }

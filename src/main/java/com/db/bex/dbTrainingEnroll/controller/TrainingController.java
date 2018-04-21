@@ -25,4 +25,5 @@ public class TrainingController {
     public List<TrainingDto> getPendingTrainings(@RequestBody EmailDto email){
         return trainingService.findPendingTrainings(email);
     }
+
 }
