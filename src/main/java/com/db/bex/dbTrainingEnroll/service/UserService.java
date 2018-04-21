@@ -54,7 +54,8 @@ public class UserService {
 
     public void savePendingSubordinates(long idTraining, List<String> emails){
         for(String s:emails) {
-            if(enrollmentRepository.findByUserIdAndTrainingId(userRepository.findByMail(s).getId(),idTraining) != null)
+            if((enrollmentRepository.findByUserIdAndTrainingId(userRepository.findByMail(s).getId(),idTraining) != null)
+                    || (enrollmentRepository.findByTrainingId(idTraining) == null))
                 return;
             else {
                 Enrollment enrollment = new Enrollment();
