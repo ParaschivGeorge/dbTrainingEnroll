@@ -1,10 +1,7 @@
 package com.db.bex.dbTrainingEnroll.controller;
 
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
-import com.db.bex.dbTrainingEnroll.dto.ManagerRequestDto;
-import com.db.bex.dbTrainingEnroll.dto.ManagerTrainingRequestDto;
-import com.db.bex.dbTrainingEnroll.dto.ManagerResponseDto;
-import com.db.bex.dbTrainingEnroll.dto.UserDto;
+import com.db.bex.dbTrainingEnroll.dto.*;
 import com.db.bex.dbTrainingEnroll.entity.Training;
 import com.db.bex.dbTrainingEnroll.service.EmailService;
 import com.db.bex.dbTrainingEnroll.service.UserService;
@@ -56,11 +53,24 @@ public class UserController {
     }
 
     @PostMapping("/subordinatesResult")
-    public void saveSubordinates(@RequestBody ManagerResponseDto managerResponseDto){
+    public void saveSubordinates(@RequestBody ManagerResponseDto managerResponseDto) {
         Long trainingId = managerResponseDto.getTrainingId();
         List<String> emails = managerResponseDto.getEmails();
         System.out.println(trainingId);
         userService.savePendingSubordinates(trainingId, emails);
+    }
+
+    @PostMapping("/approveList")
+    public void postUserStatus(@RequestBody List<UserStatusDto> userStatusDto) {
+
+        for(UserStatusDto u : userStatusDto) {
+            String mailUser = u.getMailUser();
+            Long idTraining = u.getIdTraining();
+            Long status = u.getStatus();
+
+            userService.saveSubordinatesStatus(mailUser, idTraining, status);
+        }
+
     }
 
     @GetMapping("/crapa")

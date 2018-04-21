@@ -27,4 +27,6 @@ public interface UserRepository extends JpaRepository <User, Long> {
             "and e.training.id =?1")
     List<User> findPendingUsers (Long idTraining, Long idPm);
 
+
+
 }

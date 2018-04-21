@@ -62,4 +62,20 @@ public class UserService {
             enrollmentRepository.save(enrollment);
         }
     }
+
+    public void saveSubordinatesStatus(String emailUser, Long idTraining, Long status) {
+
+        Long id = userRepository.findByMail(emailUser).getId();
+
+        Enrollment enrollment = enrollmentRepository.findByUserIdAndTrainingId(id, idTraining);
+
+        if(status == 1) {
+         enrollment.setStatus(EnrollmentStatusType.ACCEPTED);
+         enrollmentRepository.save(enrollment); }
+
+        if(status == 0)
+            enrollmentRepository.delete(enrollment);
+    }
+
+
 }
