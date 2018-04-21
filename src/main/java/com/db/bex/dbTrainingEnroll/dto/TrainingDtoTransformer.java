@@ -26,6 +26,8 @@ public class TrainingDtoTransformer {
         TrainingDto trainingDto = new TrainingDto();
         trainingDto.setId(training.getId());
         trainingDto.setName(training.getName());
+        trainingDto.setTechnology(training.getTechnology());
+        trainingDto.setCategoryType(training.getCategory());
         dateSetter(training, trainingDto);
 
         return trainingDto;
@@ -58,19 +60,34 @@ public class TrainingDtoTransformer {
         String endMonth = endParts[1];
         String endYear = endParts[2];
 
-        if (Integer.parseInt(endYear) - Integer.parseInt(startYear) == 0)
+        if (Integer.parseInt(endYear) - Integer.parseInt(startYear) == 0) {
             if (Integer.parseInt(endMonth) - Integer.parseInt(startMonth) == 0) {
                 if (Integer.parseInt(endDay) - Integer.parseInt(startDay) == 0) {
                     trainingDto.setDate(reportDateStart);
-                    trainingDto.setDuration(Integer.parseInt(startHour));
+                    if (Integer.parseInt(endMinute) - Integer.parseInt(startMinute) >= 0) {
+                        int hours = Integer.parseInt(endHour) - Integer.parseInt(startHour);
+                        int minutes = Integer.parseInt(endMinute) - Integer.parseInt(startMinute);
+                        trainingDto.setDuration(hours + "h " +
+                                minutes + "m");
+                    } else {
+                        int hours = Integer.parseInt(endHour) - Integer.parseInt(startHour) - 1;
+                        int minutes = 60 + Integer.parseInt(endMinute) - Integer.parseInt(startMinute);
+                        trainingDto.setDuration(hours + "h " +
+                                minutes + "m");
+                    }
                 } else {
                     trainingDto.setDate(reportDateStart + " - " + reportDateEnd);
-                    trainingDto.setDuration(-1);
+                    trainingDto.setDuration("-1");
                 }
             } else {
                 trainingDto.setDate(reportDateStart + " - " + reportDateEnd);
-                trainingDto.setDuration(-1);
+                trainingDto.setDuration("-1");
             }
+        } else {
+            trainingDto.setDate(reportDateStart + " - " + reportDateEnd);
+            trainingDto.setDuration("-1");
+        }
+
     }
 
 }

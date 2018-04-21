@@ -42,7 +42,11 @@ public class UserController {
     public List<UserDto> getSubordinates(@RequestBody ManagerRequestDto managerRequestDto){
         String email = managerRequestDto.getEmail();
         Long id = managerRequestDto.getId();
-        return userService.findSubordinates(email, id);
+        System.out.println(email + " " + id);
+        if(email != null && id != null)
+            return userService.findSubordinates(email, id);
+        else
+            return null;
     }
 
     @PostMapping("/pendingUsers")
@@ -57,7 +61,8 @@ public class UserController {
         Long trainingId = managerResponseDto.getTrainingId();
         List<String> emails = managerResponseDto.getEmails();
         System.out.println(trainingId);
-        userService.savePendingSubordinates(trainingId, emails);
+        if(trainingId !=null && emails.size() > 0)
+            userService.savePendingSubordinates(trainingId, emails);
     }
 
     @PostMapping("/approveList")

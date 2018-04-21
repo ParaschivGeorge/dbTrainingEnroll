@@ -54,12 +54,17 @@ public class UserService {
 
     public void savePendingSubordinates(long idTraining, List<String> emails){
         for(String s:emails) {
-            Enrollment enrollment = new Enrollment();
-            enrollment.setStatus(EnrollmentStatusType.PENDING);
-            enrollment.setStatus(EnrollmentStatusType.PENDING);
-            enrollment.setTraining(trainingRepository.findById(idTraining));
-            enrollment.setUser(userRepository.findByMail(s));
-            enrollmentRepository.save(enrollment);
+            if((enrollmentRepository.findByUserIdAndTrainingId(userRepository.findByMail(s).getId(),idTraining) != null)
+                    || (enrollmentRepository.findByTrainingId(idTraining) == null))
+                return;
+            else {
+                Enrollment enrollment = new Enrollment();
+                enrollment.setStatus(EnrollmentStatusType.PENDING);
+                enrollment.setStatus(EnrollmentStatusType.PENDING);
+                enrollment.setTraining(trainingRepository.findById(idTraining));
+                enrollment.setUser(userRepository.findByMail(s));
+                enrollmentRepository.save(enrollment);
+            }
         }
     }
 

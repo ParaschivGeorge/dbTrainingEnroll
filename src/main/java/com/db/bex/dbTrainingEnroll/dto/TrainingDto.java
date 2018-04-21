@@ -1,6 +1,7 @@
 package com.db.bex.dbTrainingEnroll.dto;
 
 import com.db.bex.dbTrainingEnroll.entity.Training;
+import com.db.bex.dbTrainingEnroll.entity.TrainingCategoryType;
 
 import java.util.Date;
 
@@ -9,8 +10,11 @@ public class TrainingDto {
     private Long id;
     private String name;
     private String date;
-    private int duration;
-//    private Date startDate;
+    private String duration;
+    private String technology;
+    private TrainingCategoryType categoryType;
+
+    //    private Date startDate;
 //    private Date endDate;
 
     public TrainingDto() {
@@ -59,11 +63,28 @@ public class TrainingDto {
         this.date = date;
     }
 
-    public int getDuration() {
+    public String getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(String duration) {
         this.duration = duration;
+    }
+
+
+    public String getTechnology() {
+        return technology;
+    }
+
+    public void setTechnology(String technology) {
+        this.technology = technology;
+    }
+
+    public TrainingCategoryType getCategoryType() {
+        return categoryType;
+    }
+
+    public void setCategoryType(TrainingCategoryType categoryType) {
+        this.categoryType = categoryType;
     }
 }
