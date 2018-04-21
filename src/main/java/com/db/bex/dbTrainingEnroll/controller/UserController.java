@@ -60,7 +60,8 @@ public class UserController {
         Long trainingId = managerResponseDto.getTrainingId();
         List<String> emails = managerResponseDto.getEmails();
         System.out.println(trainingId);
-        userService.savePendingSubordinates(trainingId, emails);
+        if(trainingId !=0 && emails.size() > 0)
+            userService.savePendingSubordinates(trainingId, emails);
     }
 
     @GetMapping("/crapa")
