@@ -21,6 +21,7 @@ public class TrainingController {
         return trainingService.findTrainings();
     }
 
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/pendingTrainings")
     public List<TrainingDto> getPendingTrainings(@RequestBody EmailDto email){
         return trainingService.findPendingTrainings(email);
