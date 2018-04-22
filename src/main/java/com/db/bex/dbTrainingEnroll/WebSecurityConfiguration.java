@@ -118,13 +118,22 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .ignoring()
                 .antMatchers(
                         HttpMethod.POST,
-                        authenticationPath
+                        authenticationPath,
+                        "/",
+                        "/trainings",
+                        "/register",
+                        "/crapa",
+                        "/pendingTrainings",
+                        "/approveList",
+                        "/subordinates",
+                        "/subordinatesResult"
                 )
 
                 // allow anonymous resource requests
                 .and()
                 .ignoring()
                 .antMatchers(
+                        HttpMethod.GET,
                         "/",
                         "/trainings",
                         "/register",
