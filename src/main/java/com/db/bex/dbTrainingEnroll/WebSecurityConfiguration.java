@@ -105,7 +105,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
         // Custom JWT based security filter
         WebSecurityCorsFilter webSecurityCorsFilter = new WebSecurityCorsFilter();
-        http.addFilterBefore(webSecurityCorsFilter, Filter.class);
+        http.addFilterBefore(webSecurityCorsFilter, UsernamePasswordAuthenticationFilter.class);
 
         JwtAuthorizationTokenFilter authenticationTokenFilter = new JwtAuthorizationTokenFilter(userDetailsService(), jwtTokenUtil, tokenHeader);
         http
