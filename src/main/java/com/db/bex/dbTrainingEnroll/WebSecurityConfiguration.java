@@ -22,6 +22,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.servlet.Filter;
+
 
 @Configuration
 @EnableWebSecurity
@@ -102,18 +104,21 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout().permitAll();
 
         // Custom JWT based security filter
+        WebSecurityCorsFilter webSecurityCorsFilter = new WebSecurityCorsFilter();
+        http.addFilterBefore(webSecurityCorsFilter, Filter.class);
+
         JwtAuthorizationTokenFilter authenticationTokenFilter = new JwtAuthorizationTokenFilter(userDetailsService(), jwtTokenUtil, tokenHeader);
         http
-                .addFilterAfter(authenticationTokenFilter, WebSecurityCorsFilter.class);
+                .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
 //        WebSecurityCorsFilter webSecurityCorsFilter = new WebSecurityCorsFilter();
 //        http
 //                .addFilterBefore(webSecurityCorsFilter, JwtAuthorizationTokenFilter.class);
         // disable page caching
-//        http
-//                .headers()
-//                .frameOptions().sameOrigin()
-//                .cacheControl();
+        http
+                .headers()
+                .frameOptions().sameOrigin()
+                .cacheControl();
     }
 
     @Override
