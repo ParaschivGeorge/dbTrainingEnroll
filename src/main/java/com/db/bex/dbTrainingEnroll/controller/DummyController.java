@@ -14,7 +14,7 @@ public class DummyController{
         this.dummyService = dummyService;
     }
 
-    @GetMapping("/dummy/")
+    @GetMapping("/dummy")
     public @ResponseBody DummyDto search(Principal principal){
         DummyDto dummyDto = new DummyDto();
         dummyDto.setId(new Long(1));
@@ -22,7 +22,7 @@ public class DummyController{
         return dummyDto;
     }
 
-    @PostMapping("/dummypost/")
+    @PostMapping("/dummypost")
     public DummyDto test(@RequestBody DummyDto dummyDto) {
         dummyDto.setName("Vasile");
         return dummyDto;
