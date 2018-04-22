@@ -75,12 +75,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                    .antMatchers("/approveList").hasAuthority(UserType.PM.name())
 //                    .antMatchers("/subordinates").hasAuthority(UserType.MANAGER.name())
 //                    .antMatchers("/subordinatesResult").hasAuthority(UserType.MANAGER.name())
-                .antMatchers("/crapa").permitAll()
-                .antMatchers("/pendingTrainings").permitAll()
-                .antMatchers("/pendingUsers").permitAll()
-                .antMatchers("/approveList").permitAll()
-                .antMatchers("/subordinates").permitAll()
-                .antMatchers("/subordinatesResult").permitAll()
+                    .antMatchers("/crapa").permitAll()
+                    .antMatchers("/pendingTrainings").permitAll()
+                    .antMatchers("/pendingUsers").permitAll()
+                    .antMatchers("/approveList").permitAll()
+                    .antMatchers("/subordinates").permitAll()
+                    .antMatchers("/subordinatesResult").permitAll()
                 // this should be set later, only for testing
 //                    .antMatchers(HttpMethod.GET, "/**").permitAll()
 //                    .antMatchers(HttpMethod.POST, "/**").permitAll()
@@ -128,7 +128,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         HttpMethod.GET,
                         "/",
                         "/trainings",
-                        "/register"
+                        "/register",
+                        "/crapa",
+                        "/pendingTrainings",
+                        "/approveList",
+                        "/subordinates",
+                        "/subordinatesResult"
                 );
     }
 }
