@@ -102,8 +102,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         // Custom JWT based security filter
         JwtAuthorizationTokenFilter authenticationTokenFilter = new JwtAuthorizationTokenFilter(userDetailsService(), jwtTokenUtil, tokenHeader);
         http
-                .addFilterAfter(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
+        WebSecurityCorsFilter webSecurityCorsFilter = new WebSecurityCorsFilter();
+        http
+                .addFilterBefore(webSecurityCorsFilter, JwtAuthorizationTokenFilter.class);
         // disable page caching
         http
                 .headers()
