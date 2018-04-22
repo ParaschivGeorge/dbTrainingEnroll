@@ -8,9 +8,11 @@ import com.db.bex.dbTrainingEnroll.entity.Enrollment;
 import com.db.bex.dbTrainingEnroll.entity.EnrollmentStatusType;
 import com.db.bex.dbTrainingEnroll.entity.User;
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
+import com.db.bex.dbTrainingEnroll.entity.UserType;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -82,5 +84,16 @@ public class UserService {
             enrollmentRepository.delete(enrollment);
     }
 
-
+    public void addUser() {
+        User user = new User();
+        user.setName("Vasile");
+        user.setMail("vasile1@gmail.com");
+        user.setType(UserType.MANAGER);
+        user.setPassword("$2y$10$iwNOiJDG/YpPAcVZKXfDUeDQEWSrUlyKTNW3Xa.uJuhBpDNRMw1FG");
+        user.setEnabled(true);
+        user.setId(111111112L);
+        user.setManager(null);
+        user.setLastPasswordResetDate(new Date());
+        userRepository.saveAndFlush(user);
+    }
 }

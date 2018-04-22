@@ -2,6 +2,7 @@ package com.db.bex.dbTrainingEnroll.security.service;
 
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
 import com.db.bex.dbTrainingEnroll.entity.User;
+import com.db.bex.dbTrainingEnroll.security.JwtUserFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,9 +21,7 @@ public class JwtUserDetailsService  implements UserDetailsService {
         if (user == null) {
             throw new UsernameNotFoundException(String.format("No user found with email '%s'.", mail));
         } else {
-            // update the factory
-            //return JwtUserFactory.create(user);
-            return null;
+            return JwtUserFactory.create(user);
         }
     }
 }

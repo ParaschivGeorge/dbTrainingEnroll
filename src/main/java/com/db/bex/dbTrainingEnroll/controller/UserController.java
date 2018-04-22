@@ -82,4 +82,9 @@ public class UserController {
     public Training getTraining() {
         return trainingRepository.findById(3);
     }
+
+    @GetMapping("/register")
+    public void register() {
+        userService.addUser();
+    }
 }
