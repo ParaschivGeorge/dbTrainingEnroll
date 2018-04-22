@@ -2,6 +2,8 @@ package com.db.bex.dbTrainingEnroll.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -30,6 +32,11 @@ public class User {
     @JsonIgnore
     @Column(nullable = false)
     private String password;
+
+    @JsonIgnore
+    @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
+    private Date lastPasswordResetDate;
 
     @JsonIgnore
     @ManyToOne(cascade={CascadeType.ALL}, fetch = FetchType.LAZY)
@@ -117,6 +124,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Date getLastPasswordResetDate() {
+        return lastPasswordResetDate;
+    }
+
+    public void setLastPasswordResetDate(Date lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
     }
 
     //    @Override
