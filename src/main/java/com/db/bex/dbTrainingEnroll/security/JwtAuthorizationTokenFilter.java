@@ -22,30 +22,30 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-@Component
-@Order(Ordered.HIGHEST_PRECEDENCE + 1)
+//@Component
+//@Order(Ordered.HIGHEST_PRECEDENCE + 1)
 public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-//    private UserDetailsService userDetailsService;
-//    private JwtTokenUtil jwtTokenUtil;
-//    private String tokenHeader;
-
-    @Autowired
+    private UserDetailsService userDetailsService;
     private JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
-    private JwtUserDetailsService userDetailsService;
-
-    @Value("${jwt.header}")
     private String tokenHeader;
 
-//    public JwtAuthorizationTokenFilter(UserDetailsService userDetailsService, JwtTokenUtil jwtTokenUtil, String tokenHeader) {
-//        this.userDetailsService = userDetailsService;
-//        this.jwtTokenUtil = jwtTokenUtil;
-//        this.tokenHeader = tokenHeader;
-//    }
+//    @Autowired
+//    private JwtTokenUtil jwtTokenUtil;
+//
+//    @Autowired
+//    private JwtUserDetailsService userDetailsService;
+//
+//    @Value("${jwt.header}")
+//    private String tokenHeader;
+
+    public JwtAuthorizationTokenFilter(UserDetailsService userDetailsService, JwtTokenUtil jwtTokenUtil, String tokenHeader) {
+        this.userDetailsService = userDetailsService;
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.tokenHeader = tokenHeader;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -55,7 +55,7 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
 
         String username = null;
         String authToken = null;
-//        System.out.println(requestHeader.toString());
+
         if (requestHeader != null && requestHeader.startsWith("Bearer ")) {
             authToken = requestHeader.substring(7);
             try {

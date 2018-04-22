@@ -107,9 +107,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 //        WebSecurityCorsFilter webSecurityCorsFilter = new WebSecurityCorsFilter();
 //        http.addFilterBefore(webSecurityCorsFilter, UsernamePasswordAuthenticationFilter.class);
 
-//        JwtAuthorizationTokenFilter authenticationTokenFilter = new JwtAuthorizationTokenFilter(userDetailsService(), jwtTokenUtil, tokenHeader);
-//        http
-//                .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        JwtAuthorizationTokenFilter authenticationTokenFilter = new JwtAuthorizationTokenFilter(userDetailsService(), jwtTokenUtil, tokenHeader);
+        http
+                .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
 //        WebSecurityCorsFilter webSecurityCorsFilter = new WebSecurityCorsFilter();
 //        http
