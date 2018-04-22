@@ -9,6 +9,7 @@ import com.db.bex.dbTrainingEnroll.entity.EnrollmentStatusType;
 import com.db.bex.dbTrainingEnroll.entity.User;
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
 import com.db.bex.dbTrainingEnroll.entity.UserType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -87,11 +88,11 @@ public class UserService {
     public void addUser() {
         User user = new User();
         user.setName("Vasile");
-        user.setMail("vasile1@gmail.com");
+        user.setMail("vasile2@gmail.com");
         user.setType(UserType.MANAGER);
-        user.setPassword("$2y$10$iwNOiJDG/YpPAcVZKXfDUeDQEWSrUlyKTNW3Xa.uJuhBpDNRMw1FG");
+        user.setPassword(new BCryptPasswordEncoder().encode("test"));
         user.setEnabled(true);
-        user.setId(111111112L);
+        user.setId(111111113L);
         user.setManager(null);
         user.setLastPasswordResetDate(new Date());
         userRepository.saveAndFlush(user);

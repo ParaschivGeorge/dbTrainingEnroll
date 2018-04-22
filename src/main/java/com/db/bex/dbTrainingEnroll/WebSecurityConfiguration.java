@@ -1,6 +1,5 @@
 package com.db.bex.dbTrainingEnroll;
 
-import com.db.bex.dbTrainingEnroll.entity.User;
 import com.db.bex.dbTrainingEnroll.entity.UserType;
 import com.db.bex.dbTrainingEnroll.security.JwtAuthenticationEntryPoint;
 import com.db.bex.dbTrainingEnroll.security.JwtAuthorizationTokenFilter;
