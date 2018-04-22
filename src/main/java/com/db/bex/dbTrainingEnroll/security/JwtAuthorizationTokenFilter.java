@@ -19,7 +19,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-@Order(Ordered.HIGHEST_PRECEDENCE)
 public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -37,12 +36,6 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         logger.debug("processing authentication for '{}'", request.getRequestURL());
-
-        HttpServletResponse res = (HttpServletResponse) response;
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE, PUT");
-        res.setHeader("Access-Control-Max-Age", "3600");
-        res.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type, Accept, x-requested-with, Cache-Control");
 
         final String requestHeader = request.getHeader(this.tokenHeader);
 
@@ -76,7 +69,7 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
             }
         }
 
-        chain.doFilter(request, res);
+        chain.doFilter(request, response);
     }
 }
 
