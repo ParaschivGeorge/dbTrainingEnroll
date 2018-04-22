@@ -104,9 +104,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
-        WebSecurityCorsFilter webSecurityCorsFilter = new WebSecurityCorsFilter();
-        http
-                .addFilterBefore(webSecurityCorsFilter, JwtAuthorizationTokenFilter.class);
+//        WebSecurityCorsFilter webSecurityCorsFilter = new WebSecurityCorsFilter();
+//        http
+//                .addFilterBefore(webSecurityCorsFilter, JwtAuthorizationTokenFilter.class);
         // disable page caching
         http
                 .headers()
