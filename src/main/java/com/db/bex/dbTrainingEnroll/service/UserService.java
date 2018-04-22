@@ -77,12 +77,15 @@ public class UserService {
 
         Enrollment enrollment = enrollmentRepository.findByUserIdAndTrainingId(id, idTraining);
 
-        if(status == 1) {
-         enrollment.setStatus(EnrollmentStatusType.ACCEPTED);
-         enrollmentRepository.save(enrollment); }
+        if (enrollment != null) {
+            if (status == 1) {
+                enrollment.setStatus(EnrollmentStatusType.ACCEPTED);
+                enrollmentRepository.save(enrollment);
+            }
 
-        if(status == 0)
-            enrollmentRepository.delete(enrollment);
+            if (status == 0)
+                enrollmentRepository.delete(enrollment);
+        }
     }
 
     public void addUser() {

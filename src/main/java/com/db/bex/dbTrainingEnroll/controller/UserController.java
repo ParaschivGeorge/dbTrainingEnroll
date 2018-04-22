@@ -73,6 +73,7 @@ public class UserController {
             Long idTraining = u.getIdTraining();
             Long status = u.getStatus();
 
+            if(mailUser != null && idTraining != null && status != null)
             userService.saveSubordinatesStatus(mailUser, idTraining, status);
         }
 
