@@ -23,6 +23,13 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserType type;
 
+    @JsonIgnore
+    @Column(nullable = false)
+    private boolean enabled;
+
+    @JsonIgnore
+    @Column(nullable = false)
+    private String password;
 
     @JsonIgnore
     @ManyToOne(cascade={CascadeType.ALL}, fetch = FetchType.LAZY)
@@ -96,7 +103,23 @@ public class User {
         this.enrollments = enrollments;
     }
 
-//    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    //    @Override
 //    public String toString() {
 //        return "User{" +
 //                "id=" + id +

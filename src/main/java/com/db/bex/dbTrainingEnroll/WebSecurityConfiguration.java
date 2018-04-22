@@ -1,5 +1,7 @@
 package com.db.bex.dbTrainingEnroll;
 
+import com.db.bex.dbTrainingEnroll.entity.User;
+import com.db.bex.dbTrainingEnroll.entity.UserType;
 import com.db.bex.dbTrainingEnroll.security.JwtAuthenticationEntryPoint;
 import com.db.bex.dbTrainingEnroll.security.JwtAuthorizationTokenFilter;
 import com.db.bex.dbTrainingEnroll.security.JwtTokenUtil;
@@ -59,24 +61,35 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
         http
+                .csrf().disable()
+                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
+                    .antMatchers("/auth/**").permitAll()
+                    .antMatchers("/trainings").permitAll()
+                    .antMatchers("/dummy").authenticated()
+                    .antMatchers("/dummypost").authenticated()
+                    .antMatchers("/pendingTrainings").hasAuthority(UserType.PM.name())
+                    .antMatchers("/pendingUsers").hasAuthority(UserType.PM.name())
+                    .antMatchers("/approveList").hasAuthority(UserType.PM.name())
+                    .antMatchers("/subordinates").hasAuthority(UserType.MANAGER.name())
+                    .antMatchers("/subordinatesResult").hasAuthority(UserType.MANAGER.name())
                 // this should be set later, only for testing
-                    .antMatchers(HttpMethod.GET, "/**").permitAll()
-                    .antMatchers(HttpMethod.POST, "/**").permitAll()
-                    .antMatchers(HttpMethod.PUT, "/**").permitAll()
-                    .antMatchers(HttpMethod.PATCH, "/**").permitAll()
-                    .antMatchers(HttpMethod.DELETE, "/**").permitAll()
+//                    .antMatchers(HttpMethod.GET, "/**").permitAll()
+//                    .antMatchers(HttpMethod.POST, "/**").permitAll()
+//                    .antMatchers(HttpMethod.PUT, "/**").permitAll()
+//                    .antMatchers(HttpMethod.PATCH, "/**").permitAll()
+//                    .antMatchers(HttpMethod.DELETE, "/**").permitAll()
                 .and()
-                .httpBasic()
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/")
-                .and()
-                .exceptionHandling().accessDeniedPage("/login")
-                .and()
+//                .httpBasic()
+//                .and()
+//                .formLogin()
+//                .loginPage("/login")
+//                .defaultSuccessUrl("/")
+//                .and()
+//                .exceptionHandling().accessDeniedPage("/login")
+//                .and()
                 .logout().permitAll();
     }
 
