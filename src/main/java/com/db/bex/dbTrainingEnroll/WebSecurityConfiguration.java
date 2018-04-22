@@ -69,13 +69,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers("/trainings").permitAll()
                     .antMatchers("/dummy").authenticated()
                     .antMatchers("/dummypost").authenticated()
-//                    .antMatchers("/crapa").authenticated()
+                    .antMatchers("/crapa").hasAuthority(UserType.MANAGER.name())
 //                    .antMatchers("/pendingTrainings").hasAuthority(UserType.PM.name())
 //                    .antMatchers("/pendingUsers").hasAuthority(UserType.PM.name())
 //                    .antMatchers("/approveList").hasAuthority(UserType.PM.name())
 //                    .antMatchers("/subordinates").hasAuthority(UserType.MANAGER.name())
 //                    .antMatchers("/subordinatesResult").hasAuthority(UserType.MANAGER.name())
-                    .antMatchers("/crapa").permitAll()
+//                    .antMatchers("/crapa").permitAll()
                     .antMatchers("/pendingTrainings").permitAll()
                     .antMatchers("/pendingUsers").permitAll()
                     .antMatchers("/approveList").permitAll()
@@ -88,7 +88,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                    .antMatchers(HttpMethod.PATCH, "/**").permitAll()
 //                    .antMatchers(HttpMethod.DELETE, "/**").permitAll()
 
-                .and()
+//                .and()
 //                .httpBasic()
 //                .and()
 //                .formLogin()
@@ -96,13 +96,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                .defaultSuccessUrl("/")
 //                .and()
 //                .exceptionHandling().accessDeniedPage("/login")
-//                .and()
+                .and()
                 .logout().permitAll();
 
         // Custom JWT based security filter
         JwtAuthorizationTokenFilter authenticationTokenFilter = new JwtAuthorizationTokenFilter(userDetailsService(), jwtTokenUtil, tokenHeader);
         http
-                .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+                .addFilterAfter(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         // disable page caching
         http
@@ -122,7 +122,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/",
                         "/trainings",
                         "/register",
-                        "/crapa",
                         "/pendingTrainings",
                         "/approveList",
                         "/subordinates",
@@ -137,7 +136,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/",
                         "/trainings",
                         "/register",
-                        "/crapa",
                         "/pendingTrainings",
                         "/approveList",
                         "/subordinates",
