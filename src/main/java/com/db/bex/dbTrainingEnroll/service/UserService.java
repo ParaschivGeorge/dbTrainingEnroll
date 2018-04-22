@@ -63,7 +63,6 @@ public class UserService {
             else {
                 Enrollment enrollment = new Enrollment();
                 enrollment.setStatus(EnrollmentStatusType.PENDING);
-                enrollment.setStatus(EnrollmentStatusType.PENDING);
                 enrollment.setTraining(trainingRepository.findById(idTraining));
                 enrollment.setUser(userRepository.findByMail(s));
                 enrollmentRepository.save(enrollment);
@@ -88,6 +87,7 @@ public class UserService {
         }
     }
 
+    // for test only
     public void addUser() {
         User user = new User();
         user.setName("Vasile");

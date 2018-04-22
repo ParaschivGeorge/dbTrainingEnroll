@@ -1,4 +1,4 @@
-package com.db.bex.dbTrainingEnroll;
+package com.db.bex.dbTrainingEnroll.security;
 
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;

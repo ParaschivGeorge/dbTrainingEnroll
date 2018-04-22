@@ -1,4 +1,4 @@
-package com.db.bex.dbTrainingEnroll;
+package com.db.bex.dbTrainingEnroll.security;
 
 import com.db.bex.dbTrainingEnroll.entity.UserType;
 import com.db.bex.dbTrainingEnroll.security.JwtAuthenticationEntryPoint;
@@ -91,29 +91,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 //                    .antMatchers(HttpMethod.PUT, "/**").permitAll()
 //                    .antMatchers(HttpMethod.PATCH, "/**").permitAll()
 //                    .antMatchers(HttpMethod.DELETE, "/**").permitAll()
-
-//                .and()
-//                .httpBasic()
-//                .and()
-//                .formLogin()
-//                .loginPage("/login")
-//                .defaultSuccessUrl("/")
-//                .and()
-//                .exceptionHandling().accessDeniedPage("/login")
                 .and()
                 .logout().permitAll();
 
         // Custom JWT based security filter
-//        WebSecurityCorsFilter webSecurityCorsFilter = new WebSecurityCorsFilter();
-//        http.addFilterBefore(webSecurityCorsFilter, UsernamePasswordAuthenticationFilter.class);
-
         JwtAuthorizationTokenFilter authenticationTokenFilter = new JwtAuthorizationTokenFilter(userDetailsService(), jwtTokenUtil, tokenHeader);
         http
                 .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
-//        WebSecurityCorsFilter webSecurityCorsFilter = new WebSecurityCorsFilter();
-//        http
-//                .addFilterBefore(webSecurityCorsFilter, JwtAuthorizationTokenFilter.class);
         // disable page caching
         http
                 .headers()
@@ -124,6 +109,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         // AuthenticationTokenFilter will ignore the below paths
+        // leave only / trainings and auth after frontend login complete
         web
                 .ignoring()
                 .antMatchers(
