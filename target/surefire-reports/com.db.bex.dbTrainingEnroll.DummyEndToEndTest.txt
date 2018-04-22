@@ -1,7 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.db.bex.dbTrainingEnroll.DummyEndToEndTest
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0 s <<< FAILURE! - in com.db.bex.dbTrainingEnroll.DummyEndToEndTest
-initializationError(com.db.bex.dbTrainingEnroll.DummyEndToEndTest)  Time elapsed: 0 s  <<< ERROR!
-java.lang.Exception: Test class should have exactly one public zero-argument constructor
-
