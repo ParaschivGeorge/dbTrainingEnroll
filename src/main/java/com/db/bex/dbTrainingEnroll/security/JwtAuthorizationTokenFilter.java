@@ -20,12 +20,10 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-@Component
 public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
     private UserDetailsService userDetailsService;
     private JwtTokenUtil jwtTokenUtil;
     private String tokenHeader;
