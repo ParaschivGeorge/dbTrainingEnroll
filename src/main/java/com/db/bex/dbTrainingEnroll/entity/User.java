@@ -30,6 +30,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserType type;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserGenderType gender;
 
     @JsonIgnore
     @ManyToOne(cascade={CascadeType.ALL}, fetch = FetchType.LAZY)
