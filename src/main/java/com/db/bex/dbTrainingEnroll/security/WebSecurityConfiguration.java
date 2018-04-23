@@ -73,6 +73,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers("/trainings").permitAll()
                     .antMatchers("/dummy").authenticated()
                     .antMatchers("/dummypost").authenticated()
+                    .antMatchers("/getUserType").authenticated()
                     .antMatchers("/crapa").hasAuthority(UserType.MANAGER.name())
 //                    .antMatchers("/pendingTrainings").hasAuthority(UserType.PM.name())
 //                    .antMatchers("/pendingUsers").hasAuthority(UserType.PM.name())
