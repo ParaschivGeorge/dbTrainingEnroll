@@ -5,12 +5,14 @@ import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
 import com.db.bex.dbTrainingEnroll.entity.Enrollment;
 import com.db.bex.dbTrainingEnroll.entity.User;
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor
 @Component
 public class UserDtoTransformer {
 
@@ -28,7 +30,6 @@ public class UserDtoTransformer {
 
     public UserDto transform(User user){
         return UserDto.builder()
-                .id(user.getId())
                 .mail(user.getMail())
                 .name(user.getName())
                 .userType(user.getType())

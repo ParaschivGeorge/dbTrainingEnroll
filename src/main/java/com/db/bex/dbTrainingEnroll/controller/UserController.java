@@ -3,6 +3,7 @@ package com.db.bex.dbTrainingEnroll.controller;
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
 import com.db.bex.dbTrainingEnroll.dto.*;
 import com.db.bex.dbTrainingEnroll.entity.Training;
+import com.db.bex.dbTrainingEnroll.entity.UserType;
 import com.db.bex.dbTrainingEnroll.service.EmailService;
 import com.db.bex.dbTrainingEnroll.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -60,8 +61,18 @@ public class UserController {
         }
     }
 
+    @PostMapping("/getUserData")
+    public UserDto getUserData(@RequestBody EmailDto emailDto) {
+        return userService.getUserData(emailDto);
+    }
+
     @GetMapping("/crapa")
     public Training getTraining() {
         return trainingRepository.findById(3);
+    }
+
+    @GetMapping("/register")
+    public void register() {
+        userService.addUser();
     }
 }

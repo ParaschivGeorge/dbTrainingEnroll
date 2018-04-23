@@ -2,15 +2,19 @@ package com.db.bex.dbTrainingEnroll.service;
 
 import com.db.bex.dbTrainingEnroll.dao.EnrollmentRepository;
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
+import com.db.bex.dbTrainingEnroll.dto.EmailDto;
 import com.db.bex.dbTrainingEnroll.dto.UserDto;
 import com.db.bex.dbTrainingEnroll.dto.UserDtoTransformer;
 import com.db.bex.dbTrainingEnroll.entity.Enrollment;
 import com.db.bex.dbTrainingEnroll.entity.EnrollmentStatusType;
 import com.db.bex.dbTrainingEnroll.entity.User;
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
+import com.db.bex.dbTrainingEnroll.entity.UserType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -54,12 +58,12 @@ public class UserService {
 
     public void savePendingSubordinates(long idTraining, List<String> emails){
         for(String s:emails) {
-            if((enrollmentRepository.findByUserIdAndTrainingId(userRepository.findByMail(s).getId(),idTraining) != null)
-                    || (enrollmentRepository.findByTrainingId(idTraining) == null))
+            if((enrollmentRepository
+                    .findByUserIdAndTrainingId(userRepository.findByMail(s).getId(),idTraining) != null))
+//                    || (enrollmentRepository.findByTrainingId(idTraining) == null))
                 return;
             else {
                 Enrollment enrollment = new Enrollment();
-                enrollment.setStatus(EnrollmentStatusType.PENDING);
                 enrollment.setStatus(EnrollmentStatusType.PENDING);
                 enrollment.setTraining(trainingRepository.findById(idTraining));
                 enrollment.setUser(userRepository.findByMail(s));
@@ -75,7 +79,6 @@ public class UserService {
         Enrollment enrollment = enrollmentRepository.findByUserIdAndTrainingId(id, idTraining);
 
         if (enrollment != null) {
-
             if (status == 1) {
                 enrollment.setStatus(EnrollmentStatusType.ACCEPTED);
                 enrollmentRepository.save(enrollment);
@@ -84,5 +87,24 @@ public class UserService {
             if (status == 0)
                 enrollmentRepository.delete(enrollment);
         }
+    }
+
+    public UserDto getUserData (EmailDto emailDto) {
+        UserDtoTransformer userDtoTransformer = new UserDtoTransformer();
+        return  userDtoTransformer.transform(userRepository.findByMail(emailDto.getEmail()));
+    }
+
+    // for test only
+    public void addUser() {
+        User user = new User();
+        user.setName("Vasile");
+        user.setMail("vasile2@gmail.com");
+        user.setType(UserType.MANAGER);
+        user.setPassword(new BCryptPasswordEncoder().encode("test"));
+        user.setEnabled(true);
+        user.setId(111111113L);
+        user.setManager(null);
+        user.setLastPasswordResetDate(new Date());
+        userRepository.saveAndFlush(user);
     }
 }

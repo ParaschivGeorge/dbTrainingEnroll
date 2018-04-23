@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.Set;
 
 @Getter
@@ -23,13 +25,25 @@ public class User {
     @Column(nullable = false, length = 100)
     private String name;
 
-    @Column(nullable = false, length = 50)
+    @Column(unique = true, nullable = false, length = 50)
     private String mail;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private UserType type;
 
+    @JsonIgnore
+    @Column(nullable = false)
+    private boolean enabled;
+
+    @JsonIgnore
+    @Column(nullable = false)
+    private String password;
+
+    @JsonIgnore
+    @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
+    private Date lastPasswordResetDate;
 
     @JsonIgnore
     @ManyToOne(cascade={CascadeType.ALL}, fetch = FetchType.LAZY)
