@@ -73,15 +73,15 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .cors()
                 .and()
-//                .csrf().disable()
+                .csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                    .antMatchers(HttpMethod.POST,"/auth/**").permitAll()
+                    .antMatchers(HttpMethod.POST,"/auth").permitAll()
                     .antMatchers(HttpMethod.GET,"/trainings").permitAll()
                     .antMatchers(HttpMethod.GET,"/dummy").authenticated()
                     .antMatchers(HttpMethod.POST,"/dummypost").authenticated()
-                    .antMatchers(HttpMethod.POST,"/getUserType").authenticated()
+                    .antMatchers(HttpMethod.POST,"/getUserData").authenticated()
 
                 // TODO: for master
                     .antMatchers(HttpMethod.GET,"/crapa").hasAuthority(UserType.MANAGER.name())
@@ -138,24 +138,25 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return source;
     }
 
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        // AuthenticationTokenFilter will ignore the below paths
-//        // leave only / trainings and auth after frontend login complete
-//        web
-//                .ignoring()
-//                .antMatchers(
-//                        HttpMethod.POST,
-//                        authenticationPath
-//                )
-//
-//                // allow anonymous resource requests
-//                .and()
-//                .ignoring()
-//                .antMatchers(
-//                        HttpMethod.GET,
-//                        "/",
-//                        "/trainings"
-//                );
-//    }
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        // AuthenticationTokenFilter will ignore the below paths
+        // leave only / trainings and auth after frontend login complete
+        web
+                .ignoring()
+                .antMatchers(
+                        HttpMethod.POST,
+                        authenticationPath
+//                        "/getUserData"
+                )
+
+                // allow anonymous resource requests
+                .and()
+                .ignoring()
+                .antMatchers(
+                        HttpMethod.GET,
+                        "/",
+                        "/trainings"
+                );
+    }
 }
