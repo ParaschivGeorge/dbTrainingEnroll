@@ -61,5 +61,4 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private Set<Enrollment> enrollments;
-
 }

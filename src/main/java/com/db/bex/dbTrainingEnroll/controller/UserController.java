@@ -1,13 +1,12 @@
 package com.db.bex.dbTrainingEnroll.controller;
 
+import com.db.bex.dbTrainingEnroll.Recommender;
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
 import com.db.bex.dbTrainingEnroll.dto.*;
 import com.db.bex.dbTrainingEnroll.entity.Training;
-import com.db.bex.dbTrainingEnroll.entity.UserType;
 import com.db.bex.dbTrainingEnroll.service.EmailService;
 import com.db.bex.dbTrainingEnroll.service.UserService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -21,7 +20,7 @@ public class UserController {
         this.trainingRepository = trainingRepository;
         this.userService = userService;
     }
-    
+
     @PostMapping("/subordinates")
     public List<UserDto> getSubordinates(@RequestBody ManagerRequestDto managerRequestDto){
         String email = managerRequestDto.getEmail();
@@ -42,23 +41,19 @@ public class UserController {
 
     @PostMapping("/subordinatesResult")
     public void saveSubordinates(@RequestBody ManagerResponseDto managerResponseDto) {
+        //TODO : Remove Recommender from method and make separate method, uncomment functionality
         Long trainingId = managerResponseDto.getTrainingId();
         List<String> emails = managerResponseDto.getEmails();
         System.out.println(trainingId);
         if(trainingId !=null && emails.size() > 0)
             userService.savePendingSubordinates(trainingId, emails);
+//        Recommender recommender = new Recommender(trainingRepository);
     }
 
     @PostMapping("/approveList")
     public void postUserStatus(@RequestBody List<UserStatusDto> userStatusDto) {
-        for(UserStatusDto u : userStatusDto) {
-            String mailUser = u.getMailUser();
-            Long idTraining = u.getIdTraining();
-            Long status = u.getStatus();
-
-            if(mailUser != null && idTraining != null && status != null)
-            userService.saveSubordinatesStatus(mailUser, idTraining, status);
-        }
+        //TODO : Enable email functionality, eliminate hard coding
+        userService.saveSubordinatesStatusAndSendEmail(userStatusDto);
     }
 
     @PostMapping("/getUserData")

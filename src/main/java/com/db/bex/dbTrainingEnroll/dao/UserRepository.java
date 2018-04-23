@@ -13,10 +13,6 @@ public interface UserRepository extends JpaRepository <User, Long> {
 
     User findByName(String name);
 
-//    @Query("select t from Enrollment e join e.training t where e.status = 'PENDING' " +
-//            "and e.user.id IN (select u.id from User u where u.manager.id IN" +
-//            "(select uu.id from User uu where uu.manager.id =:id))")
-
     List<User> findAllByManagerId(long id);
 
     User findByMail(String email);
