@@ -17,14 +17,11 @@ public class UserController {
     public UserController(TrainingRepository trainingRepository, UserService userService, EmailService emailService) {
         this.trainingRepository = trainingRepository;
         this.userService = userService;
-        this.emailService = emailService;
     }
 
     private TrainingRepository trainingRepository;
 
     private UserService userService;
-    
-    private EmailService emailService;
 
     @PostMapping("/subordinates")
     public List<UserDto> getSubordinates(@RequestBody ManagerRequestDto managerRequestDto){
