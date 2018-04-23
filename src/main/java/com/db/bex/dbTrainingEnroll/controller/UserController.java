@@ -20,7 +20,7 @@ public class UserController {
         this.trainingRepository = trainingRepository;
         this.userService = userService;
     }
-    
+
     @PostMapping("/subordinates")
     public List<UserDto> getSubordinates(@RequestBody ManagerRequestDto managerRequestDto) throws MissingDataException {
         String email = managerRequestDto.getEmail();
@@ -37,19 +37,18 @@ public class UserController {
 
     @PostMapping("/subordinatesResult")
     public void saveSubordinates(@RequestBody ManagerResponseDto managerResponseDto) throws MissingDataException {
+        //TODO : Remove Recommender from method and make separate method, uncomment functionality
         Long trainingId = managerResponseDto.getTrainingId();
         List<String> emails = managerResponseDto.getEmails();
         userService.savePendingSubordinates(trainingId, emails);
+
+        //Recommender recommender = new Recommender(trainingRepository);
     }
 
     @PostMapping("/approveList")
-    public void postUserStatus(@RequestBody List<UserStatusDto> userStatusDto) throws MissingDataException {
-        for(UserStatusDto u : userStatusDto) {
-            String mailUser = u.getMailUser();
-            Long idTraining = u.getIdTraining();
-            Long status = u.getStatus();
-            userService.saveSubordinatesStatus(mailUser, idTraining, status);
-        }
+    public void postUserStatus(@RequestBody List<UserStatusDto> userStatusDto) {
+        //TODO : Enable email functionality, eliminate hard coding
+        userService.saveSubordinatesStatusAndSendEmail(userStatusDto);
     }
 
     @PostMapping("/getUserData")

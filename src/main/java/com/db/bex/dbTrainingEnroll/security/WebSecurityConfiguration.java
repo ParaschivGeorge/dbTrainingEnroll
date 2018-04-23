@@ -21,8 +21,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.servlet.Filter;
+import java.lang.reflect.Array;
+import java.util.Arrays;
 
 
 @Configuration
@@ -64,28 +69,37 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
         http
+                .cors()
+                .and()
                 .csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                    .antMatchers("/auth/**").permitAll()
-                    .antMatchers("/trainings").permitAll()
-                    .antMatchers("/dummy").authenticated()
-                    .antMatchers("/dummypost").authenticated()
-                    .antMatchers("/getUserType").authenticated()
-                    .antMatchers("/crapa").hasAuthority(UserType.MANAGER.name())
-//                    .antMatchers("/pendingTrainings").hasAuthority(UserType.PM.name())
-//                    .antMatchers("/pendingUsers").hasAuthority(UserType.PM.name())
-//                    .antMatchers("/approveList").hasAuthority(UserType.PM.name())
-//                    .antMatchers("/subordinates").hasAuthority(UserType.MANAGER.name())
-//                    .antMatchers("/subordinatesResult").hasAuthority(UserType.MANAGER.name())
+                    .antMatchers(HttpMethod.POST,"/auth").permitAll()
+                    .antMatchers(HttpMethod.GET,"/trainings").permitAll()
+                    .antMatchers(HttpMethod.GET,"/dummy").authenticated()
+                    .antMatchers(HttpMethod.POST,"/dummypost").authenticated()
+                    .antMatchers(HttpMethod.POST,"/getUserData").authenticated()
+
+                // TODO: for master
+                    .antMatchers(HttpMethod.GET,"/crapa").hasAuthority(UserType.MANAGER.name())
+                    .antMatchers(HttpMethod.POST,"/pendingTrainings").hasAuthority(UserType.PM.name())
+                    .antMatchers(HttpMethod.POST,"/pendingUsers").hasAuthority(UserType.PM.name())
+                    .antMatchers(HttpMethod.POST,"/approveList").hasAuthority(UserType.PM.name())
+                    .antMatchers(HttpMethod.POST,"/subordinates").hasAuthority(UserType.MANAGER.name())
+                    .antMatchers(HttpMethod.POST,"/subordinatesResult").hasAuthority(UserType.MANAGER.name())
+
+                // TODO: for local testing
 //                    .antMatchers("/crapa").permitAll()
-                    .antMatchers("/pendingTrainings").permitAll()
-                    .antMatchers("/pendingUsers").permitAll()
-                    .antMatchers("/approveList").permitAll()
-                    .antMatchers("/subordinates").permitAll()
-                    .antMatchers("/subordinatesResult").permitAll()
+//                    .antMatchers("/pendingTrainings").permitAll()
+////                    .antMatchers("/pendingUsers").permitAll()
+////                    .antMatchers("/approveList").permitAll()
+////                    .antMatchers("/subordinates").permitAll()
+////                    .antMatchers("/subordinatesResult").permitAll()
+
+
                 // this should be set later, only for testing
 //                    .antMatchers(HttpMethod.GET, "/**").permitAll()
 //                    .antMatchers(HttpMethod.POST, "/**").permitAll()
@@ -107,6 +121,23 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .cacheControl();
     }
 
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        final CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("HEAD",
+                "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        // setAllowCredentials(true) is important, otherwise:
+        // The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
+        configuration.setAllowCredentials(true);
+        // setAllowedHeaders is important! Without it, OPTIONS preflight request
+        // will fail with 403 Invalid CORS request
+        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token", "cache-ontrol"));
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
+
     @Override
     public void configure(WebSecurity web) throws Exception {
         // AuthenticationTokenFilter will ignore the below paths
@@ -115,56 +146,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .ignoring()
                 .antMatchers(
                         HttpMethod.POST,
-                        authenticationPath,
-                        "/",
-                        "/trainings",
-                        "/register",
-                        "/pendingTrainings",
-                        "/approveList",
-                        "/subordinates",
-                        "/subordinatesResult"
-                )
-
-                .and()
-                .ignoring()
-                .antMatchers(
-                        HttpMethod.OPTIONS,
-                        authenticationPath,
-                        "/",
-                        "/trainings",
-                        "/register",
-                        "/pendingTrainings",
-                        "/approveList",
-                        "/subordinates",
-                        "/subordinatesResult"
-                )
-
-                .and()
-                .ignoring()
-                .antMatchers(
-                        HttpMethod.DELETE,
-                        authenticationPath,
-                        "/",
-                        "/trainings",
-                        "/register",
-                        "/pendingTrainings",
-                        "/approveList",
-                        "/subordinates",
-                        "/subordinatesResult"
-                )
-
-                .and()
-                .ignoring()
-                .antMatchers(
-                        HttpMethod.PUT,
-                        authenticationPath,
-                        "/",
-                        "/trainings",
-                        "/register",
-                        "/pendingTrainings",
-                        "/approveList",
-                        "/subordinates",
-                        "/subordinatesResult"
+                        authenticationPath
+//                        "/getUserData"
                 )
 
                 // allow anonymous resource requests
@@ -173,12 +156,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         HttpMethod.GET,
                         "/",
-                        "/trainings",
-                        "/register",
-                        "/pendingTrainings",
-                        "/approveList",
-                        "/subordinates",
-                        "/subordinatesResult"
+                        "/trainings"
                 );
     }
 }
