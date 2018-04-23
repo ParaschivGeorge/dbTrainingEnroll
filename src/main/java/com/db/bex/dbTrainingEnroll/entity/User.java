@@ -45,6 +45,10 @@ public class User {
     @NotNull
     private Date lastPasswordResetDate;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserGenderType gender;
+
     @JsonIgnore
     @ManyToOne(cascade={CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn(name="manager_id")
