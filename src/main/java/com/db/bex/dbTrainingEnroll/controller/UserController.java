@@ -13,32 +13,15 @@ import java.util.List;
 @RestController
 public class UserController {
 
-    public UserController(TrainingRepository trainingRepository, UserService userService, EmailService emailService) {
-        this.trainingRepository = trainingRepository;
-        this.userService = userService;
-        this.emailService = emailService;
-    }
-
     private TrainingRepository trainingRepository;
 
     private UserService userService;
+
+    public UserController(TrainingRepository trainingRepository, UserService userService, EmailService emailService) {
+        this.trainingRepository = trainingRepository;
+        this.userService = userService;
+    }
     
-    private EmailService emailService;
-
-//    @GetMapping("/subordinates")
-//    public List<UserDto> getSubordinates(@RequestParam(required = false) String email,
-//                                         @RequestParam(required = false) Long id){
-//        List<String> list = new ArrayList<>();
-//        list.add("stefaneva25@yahoo.com");
-//        list.add("stefaneva52@gmail.com");
-//        try {
-//            emailService.sendEmail(list,"Welcome","Subject");
-//        } catch (MessagingException e) {
-//            e.printStackTrace();
-//        }
-//        return userService.findSubordinates(email, id);
-//    }
-
     @PostMapping("/subordinates")
     public List<UserDto> getSubordinates(@RequestBody ManagerRequestDto managerRequestDto){
         String email = managerRequestDto.getEmail();
@@ -68,7 +51,6 @@ public class UserController {
 
     @PostMapping("/approveList")
     public void postUserStatus(@RequestBody List<UserStatusDto> userStatusDto) {
-
         for(UserStatusDto u : userStatusDto) {
             String mailUser = u.getMailUser();
             Long idTraining = u.getIdTraining();
@@ -77,7 +59,6 @@ public class UserController {
             if(mailUser != null && idTraining != null && status != null)
             userService.saveSubordinatesStatus(mailUser, idTraining, status);
         }
-
     }
 
     @PostMapping("/getUserData")

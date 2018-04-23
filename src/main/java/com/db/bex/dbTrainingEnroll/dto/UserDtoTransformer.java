@@ -5,17 +5,22 @@ import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
 import com.db.bex.dbTrainingEnroll.entity.Enrollment;
 import com.db.bex.dbTrainingEnroll.entity.User;
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor
 @Component
 public class UserDtoTransformer {
 
-    public UserDtoTransformer() {
-    }
+    private UserRepository userRepository;
+
+    private TrainingRepository trainingRepository;
+
+    private EnrollmentRepository enrollmentRepository;
 
     public UserDtoTransformer(UserRepository userRepository, TrainingRepository trainingRepository, EnrollmentRepository enrollmentRepository) {
         this.userRepository = userRepository;
@@ -23,30 +28,21 @@ public class UserDtoTransformer {
         this.enrollmentRepository = enrollmentRepository;
     }
 
-    UserRepository userRepository;
-
-    TrainingRepository trainingRepository;
-
-    EnrollmentRepository enrollmentRepository;
+    public UserDto transform(User user){
+        return UserDto.builder()
+                .mail(user.getMail())
+                .name(user.getName())
+                .userType(user.getType())
+                .build();
+    }
 
     public List<UserDto> getUserSubordinates(List<User> user, long id) {
-//        return user.stream().map(this::transform).collect(Collectors.toList());
         List<UserDto> userDtoList = user.stream().map(this::transform).collect(Collectors.toList());
         return this.filterUsers(userDtoList, id);
     }
 
     public List<UserDto> getUserSubordinates1(List<User> user) {
-//        return user.stream().map(this::transform).collect(Collectors.toList());
        return user.stream().map(this::transform).collect(Collectors.toList());
-    }
-
-    public UserDto transform(User user){
-        UserDto userDto = new UserDto();
-//        userDto.setId(user.getId());
-        userDto.setName(user.getName());
-        userDto.setMail(user.getMail());
-        userDto.setUserType(user.getType());
-        return userDto;
     }
 
     public List<UserDto> filterUsers(List<UserDto> listDTO, long id){

@@ -1,11 +1,17 @@
 package com.db.bex.dbTrainingEnroll.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "training")
 public class Training {
@@ -35,75 +41,4 @@ public class Training {
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Enrollment> enrollments;
 
-    public Training() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public TrainingCategoryType getCategory() {
-        return category;
-    }
-
-    public void setCategory(TrainingCategoryType category) {
-        this.category = category;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public Set<Enrollment> getEnrollments() {
-        return enrollments;
-    }
-
-    public void setEnrollments(Set<Enrollment> enrollments) {
-        this.enrollments = enrollments;
-    }
-
-    public String getTechnology() {
-        return technology;
-    }
-
-    public void setTechnology(String technology) {
-        this.technology = technology;
-    }
-
-//    @Override
-//    public String toString() {
-//        return "Training{" +
-//                "id=" + id +
-//                ", name='" + name + '\'' +
-//                ", technology='" + technology + '\'' +
-//                ", category=" + category +
-//                ", startDate=" + startDate +
-//                ", endDate=" + endDate +
-//                ", enrollments=" + enrollments +
-//                '}';
-//    }
 }
