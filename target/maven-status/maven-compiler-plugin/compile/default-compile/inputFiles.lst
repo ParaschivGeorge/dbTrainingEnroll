@@ -1,16 +1,32 @@
-C:\Users\paras\IdeaProjects\dbTrainingEnroll-master\src\main\java\com\db\bex\dbTrainingEnroll\dao\DummyRepository.java
-C:\Users\paras\IdeaProjects\dbTrainingEnroll-master\src\main\java\com\db\bex\dbTrainingEnroll\entity\Training.java
-C:\Users\paras\IdeaProjects\dbTrainingEnroll-master\src\main\java\com\db\bex\dbTrainingEnroll\repository\TrainingRepository.java
-C:\Users\paras\IdeaProjects\dbTrainingEnroll-master\src\main\java\com\db\bex\dbTrainingEnroll\dto\DummyDto.java
-C:\Users\paras\IdeaProjects\dbTrainingEnroll-master\src\main\java\com\db\bex\dbTrainingEnroll\entity\Dummy1.java
-C:\Users\paras\IdeaProjects\dbTrainingEnroll-master\src\main\java\com\db\bex\dbTrainingEnroll\repository\EnrollmentRepository.java
-C:\Users\paras\IdeaProjects\dbTrainingEnroll-master\src\main\java\com\db\bex\dbTrainingEnroll\entity\Enrollment.java
-C:\Users\paras\IdeaProjects\dbTrainingEnroll-master\src\main\java\com\db\bex\dbTrainingEnroll\entity\TrainingCategoryType.java
-C:\Users\paras\IdeaProjects\dbTrainingEnroll-master\src\main\java\com\db\bex\dbTrainingEnroll\DbTrainingEnrollApplication.java
-C:\Users\paras\IdeaProjects\dbTrainingEnroll-master\src\main\java\com\db\bex\dbTrainingEnroll\entity\User.java
-C:\Users\paras\IdeaProjects\dbTrainingEnroll-master\src\main\java\com\db\bex\dbTrainingEnroll\entity\UserType.java
-C:\Users\paras\IdeaProjects\dbTrainingEnroll-master\src\main\java\com\db\bex\dbTrainingEnroll\entity\EnrollmentStatusType.java
-C:\Users\paras\IdeaProjects\dbTrainingEnroll-master\src\main\java\com\db\bex\dbTrainingEnroll\service\DummyService.java
-C:\Users\paras\IdeaProjects\dbTrainingEnroll-master\src\main\java\com\db\bex\dbTrainingEnroll\dto\DummyDTOTransformer.java
-C:\Users\paras\IdeaProjects\dbTrainingEnroll-master\src\main\java\com\db\bex\dbTrainingEnroll\controller\DummyController.java
-C:\Users\paras\IdeaProjects\dbTrainingEnroll-master\src\main\java\com\db\bex\dbTrainingEnroll\repository\UserRepository.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/WebSecurityCorsFilter.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/dao/DummyRepository.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/dto/TrainingDtoTransformer.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/entity/Training.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/dto/EmailDto.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/service/UserService.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/entity/EnrollmentStatusType.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/entity/TrainingCategoryType.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/dao/EnrollmentRepository.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/service/DummyService.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/dto/ManagerRequestDto.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/dao/TrainingRepository.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/controller/DummyController.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/dto/DummyDtoTransformer.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/entity/Enrollment.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/dao/UserRepository.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/dto/TrainingDto.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/DbTrainingEnrollApplication.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/controller/TrainingController.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/dto/UserDto.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/dto/UserDtoTransformer.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/dto/UserStatusDto.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/service/TrainingService.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/WebSecurityConfiguration.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/entity/UserType.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/dto/ManagerTrainingRequestDto.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/dto/ManagerResponseDto.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/entity/Dummy1.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/controller/UserController.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/service/EmailService.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/dto/DummyDto.java
+/Users/alexandraivan/TechSchool Materials/FINAL APP/dbTrainingEnroll/src/main/java/com/db/bex/dbTrainingEnroll/entity/User.java

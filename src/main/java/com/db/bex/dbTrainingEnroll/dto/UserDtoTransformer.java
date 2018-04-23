@@ -14,36 +14,34 @@ import java.util.stream.Collectors;
 @Component
 public class UserDtoTransformer {
 
+    private UserRepository userRepository;
+
+    private TrainingRepository trainingRepository;
+
+    private EnrollmentRepository enrollmentRepository;
+
     public UserDtoTransformer(UserRepository userRepository, TrainingRepository trainingRepository, EnrollmentRepository enrollmentRepository) {
         this.userRepository = userRepository;
         this.trainingRepository = trainingRepository;
         this.enrollmentRepository = enrollmentRepository;
     }
 
-    UserRepository userRepository;
-
-    TrainingRepository trainingRepository;
-
-    EnrollmentRepository enrollmentRepository;
+    public UserDto transform(User user){
+        return UserDto.builder()
+                .id(user.getId())
+                .mail(user.getMail())
+                .name(user.getName())
+                .userType(user.getType())
+                .build();
+    }
 
     public List<UserDto> getUserSubordinates(List<User> user, long id) {
-//        return user.stream().map(this::transform).collect(Collectors.toList());
         List<UserDto> userDtoList = user.stream().map(this::transform).collect(Collectors.toList());
         return this.filterUsers(userDtoList, id);
     }
 
     public List<UserDto> getUserSubordinates1(List<User> user) {
-//        return user.stream().map(this::transform).collect(Collectors.toList());
        return user.stream().map(this::transform).collect(Collectors.toList());
-    }
-
-    public UserDto transform(User user){
-        UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
-        userDto.setName(user.getName());
-        userDto.setMail(user.getMail());
-        userDto.setUserType(user.getType());
-        return userDto;
     }
 
     public List<UserDto> filterUsers(List<UserDto> listDTO, long id){

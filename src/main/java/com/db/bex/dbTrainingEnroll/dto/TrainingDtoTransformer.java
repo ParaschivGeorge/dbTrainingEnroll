@@ -26,16 +26,18 @@ public class TrainingDtoTransformer {
     }
 
     public TrainingDto transform(Training training){
-        TrainingDto trainingDto = new TrainingDto();
-        trainingDto.setId(training.getId());
-        trainingDto.setName(training.getName());
-        trainingDto.setTechnology(training.getTechnology());
-        trainingDto.setCategoryType(training.getCategory());
-        dateSetter(training, trainingDto);
 
-        trainingDto.setAcceptedUsers(enrollmentRepository.countAcceptedUsers(training.getId()).toString());
+       TrainingDto trainingDto = TrainingDto.builder()
+                .id(training.getId())
+                .name(training.getName())
+                .technology(training.getTechnology())
+                .categoryType(training.getCategory())
+                .acceptedUsers(enrollmentRepository.countAcceptedUsers(training.getId()).toString())
+                .build();
 
-        return trainingDto;
+       dateSetter(training, trainingDto);
+
+       return trainingDto;
     }
 
     private void dateSetter(Training training, TrainingDto trainingDto) {
