@@ -4,17 +4,16 @@ import com.db.bex.dbTrainingEnroll.dto.EmailDto;
 import com.db.bex.dbTrainingEnroll.dto.TrainingDto;
 import com.db.bex.dbTrainingEnroll.service.TrainingService;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 public class TrainingController {
 
+    private TrainingService trainingService;
+
     public TrainingController(TrainingService trainingService) {
         this.trainingService = trainingService;
     }
-
-    private TrainingService trainingService;
 
     @GetMapping("/trainings")
     public List<TrainingDto> getTrainings(){

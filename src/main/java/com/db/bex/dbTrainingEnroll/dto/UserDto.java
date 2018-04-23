@@ -1,6 +1,5 @@
 package com.db.bex.dbTrainingEnroll.dto;
 
-import com.db.bex.dbTrainingEnroll.entity.User;
 import com.db.bex.dbTrainingEnroll.entity.UserType;
 import lombok.*;
 

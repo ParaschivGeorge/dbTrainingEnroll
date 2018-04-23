@@ -10,14 +10,16 @@ import com.db.bex.dbTrainingEnroll.entity.EnrollmentStatusType;
 import com.db.bex.dbTrainingEnroll.entity.User;
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
 import com.db.bex.dbTrainingEnroll.entity.UserType;
+import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class UserService {
 
     private UserRepository userRepository;
@@ -25,19 +27,15 @@ public class UserService {
     private EnrollmentRepository enrollmentRepository;
     private TrainingRepository trainingRepository;
 
-    public UserService(UserRepository userRepository, UserDtoTransformer userDtoTransformer, EnrollmentRepository enrollmentRepository, TrainingRepository trainingRepository) {
-        this.userRepository = userRepository;
-        this.userDtoTransformer = userDtoTransformer;
-        this.enrollmentRepository = enrollmentRepository;
-        this.trainingRepository = trainingRepository;
-    }
+    public List<UserDto> findSubordinates(String email, Long trainingId) throws MissingDataException {
 
-    public List<UserDto> findSubordinates(String email, long trainingId){
+        if(email == null || trainingId == null) {
+            throw new MissingDataException("Email or id is null");
+        }
         List<UserDto> userDtoList = new ArrayList<>();
         List<User> users = userRepository.findAllByManagerId(userRepository.findByMail(email).getId());
         if (users == null)
-            return null;
-        System.out.println(users);
+            throw new MissingDataException("Email or id is null");
         for (User user : users) {
             List<Enrollment> enrollments = enrollmentRepository.findAllByUserIdAndTrainingId(user.getId(), trainingId);
             System.out.println(user.getMail());
@@ -49,44 +47,61 @@ public class UserService {
         return userDtoList;
     }
 
-    public List<UserDto> findPendingUsers(Long idTraining, String email) {
+    public List<UserDto> findPendingUsers(Long idTraining, String email) throws MissingDataException {
 
         Long idPm = userRepository.findByMail(email).getId();
 
+        if(idPm == null) {
+            throw new MissingDataException("Email does not exist");
+        }
+
         return userDtoTransformer.getUserSubordinates1(userRepository.findPendingUsers(idTraining, idPm));
+
     }
 
-    public void savePendingSubordinates(long idTraining, List<String> emails){
+    public void savePendingSubordinates(Long idTraining, List<String> emails) throws MissingDataException {
+
+        if(idTraining == null || emails == null) {
+            throw new MissingDataException("Id or email is null");
+        }
+
         for(String s:emails) {
-            if((enrollmentRepository
-                    .findByUserIdAndTrainingId(userRepository.findByMail(s).getId(),idTraining) != null))
-//                    || (enrollmentRepository.findByTrainingId(idTraining) == null))
-                return;
+            if((enrollmentRepository.findByUserIdAndTrainingId(userRepository.findByMail(s).getId(),idTraining) != null))
+                throw new MissingDataException("User does not exist");
             else {
                 Enrollment enrollment = new Enrollment();
                 enrollment.setStatus(EnrollmentStatusType.PENDING);
-                enrollment.setTraining(trainingRepository.findById(idTraining));
+                enrollment.setTraining(trainingRepository.findById(idTraining).get());
                 enrollment.setUser(userRepository.findByMail(s));
                 enrollmentRepository.save(enrollment);
             }
         }
     }
 
-    public void saveSubordinatesStatus(String emailUser, Long idTraining, Long status) {
+    public void saveSubordinatesStatus(String emailUser, Long idTraining, Long status) throws MissingDataException {
 
-        Long id = userRepository.findByMail(emailUser).getId();
-
-        Enrollment enrollment = enrollmentRepository.findByUserIdAndTrainingId(id, idTraining);
-
-        if (enrollment != null) {
-            if (status == 1) {
-                enrollment.setStatus(EnrollmentStatusType.ACCEPTED);
-                enrollmentRepository.save(enrollment);
-            }
-
-            if (status == 0)
-                enrollmentRepository.delete(enrollment);
+        if(emailUser == null || idTraining == null || status == null) {
+            throw new MissingDataException("Email, status or id is null");
         }
+
+        User user = userRepository.findByMail(emailUser);
+
+        if(user == null)
+            throw new MissingDataException("User does not exist");
+
+        Enrollment enrollment = enrollmentRepository.findByUserIdAndTrainingId(user.getId(), idTraining);
+
+        if(enrollment == null) {
+            throw new MissingDataException("Email does not exist!");
+        }
+
+        if (status == 1) {
+            enrollment.setStatus(EnrollmentStatusType.ACCEPTED);
+            enrollmentRepository.save(enrollment);
+        }
+
+        if (status == 0)
+            enrollmentRepository.delete(enrollment);
     }
 
     public UserDto getUserData (EmailDto emailDto) {
