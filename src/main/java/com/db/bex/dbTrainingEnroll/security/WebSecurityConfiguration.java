@@ -74,18 +74,24 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers("/dummy").authenticated()
                     .antMatchers("/dummypost").authenticated()
                     .antMatchers("/getUserType").authenticated()
+
+                // TODO: for master
                     .antMatchers("/crapa").hasAuthority(UserType.MANAGER.name())
-//                    .antMatchers("/pendingTrainings").hasAuthority(UserType.PM.name())
-//                    .antMatchers("/pendingUsers").hasAuthority(UserType.PM.name())
-//                    .antMatchers("/approveList").hasAuthority(UserType.PM.name())
-//                    .antMatchers("/subordinates").hasAuthority(UserType.MANAGER.name())
-//                    .antMatchers("/subordinatesResult").hasAuthority(UserType.MANAGER.name())
+                    .antMatchers("/pendingTrainings").hasAuthority(UserType.PM.name())
+                    .antMatchers("/pendingUsers").hasAuthority(UserType.PM.name())
+                    .antMatchers("/approveList").hasAuthority(UserType.PM.name())
+                    .antMatchers("/subordinates").hasAuthority(UserType.MANAGER.name())
+                    .antMatchers("/subordinatesResult").hasAuthority(UserType.MANAGER.name())
+
+                // TODO: for local testing
 //                    .antMatchers("/crapa").permitAll()
-                    .antMatchers("/pendingTrainings").permitAll()
-                    .antMatchers("/pendingUsers").permitAll()
-                    .antMatchers("/approveList").permitAll()
-                    .antMatchers("/subordinates").permitAll()
-                    .antMatchers("/subordinatesResult").permitAll()
+//                    .antMatchers("/pendingTrainings").permitAll()
+////                    .antMatchers("/pendingUsers").permitAll()
+////                    .antMatchers("/approveList").permitAll()
+////                    .antMatchers("/subordinates").permitAll()
+////                    .antMatchers("/subordinatesResult").permitAll()
+
+
                 // this should be set later, only for testing
 //                    .antMatchers(HttpMethod.GET, "/**").permitAll()
 //                    .antMatchers(HttpMethod.POST, "/**").permitAll()
@@ -115,56 +121,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .ignoring()
                 .antMatchers(
                         HttpMethod.POST,
-                        authenticationPath,
-                        "/",
-                        "/trainings",
-                        "/register",
-                        "/pendingTrainings",
-                        "/approveList",
-                        "/subordinates",
-                        "/subordinatesResult"
-                )
-
-                .and()
-                .ignoring()
-                .antMatchers(
-                        HttpMethod.OPTIONS,
-                        authenticationPath,
-                        "/",
-                        "/trainings",
-                        "/register",
-                        "/pendingTrainings",
-                        "/approveList",
-                        "/subordinates",
-                        "/subordinatesResult"
-                )
-
-                .and()
-                .ignoring()
-                .antMatchers(
-                        HttpMethod.DELETE,
-                        authenticationPath,
-                        "/",
-                        "/trainings",
-                        "/register",
-                        "/pendingTrainings",
-                        "/approveList",
-                        "/subordinates",
-                        "/subordinatesResult"
-                )
-
-                .and()
-                .ignoring()
-                .antMatchers(
-                        HttpMethod.PUT,
-                        authenticationPath,
-                        "/",
-                        "/trainings",
-                        "/register",
-                        "/pendingTrainings",
-                        "/approveList",
-                        "/subordinates",
-                        "/subordinatesResult"
+                        authenticationPath
                 )
 
                 // allow anonymous resource requests
@@ -173,12 +130,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         HttpMethod.GET,
                         "/",
-                        "/trainings",
-                        "/register",
-                        "/pendingTrainings",
-                        "/approveList",
-                        "/subordinates",
-                        "/subordinatesResult"
+                        "/trainings"
                 );
     }
 }
