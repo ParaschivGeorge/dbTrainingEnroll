@@ -87,6 +87,10 @@ public class UserService {
         }
     }
 
+    public UserType getUserType(Long id) {
+        return userRepository.getOne(id).getType();
+    }
+
     // for test only
     public void addUser() {
         User user = new User();

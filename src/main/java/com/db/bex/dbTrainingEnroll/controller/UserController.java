@@ -3,6 +3,7 @@ package com.db.bex.dbTrainingEnroll.controller;
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
 import com.db.bex.dbTrainingEnroll.dto.*;
 import com.db.bex.dbTrainingEnroll.entity.Training;
+import com.db.bex.dbTrainingEnroll.entity.UserType;
 import com.db.bex.dbTrainingEnroll.service.EmailService;
 import com.db.bex.dbTrainingEnroll.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -77,6 +78,11 @@ public class UserController {
             userService.saveSubordinatesStatus(mailUser, idTraining, status);
         }
 
+    }
+
+    @PostMapping("/getUserType")
+    public UserType getUserType(@RequestBody Long id) {
+        return userService.getUserType(id);
     }
 
     @GetMapping("/crapa")
