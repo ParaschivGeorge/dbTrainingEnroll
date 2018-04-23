@@ -2,6 +2,7 @@ package com.db.bex.dbTrainingEnroll.service;
 
 import com.db.bex.dbTrainingEnroll.dao.EnrollmentRepository;
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
+import com.db.bex.dbTrainingEnroll.dto.EmailDto;
 import com.db.bex.dbTrainingEnroll.dto.UserDto;
 import com.db.bex.dbTrainingEnroll.dto.UserDtoTransformer;
 import com.db.bex.dbTrainingEnroll.entity.Enrollment;
@@ -88,8 +89,9 @@ public class UserService {
         }
     }
 
-    public UserType getUserType(Long id) {
-        return userRepository.getOne(id).getType();
+    public UserDto getUserData (EmailDto emailDto) {
+        UserDtoTransformer userDtoTransformer = new UserDtoTransformer();
+        return  userDtoTransformer.transform(userRepository.findByMail(emailDto.getEmail()));
     }
 
     // for test only

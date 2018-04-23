@@ -14,6 +14,9 @@ import java.util.stream.Collectors;
 @Component
 public class UserDtoTransformer {
 
+    public UserDtoTransformer() {
+    }
+
     public UserDtoTransformer(UserRepository userRepository, TrainingRepository trainingRepository, EnrollmentRepository enrollmentRepository) {
         this.userRepository = userRepository;
         this.trainingRepository = trainingRepository;
@@ -39,7 +42,7 @@ public class UserDtoTransformer {
 
     public UserDto transform(User user){
         UserDto userDto = new UserDto();
-        userDto.setId(user.getId());
+//        userDto.setId(user.getId());
         userDto.setName(user.getName());
         userDto.setMail(user.getMail());
         userDto.setUserType(user.getType());

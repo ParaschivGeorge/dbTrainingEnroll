@@ -80,9 +80,9 @@ public class UserController {
 
     }
 
-    @PostMapping("/getUserType")
-    public UserType getUserType(@RequestBody Long id) {
-        return userService.getUserType(id);
+    @PostMapping("/getUserData")
+    public UserDto getUserData(@RequestBody EmailDto emailDto) {
+        return userService.getUserData(emailDto);
     }
 
     @GetMapping("/crapa")

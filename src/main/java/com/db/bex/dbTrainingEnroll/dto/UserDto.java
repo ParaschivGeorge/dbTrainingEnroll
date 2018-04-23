@@ -5,7 +5,7 @@ import com.db.bex.dbTrainingEnroll.entity.UserType;
 
 public class UserDto {
 
-    private long id;
+//    private long id;
     private String name;
     private String mail;
     private UserType userType;
@@ -21,13 +21,13 @@ public class UserDto {
     }
 //    private Set<Enrollment> enrollments;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
+//    public long getId() {
+//        return id;
+//    }
+//
+//    public void setId(long id) {
+//        this.id = id;
+//    }
 
     public String getName() {
         return name;
