@@ -77,19 +77,19 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                    .antMatchers("/auth/**").permitAll()
-                    .antMatchers("/trainings").permitAll()
-                    .antMatchers("/dummy").authenticated()
-                    .antMatchers("/dummypost").authenticated()
-                    .antMatchers("/getUserType").authenticated()
+                    .antMatchers(HttpMethod.POST,"/auth/**").permitAll()
+                    .antMatchers(HttpMethod.GET,"/trainings").permitAll()
+                    .antMatchers(HttpMethod.GET,"/dummy").authenticated()
+                    .antMatchers(HttpMethod.POST,"/dummypost").authenticated()
+                    .antMatchers(HttpMethod.POST,"/getUserType").authenticated()
 
                 // TODO: for master
-                    .antMatchers("/crapa").hasAuthority(UserType.MANAGER.name())
-                    .antMatchers("/pendingTrainings").hasAuthority(UserType.PM.name())
-                    .antMatchers("/pendingUsers").hasAuthority(UserType.PM.name())
-                    .antMatchers("/approveList").hasAuthority(UserType.PM.name())
-                    .antMatchers("/subordinates").hasAuthority(UserType.MANAGER.name())
-                    .antMatchers("/subordinatesResult").hasAuthority(UserType.MANAGER.name())
+                    .antMatchers(HttpMethod.GET,"/crapa").hasAuthority(UserType.MANAGER.name())
+                    .antMatchers(HttpMethod.POST,"/pendingTrainings").hasAuthority(UserType.PM.name())
+                    .antMatchers(HttpMethod.POST,"/pendingUsers").hasAuthority(UserType.PM.name())
+                    .antMatchers(HttpMethod.POST,"/approveList").hasAuthority(UserType.PM.name())
+                    .antMatchers(HttpMethod.POST,"/subordinates").hasAuthority(UserType.MANAGER.name())
+                    .antMatchers(HttpMethod.POST,"/subordinatesResult").hasAuthority(UserType.MANAGER.name())
 
                 // TODO: for local testing
 //                    .antMatchers("/crapa").permitAll()
@@ -126,13 +126,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         final CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Arrays.asList("HEAD",
-                "GET", "POST", "PUT", "DELETE", "PATCH"));
+                "GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         // setAllowCredentials(true) is important, otherwise:
         // The value of the 'Access-Control-Allow-Origin' header in the response must not be the wildcard '*' when the request's credentials mode is 'include'.
         configuration.setAllowCredentials(true);
         // setAllowedHeaders is important! Without it, OPTIONS preflight request
         // will fail with 403 Invalid CORS request
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+        configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token", "cache-ontrol"));
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
