@@ -2,6 +2,7 @@ package com.db.bex.dbTrainingEnroll.dao;
 
 import com.db.bex.dbTrainingEnroll.entity.Enrollment;
 import com.db.bex.dbTrainingEnroll.entity.Training;
+import com.db.bex.dbTrainingEnroll.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,5 +26,9 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
     Enrollment findByUserIdAndTrainingId(Long user_id, Long training_id);
     Enrollment findByTrainingId(Long training_id);
 
+    @Query("select u.mail from Enrollment e join e.user u" +
+            " where u.manager.id =?1" +
+            " and e.status = 'ACCEPTED' and e.training.id =?2")
+    List<String> findApprovedSubordinatesAtTrainingId(Long idManager, Long idTraining);
 }
 

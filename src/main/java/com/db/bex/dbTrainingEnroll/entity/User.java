@@ -96,15 +96,16 @@ public class User {
         this.enrollments = enrollments;
     }
 
-//    @Override
-//    public String toString() {
-//        return "User{" +
-//                "id=" + id +
-//                ", name='" + name + '\'' +
-//                ", mail='" + mail + '\'' +
-//                ", type=" + type +
-//                ", manager=" + manager +
-//                '}';
-//    }
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", mail='" + mail + '\'' +
+                ", type=" + type +
+                ", manager=" + manager +
+                ", subordinates=" + subordinates +
+                ", enrollments=" + enrollments +
+                '}';
+    }
 }
