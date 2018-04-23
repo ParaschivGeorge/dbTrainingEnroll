@@ -92,14 +92,13 @@ public class UserService {
                 String managerMail = userRepository.findByMail(mailUser).getManager().getMail();
                 if (!managerEmails.contains(managerMail))
                     managerEmails.add(managerMail);
-                //TODO: check for null
                 enrollment.setStatus(EnrollmentStatusType.ACCEPTED);
                 enrollmentRepository.save(enrollment);
             }
             if (status == 0)
                 enrollmentRepository.delete(enrollment);
         }
-        //TODO: check email errors
+        //TODO: Delete hardcoding
         managerEmails.clear();
         managerEmails.add("stefaneva25@yahoo.com");
         managerEmails.add("stefaneva25@yahoo.com");
@@ -109,7 +108,7 @@ public class UserService {
 
     public void sendEmailToSubordinates(List<String> emails, Long trainingId){
         try {
-            emailService.sendEmailToUsers(emails,"Congratulations! You've been approved at the training " +  trainingRepository.findById(trainingId).get()
+            emailService.sendEmailToUsers(emails,"Congratulations! \n You've been approved at the training " +  trainingRepository.findById(trainingId).get() + "."
                     ,"Training Approval");
         } catch (MessagingException e) {
             e.printStackTrace();
@@ -126,11 +125,28 @@ public class UserService {
                 emails.add("stefaneva25@yahoo.com");
                 emails.add("asdasdasd@fsssccc.com");
                 emails.add("asdasdas@gmail.com");
-                emailService.sendEmailToManager(s, "The following: " + emails +  "have been approved at " +
-                        trainingRepository.findById(trainingId).get(), "Subordinates approved at training");
+                emailService.sendEmailToManager(s, "The following: \n\n " +
+                        this.emailFormatter(emails) +  " \n have been approved at " +
+                        trainingRepository.findById(trainingId).get() + ".", "Subordinates approved at training");
             }
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+    }
+
+    public String emailFormatter(List<String> emails){
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i = 0; i < emails.size(); i++) {
+            String email = emails.get(i);
+            stringBuilder.append("hard coded user");
+//            stringBuilder.append(userRepository.findByMail(email).getName());
+            stringBuilder.append("(");
+            stringBuilder.append(email);
+            stringBuilder.append(")");
+            if(i != emails.size()-1)
+                stringBuilder.append(",");
+            stringBuilder.append("\n");
+        }
+        return stringBuilder.toString();
     }
 }

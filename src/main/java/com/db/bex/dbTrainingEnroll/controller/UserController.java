@@ -47,12 +47,12 @@ public class UserController {
     @PostMapping("/subordinatesResult")
     public void saveSubordinates(@RequestBody ManagerResponseDto managerResponseDto) {
         //TODO : Remove Recommender from method and make separate method, uncomment functionality
-//        Long trainingId = managerResponseDto.getTrainingId();
-//        List<String> emails = managerResponseDto.getEmails();
-//        System.out.println(trainingId);
-//        if(trainingId !=null && emails.size() > 0)
-//            userService.savePendingSubordinates(trainingId, emails);
-        Recommender recommender = new Recommender(trainingRepository);
+        Long trainingId = managerResponseDto.getTrainingId();
+        List<String> emails = managerResponseDto.getEmails();
+        System.out.println(trainingId);
+        if(trainingId !=null && emails.size() > 0)
+            userService.savePendingSubordinates(trainingId, emails);
+//        Recommender recommender = new Recommender(trainingRepository);
     }
 
     @PostMapping("/approveList")
