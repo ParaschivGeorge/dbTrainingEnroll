@@ -71,8 +71,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http
-                .cors().
-                and()
+                .cors()
+                .and()
 //                .csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
@@ -138,24 +138,24 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         return source;
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        // AuthenticationTokenFilter will ignore the below paths
-        // leave only / trainings and auth after frontend login complete
-        web
-                .ignoring()
-                .antMatchers(
-                        HttpMethod.POST,
-                        authenticationPath
-                )
-
-                // allow anonymous resource requests
-                .and()
-                .ignoring()
-                .antMatchers(
-                        HttpMethod.GET,
-                        "/",
-                        "/trainings"
-                );
-    }
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        // AuthenticationTokenFilter will ignore the below paths
+//        // leave only / trainings and auth after frontend login complete
+//        web
+//                .ignoring()
+//                .antMatchers(
+//                        HttpMethod.POST,
+//                        authenticationPath
+//                )
+//
+//                // allow anonymous resource requests
+//                .and()
+//                .ignoring()
+//                .antMatchers(
+//                        HttpMethod.GET,
+//                        "/",
+//                        "/trainings"
+//                );
+//    }
 }
