@@ -94,13 +94,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 // TODO: for local testing
 //                    .antMatchers("/crapa").permitAll()
 //                    .antMatchers("/pendingTrainings").permitAll()
-////                    .antMatchers("/pendingUsers").permitAll()
-////                    .antMatchers("/approveList").permitAll()
-////                    .antMatchers("/subordinates").permitAll()
-////                    .antMatchers("/subordinatesResult").permitAll()
-
-
-                // this should be set later, only for testing
+//                    .antMatchers("/pendingUsers").permitAll()
+//                    .antMatchers("/approveList").permitAll()
+//                    .antMatchers("/subordinates").permitAll()
+//                    .antMatchers("/subordinatesResult").permitAll()
+//                    .antMatchers("/recommend").permitAll()
+//
+//
+////                 this should be set later, only for testing
 //                    .antMatchers(HttpMethod.GET, "/**").permitAll()
 //                    .antMatchers(HttpMethod.POST, "/**").permitAll()
 //                    .antMatchers(HttpMethod.PUT, "/**").permitAll()

@@ -2,15 +2,10 @@ package com.db.bex.dbTrainingEnroll.service;
 
 import com.db.bex.dbTrainingEnroll.dao.EnrollmentRepository;
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
-import com.db.bex.dbTrainingEnroll.dto.EmailDto;
-import com.db.bex.dbTrainingEnroll.dto.UserDto;
-import com.db.bex.dbTrainingEnroll.dto.UserDtoTransformer;
-import com.db.bex.dbTrainingEnroll.dto.UserStatusDto;
-import com.db.bex.dbTrainingEnroll.entity.Enrollment;
-import com.db.bex.dbTrainingEnroll.entity.EnrollmentStatusType;
-import com.db.bex.dbTrainingEnroll.entity.User;
+import com.db.bex.dbTrainingEnroll.dto.*;
+import com.db.bex.dbTrainingEnroll.entity.*;
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
-import com.db.bex.dbTrainingEnroll.entity.UserType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
@@ -27,6 +22,8 @@ public class UserService {
     private EnrollmentRepository enrollmentRepository;
     private TrainingRepository trainingRepository;
     private EmailService emailService;
+    @Autowired
+    private TrainingDtoTransformer trainingDtoTransformer;
 
     public UserService(UserRepository userRepository, UserDtoTransformer userDtoTransformer,
                        EnrollmentRepository enrollmentRepository, TrainingRepository trainingRepository, EmailService emailService) {
@@ -168,5 +165,16 @@ public class UserService {
             stringBuilder.append("\n");
         }
         return stringBuilder.toString();
+    }
+
+    public List<TrainingDto> findRecommendedTrainings(List<Long> trainingsId){
+        List<Training> trainings = null;
+        if(!trainingsId.isEmpty())
+        {
+            trainings = new ArrayList<>();
+            for(Long i : trainingsId)
+                trainings.add(trainingRepository.findById(i).get());
+        }
+        return trainingDtoTransformer.getTrainings(trainings);
     }
 }
