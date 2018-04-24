@@ -5,6 +5,8 @@ import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
 import com.db.bex.dbTrainingEnroll.dto.*;
 import com.db.bex.dbTrainingEnroll.entity.*;
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.db.bex.dbTrainingEnroll.entity.UserType;
 import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ public class UserService {
     private EnrollmentRepository enrollmentRepository;
     private TrainingRepository trainingRepository;
     private EmailService emailService;
+    @Autowired
+    private TrainingDtoTransformer trainingDtoTransformer;
 
     public UserService(UserRepository userRepository, UserDtoTransformer userDtoTransformer,
                        EnrollmentRepository enrollmentRepository, TrainingRepository trainingRepository, EmailService emailService) {
@@ -111,7 +115,11 @@ public class UserService {
 
     public UserDto getUserData (EmailDto emailDto) {
         UserDtoTransformer userDtoTransformer = new UserDtoTransformer();
-        return  userDtoTransformer.transform(userRepository.findByMail(emailDto.getEmail()));
+        User user = userRepository.findByMail(emailDto.getEmail());
+        user.setLastLoginDate(user.getCurrentLoginDate());
+        user.setCurrentLoginDate(new Date());
+        userRepository.save(user);
+        return userDtoTransformer.transform(user);
     }
 
     // for test only
@@ -240,4 +248,14 @@ public class UserService {
          return userDtoTransformer.getUserSubordinates1(userRepository.findUsersSelfEnrolled(idManager, id));
     }
 
+    public List<TrainingDto> findRecommendedTrainings(List<Long> trainingsId){
+        List<Training> trainings = null;
+        if(!trainingsId.isEmpty())
+        {
+            trainings = new ArrayList<>();
+            for(Long i : trainingsId)
+                trainings.add(trainingRepository.findById(i).get());
+        }
+        return trainingDtoTransformer.getTrainings(trainings);
+    }
 }

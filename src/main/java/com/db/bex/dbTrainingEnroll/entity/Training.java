@@ -41,4 +41,8 @@ public class Training {
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Enrollment> enrollments;
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -12,30 +12,44 @@ import org.apache.mahout.cf.taste.model.DataModel;
 import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.apache.mahout.cf.taste.similarity.ItemSimilarity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.apache.mahout.cf.taste.impl.model.jdbc.MySQLJDBCDataModel;
 
+import javax.sql.DataSource;
+import javax.xml.crypto.Data;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-@Component
 public class Recommender {
 
-    public Recommender(TrainingRepository trainingRepository)
-    {
+    private TrainingRepository trainingRepository;
+    private DataSource dataSource;
+
+    public Recommender(TrainingRepository trainingRepository, DataSource dataSource) {
+        this.trainingRepository = trainingRepository;
+        this.dataSource = dataSource;
+    }
+
+    public List<Long> recommendTraining(Long idUser, int itemsRecommended){
+        List<Long> list = null;
         try {
-            DataModel model = new FileDataModel(new File("E:\\date1.csv"));
+            list = new ArrayList<>();
+            DataModel model = new MySQLJDBCDataModel(dataSource,"preferences","user_id",
+                    "training_id","preference",null);
 //            ItemSimilarity similarity = new PearsonCorrelationSimilarity(model);
             ItemSimilarity similarity = new LogLikelihoodSimilarity(model);
             GenericItemBasedRecommender recommender = new GenericItemBasedRecommender(model, similarity);
             CachingRecommender recommender1 = new CachingRecommender(recommender);
-            List<RecommendedItem> recommendedItemList = recommender1.recommend(4,2);
+            List<RecommendedItem> recommendedItemList = recommender1.recommend(idUser,itemsRecommended);
             for(RecommendedItem i : recommendedItemList)
-                System.out.println(trainingRepository.findById(i.getItemID()));
-        } catch (IOException e) {
-            e.printStackTrace();
+                list.add(i.getItemID());
+//                System.out.println(trainingRepository.findById(i.getItemID()));
         } catch (TasteException e) {
             e.printStackTrace();
         }
+        return list;
     }
 }
