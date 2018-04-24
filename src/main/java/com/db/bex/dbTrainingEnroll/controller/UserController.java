@@ -47,7 +47,7 @@ public class UserController {
     }
 
     @PostMapping("/approveList")
-    public void postUserStatus(@RequestBody List<UserStatusDto> userStatusDto) {
+    public void postUserStatus(@RequestBody List<UserStatusDto> userStatusDto) throws MissingDataException {
         //TODO : Enable email functionality, eliminate hard coding
         userService.saveSubordinatesStatusAndSendEmail(userStatusDto);
     }

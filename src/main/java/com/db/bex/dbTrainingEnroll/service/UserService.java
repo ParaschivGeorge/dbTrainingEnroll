@@ -12,6 +12,7 @@ import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.MissingFormatArgumentException;
 
 @Service
 public class UserService {
@@ -127,10 +128,11 @@ public class UserService {
         userRepository.saveAndFlush(user);
     }
 
-    public void saveSubordinatesStatusAndSendEmail(List<UserStatusDto> userStatusDtos){
+    public void saveSubordinatesStatusAndSendEmail(List<UserStatusDto> userStatusDtos) throws MissingDataException {
         List<String> userEmails = new ArrayList<>();
         List<String> managerEmails = new ArrayList<>();
         Long trainingId = userStatusDtos.get(0).getIdTraining();
+
         for(UserStatusDto u : userStatusDtos) {
             String mailUser = u.getMailUser();
             Long idTraining = u.getIdTraining();
@@ -138,6 +140,9 @@ public class UserService {
             Long id = userRepository.findByMail(mailUser).getId();
 
             Enrollment enrollment = enrollmentRepository.findByUserIdAndTrainingId(id, idTraining);
+
+            if( enrollment == null)
+                throw new MissingDataException("Error");
 
             if (status == 1) {
                 userEmails.add(mailUser);
@@ -150,6 +155,7 @@ public class UserService {
             if (status == 0)
                 enrollmentRepository.delete(enrollment);
         }
+
         //TODO: Delete hardcoding
         managerEmails.clear();
         managerEmails.add("stefaneva25@yahoo.com");
