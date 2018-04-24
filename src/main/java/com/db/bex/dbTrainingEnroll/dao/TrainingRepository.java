@@ -28,9 +28,12 @@ public interface TrainingRepository extends JpaRepository<Training, Long> {
             "where e.status = 'ACCEPTED' and t.category = 'TECHNICAL'")
     Integer countAcceptedTechTraining();
 
-//    @Query("SELECT distinct e.t.technology, count(e.enrollment_id) FROM Enrollment e " +
-//            "JOIN e.training t " +
-//            "WHERE t.category = ?1 and e.status = 'ACCEPTED' " +
-//            "GROUP BY e.t.technology")
-//    PopularityDto countAcceptedTrainingsForEachTechnology(TrainingCategoryType trainingCategoryType);
+    @Query("SELECT new com.db.bex.dbTrainingEnroll.dto.PopularityDto(" +
+                    "t.technology, " +
+                    "count(e.id)) " +
+            "FROM Enrollment e " +
+            "JOIN e.training t " +
+            "WHERE t.category = ?1 and e.status = 'ACCEPTED' " +
+            "GROUP BY t.technology")
+    List<PopularityDto> countAcceptedTrainingsForEachTechnology(TrainingCategoryType trainingCategoryType);
 }

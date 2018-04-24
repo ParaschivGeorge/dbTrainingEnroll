@@ -4,11 +4,12 @@ import lombok.*;
 
 @Getter
 @Setter
-@AllArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class PopularityDto {
 
-    private String[] technologies;
-    private Integer[] noAttendees;
+    private String technology;
+    private Long attendees;
+
 }

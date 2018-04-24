@@ -36,9 +36,9 @@ public class TrainingController {
         return trainingService.countAcceptedTechTrainings();
     }
 
-//    @GetMapping("/topDeTop")
-//    public PopularityDto getTopTop() {
-//        return trainingService.countTopAttendees();
-//    }
+    @GetMapping("/topDeTop")
+    public List<PopularityDto> getTopTop() {
+        return trainingService.countTopAttendees();
+    }
 
 }

@@ -7,11 +7,13 @@ import com.db.bex.dbTrainingEnroll.dto.EmailDto;
 import com.db.bex.dbTrainingEnroll.dto.PopularityDto;
 import com.db.bex.dbTrainingEnroll.dto.TrainingDto;
 import com.db.bex.dbTrainingEnroll.dto.TrainingDtoTransformer;
+import com.db.bex.dbTrainingEnroll.entity.Training;
 import com.db.bex.dbTrainingEnroll.entity.TrainingCategoryType;
 import com.db.bex.dbTrainingEnroll.entity.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -60,8 +62,8 @@ public class TrainingService {
         return techReport;
     }
 
-//    public PopularityDto countTopAttendees() {
-////        return trainingRepository.countAcceptedTrainingsForEachTechnology(TrainingCategoryType.TECHNICAL);
-//        return null;
-//    }
+    public List<PopularityDto> countTopAttendees() {
+        return trainingRepository.countAcceptedTrainingsForEachTechnology(TrainingCategoryType.TECHNICAL);
+
+    }
 }
