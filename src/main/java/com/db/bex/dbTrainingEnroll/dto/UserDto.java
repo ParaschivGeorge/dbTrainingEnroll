@@ -1,6 +1,5 @@
 package com.db.bex.dbTrainingEnroll.dto;
 
-import com.db.bex.dbTrainingEnroll.entity.User;
 import com.db.bex.dbTrainingEnroll.entity.UserType;
 import lombok.*;
 
@@ -13,4 +12,5 @@ public class UserDto {
     private String name;
     private String mail;
     private UserType userType;
+    private String lastLoginDate;
 }

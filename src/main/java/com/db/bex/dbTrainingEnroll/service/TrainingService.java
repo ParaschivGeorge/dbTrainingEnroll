@@ -8,20 +8,15 @@ import com.db.bex.dbTrainingEnroll.dto.TrainingDto;
 import com.db.bex.dbTrainingEnroll.dto.TrainingDtoTransformer;
 import com.db.bex.dbTrainingEnroll.entity.Training;
 import com.db.bex.dbTrainingEnroll.entity.User;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class TrainingService {
-
-    public TrainingService(UserRepository userRepository, TrainingDtoTransformer trainingDtoTransformer, EnrollmentRepository enrollmentRepository, TrainingRepository trainingRepository) {
-        this.trainingDtoTransformer = trainingDtoTransformer;
-        this.enrollmentRepository = enrollmentRepository;
-        this.trainingRepository = trainingRepository;
-        this.userRepository = userRepository;
-    }
 
     private TrainingDtoTransformer trainingDtoTransformer;
     private UserRepository userRepository;
@@ -29,10 +24,18 @@ public class TrainingService {
     private TrainingRepository trainingRepository;
 
     public List<TrainingDto> findPendingTrainings(EmailDto email) {
+
+        if(email == null) {
+            throw new NullPointerException("Email is null");
+        }
+
         User user = userRepository.findByMail(email.getEmail());
         if (user == null)
             return null;
-        long id = user.getId();
+        Long id = user.getId();
+        if(id == null) {
+            throw new NullPointerException("Email does not exist");
+        }
         return trainingDtoTransformer.getTrainings(enrollmentRepository.findTrainingsThatHavePendingParticipants(id));
     }
 

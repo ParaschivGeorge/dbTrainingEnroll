@@ -6,13 +6,14 @@ import com.db.bex.dbTrainingEnroll.dto.*;
 import com.db.bex.dbTrainingEnroll.entity.*;
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.db.bex.dbTrainingEnroll.entity.UserType;
+import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -34,12 +35,15 @@ public class UserService {
         this.emailService = emailService;
     }
 
-    public List<UserDto> findSubordinates(String email, long trainingId){
+    public List<UserDto> findSubordinates(String email, Long trainingId) throws MissingDataException {
+
+        if(email == null || trainingId == null) {
+            throw new MissingDataException("Email or id is null");
+        }
         List<UserDto> userDtoList = new ArrayList<>();
         List<User> users = userRepository.findAllByManagerId(userRepository.findByMail(email).getId());
         if (users == null)
-            return null;
-        System.out.println(users);
+            throw new MissingDataException("Email or id is null");
         for (User user : users) {
             List<Enrollment> enrollments = enrollmentRepository.findAllByUserIdAndTrainingId(user.getId(), trainingId);
             System.out.println(user.getMail());
@@ -51,18 +55,27 @@ public class UserService {
         return userDtoList;
     }
 
-    public List<UserDto> findPendingUsers(Long idTraining, String email) {
+    public List<UserDto> findPendingUsers(Long idTraining, String email) throws MissingDataException {
 
         Long idPm = userRepository.findByMail(email).getId();
 
+        if(idPm == null) {
+            throw new MissingDataException("Email does not exist");
+        }
+
         return userDtoTransformer.getUserSubordinates1(userRepository.findPendingUsers(idTraining, idPm));
+
     }
 
-    public void savePendingSubordinates(Long idTraining, List<String> emails){
+    public void savePendingSubordinates(Long idTraining, List<String> emails) throws MissingDataException {
+
+        if(idTraining == null || emails == null) {
+            throw new MissingDataException("Id or email is null");
+        }
+
         for(String s:emails) {
-            if((enrollmentRepository
-                    .findByUserIdAndTrainingId(userRepository.findByMail(s).getId(),idTraining) != null))
-                return;
+            if((enrollmentRepository.findByUserIdAndTrainingId(userRepository.findByMail(s).getId(),idTraining) != null))
+                throw new MissingDataException("User does not exist");
             else {
                 Enrollment enrollment = new Enrollment();
                 enrollment.setStatus(EnrollmentStatusType.PENDING);
@@ -73,9 +86,39 @@ public class UserService {
         }
     }
 
+    public void saveSubordinatesStatus(String emailUser, Long idTraining, Long status) throws MissingDataException {
+
+        if(emailUser == null || idTraining == null || status == null) {
+            throw new MissingDataException("Email, status or id is null");
+        }
+
+        User user = userRepository.findByMail(emailUser);
+
+        if(user == null)
+            throw new MissingDataException("User does not exist");
+
+        Enrollment enrollment = enrollmentRepository.findByUserIdAndTrainingId(user.getId(), idTraining);
+
+        if(enrollment == null) {
+            throw new MissingDataException("Email does not exist!");
+        }
+
+        if (status == 1) {
+            enrollment.setStatus(EnrollmentStatusType.ACCEPTED);
+            enrollmentRepository.save(enrollment);
+        }
+
+        if (status == 0)
+            enrollmentRepository.delete(enrollment);
+    }
+
     public UserDto getUserData (EmailDto emailDto) {
         UserDtoTransformer userDtoTransformer = new UserDtoTransformer();
-        return  userDtoTransformer.transform(userRepository.findByMail(emailDto.getEmail()));
+        User user = userRepository.findByMail(emailDto.getEmail());
+        user.setLastLoginDate(user.getCurrentLoginDate());
+        user.setCurrentLoginDate(new Date());
+        userRepository.save(user);
+        return userDtoTransformer.transform(user);
     }
 
     // for test only

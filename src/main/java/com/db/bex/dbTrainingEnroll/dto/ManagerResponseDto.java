@@ -1,7 +1,6 @@
 package com.db.bex.dbTrainingEnroll.dto;
 
 import lombok.*;
-
 import java.util.List;
 
 @Getter

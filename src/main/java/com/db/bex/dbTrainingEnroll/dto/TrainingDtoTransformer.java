@@ -3,6 +3,7 @@ package com.db.bex.dbTrainingEnroll.dto;
 import com.db.bex.dbTrainingEnroll.dao.EnrollmentRepository;
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
 import com.db.bex.dbTrainingEnroll.entity.Training;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.text.DateFormat;
@@ -11,12 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@AllArgsConstructor
 public class TrainingDtoTransformer {
-
-    public TrainingDtoTransformer(TrainingRepository trainingRepository, EnrollmentRepository enrollmentRepository) {
-        this.trainingRepository = trainingRepository;
-        this.enrollmentRepository = enrollmentRepository;
-    }
 
     TrainingRepository trainingRepository;
     EnrollmentRepository enrollmentRepository;

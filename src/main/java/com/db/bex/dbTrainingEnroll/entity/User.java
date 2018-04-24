@@ -61,4 +61,10 @@ public class User {
     @JsonIgnore
     @OneToMany(mappedBy = "user")
     private Set<Enrollment> enrollments;
+
+    @JsonIgnore
+    private Date lastLoginDate;
+
+    @JsonIgnore
+    private Date currentLoginDate;
 }

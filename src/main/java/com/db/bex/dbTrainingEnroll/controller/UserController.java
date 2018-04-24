@@ -5,6 +5,7 @@ import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
 import com.db.bex.dbTrainingEnroll.dto.*;
 import com.db.bex.dbTrainingEnroll.entity.Training;
+import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
 import com.db.bex.dbTrainingEnroll.service.EmailService;
 import com.db.bex.dbTrainingEnroll.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,31 +34,25 @@ public class UserController {
     }
 
     @PostMapping("/subordinates")
-    public List<UserDto> getSubordinates(@RequestBody ManagerRequestDto managerRequestDto){
+    public List<UserDto> getSubordinates(@RequestBody ManagerRequestDto managerRequestDto) throws MissingDataException {
         String email = managerRequestDto.getEmail();
         Long id = managerRequestDto.getId();
-        System.out.println(email + " " + id);
-        if(email != null && id != null)
-            return userService.findSubordinates(email, id);
-        else
-            return null;
+        return userService.findSubordinates(email, id);
     }
 
     @PostMapping("/pendingUsers")
-    public List<UserDto> getUserTrainings(@RequestBody ManagerTrainingRequestDto managerTrainingRequestDto) {
+    public List<UserDto> getUserTrainings(@RequestBody ManagerTrainingRequestDto managerTrainingRequestDto) throws MissingDataException {
         String email = managerTrainingRequestDto.getEmail();
         Long id = managerTrainingRequestDto.getId();
         return userService.findPendingUsers(id, email);
     }
 
     @PostMapping("/subordinatesResult")
-    public void saveSubordinates(@RequestBody ManagerResponseDto managerResponseDto) {
+    public void saveSubordinates(@RequestBody ManagerResponseDto managerResponseDto) throws MissingDataException {
         //TODO : Remove Recommender from method and make separate method, uncomment functionality
         Long trainingId = managerResponseDto.getTrainingId();
         List<String> emails = managerResponseDto.getEmails();
-        System.out.println(trainingId);
-        if(trainingId !=null && emails.size() > 0)
-            userService.savePendingSubordinates(trainingId, emails);
+        userService.savePendingSubordinates(trainingId, emails);
     }
 
     @PostMapping("/approveList")
