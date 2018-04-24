@@ -1,5 +1,6 @@
 package com.db.bex.dbTrainingEnroll.service;
 
+import com.db.bex.dbTrainingEnroll.Recommender;
 import com.db.bex.dbTrainingEnroll.dao.EnrollmentRepository;
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
@@ -7,10 +8,12 @@ import com.db.bex.dbTrainingEnroll.dto.*;
 import com.db.bex.dbTrainingEnroll.entity.*;
 import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,6 +28,9 @@ public class UserService {
     private EmailService emailService;
     @Autowired
     private TrainingDtoTransformer trainingDtoTransformer;
+    @Autowired
+    @Qualifier("dataSource1")
+    private DataSource dataSource;
 
     public UserService(UserRepository userRepository, UserDtoTransformer userDtoTransformer,
                        EnrollmentRepository enrollmentRepository, TrainingRepository trainingRepository, EmailService emailService) {
@@ -254,7 +260,9 @@ public class UserService {
          return userDtoTransformer.getUserSubordinates1(userRepository.findUsersSelfEnrolled(idManager, id));
     }
 
-    public List<TrainingDto> findRecommendedTrainings(List<Long> trainingsId){
+    public List<TrainingDto> findRecommendedTrainings(Long userId){
+        Recommender recommender = new Recommender(trainingRepository,dataSource);
+        List<Long> trainingsId = recommender.recommendTraining(userId,2);
         List<Training> trainings = null;
         if(!trainingsId.isEmpty())
         {
