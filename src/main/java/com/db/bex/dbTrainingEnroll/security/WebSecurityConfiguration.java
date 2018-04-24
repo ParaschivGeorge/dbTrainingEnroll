@@ -167,7 +167,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         HttpMethod.GET,
                         "/",
-                        "/trainings"
+                        "/trainings",
+                        "/topTechnicalAttendees",
+                        "/topSoftAttendees",
+                        "/topAllAttendees",
+                        "/genderStats",
+                        "/attendedTechTrainings",
+                        "/attendedSoftTrainings"
                 );
     }
 }
