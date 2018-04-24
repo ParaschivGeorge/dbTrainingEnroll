@@ -1,11 +1,9 @@
 package com.db.bex.dbTrainingEnroll.datasource;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.mahout.cf.taste.impl.model.jdbc.ConnectionPoolDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
@@ -23,11 +21,11 @@ public class AppConfig {
 
     @Bean(name = "dataSource1")
     public DataSource getDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        BasicDataSource dataSource = new BasicDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl(jdbcURl);
         dataSource.setUsername(dbUsername);
         dataSource.setPassword(dbPassword);
-        return new ConnectionPoolDataSource(dataSource);
+        return dataSource;
     }
 }
