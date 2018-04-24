@@ -4,8 +4,10 @@ import com.db.bex.dbTrainingEnroll.dao.EnrollmentRepository;
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
 import com.db.bex.dbTrainingEnroll.dto.EmailDto;
+import com.db.bex.dbTrainingEnroll.dto.PopularityDto;
 import com.db.bex.dbTrainingEnroll.dto.TrainingDto;
 import com.db.bex.dbTrainingEnroll.dto.TrainingDtoTransformer;
+import com.db.bex.dbTrainingEnroll.entity.TrainingCategoryType;
 import com.db.bex.dbTrainingEnroll.entity.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -44,4 +46,22 @@ public class TrainingService {
         return enrollmentRepository.countAcceptedUsers(idTraining);
     }
 
+    public Integer[] countAcceptedSoftTrainings() {
+        Integer acceptedSoft = trainingRepository.countAcceptedSoftTrainings();
+        Integer numberOfTrainings = trainingRepository.countAllAcceptedTrainings();
+        Integer[] softReport = {acceptedSoft, numberOfTrainings};
+        return softReport;
+    }
+
+    public Integer[] countAcceptedTechTrainings() {
+        Integer acceptedTech = trainingRepository.countAcceptedTechTraining();
+        Integer numberOfTrainings = trainingRepository.countAllAcceptedTrainings();
+        Integer[] techReport = {acceptedTech, numberOfTrainings};
+        return techReport;
+    }
+
+//    public PopularityDto countTopAttendees() {
+////        return trainingRepository.countAcceptedTrainingsForEachTechnology(TrainingCategoryType.TECHNICAL);
+//        return null;
+//    }
 }

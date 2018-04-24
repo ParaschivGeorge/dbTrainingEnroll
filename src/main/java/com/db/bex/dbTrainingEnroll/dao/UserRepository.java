@@ -2,6 +2,7 @@ package com.db.bex.dbTrainingEnroll.dao;
 
 
 import com.db.bex.dbTrainingEnroll.entity.User;
+import com.db.bex.dbTrainingEnroll.entity.UserGenderType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,6 +16,8 @@ public interface UserRepository extends JpaRepository <User, Long> {
     List<User> findAllByManagerId(long id);
 
     User findByMail(String email);
+
+    Integer countByGender(UserGenderType genderType);
 
     @Query("select u from Enrollment e " +
             "join e.user u where u.manager.id IN " +

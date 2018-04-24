@@ -6,11 +6,8 @@ import com.db.bex.dbTrainingEnroll.dto.EmailDto;
 import com.db.bex.dbTrainingEnroll.dto.UserDto;
 import com.db.bex.dbTrainingEnroll.dto.UserDtoTransformer;
 import com.db.bex.dbTrainingEnroll.dto.UserStatusDto;
-import com.db.bex.dbTrainingEnroll.entity.Enrollment;
-import com.db.bex.dbTrainingEnroll.entity.EnrollmentStatusType;
-import com.db.bex.dbTrainingEnroll.entity.User;
+import com.db.bex.dbTrainingEnroll.entity.*;
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
-import com.db.bex.dbTrainingEnroll.entity.UserType;
 import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -117,6 +114,13 @@ public class UserService {
     public UserDto getUserData (EmailDto emailDto) {
         UserDtoTransformer userDtoTransformer = new UserDtoTransformer();
         return  userDtoTransformer.transform(userRepository.findByMail(emailDto.getEmail()));
+    }
+
+    public Integer[] getGenderCount () {
+        Integer males = userRepository.countByGender(UserGenderType.MALE);
+        Integer females = userRepository.countByGender(UserGenderType.FEMALE);
+        Integer[] genders = {males, females};
+        return genders;
     }
 
     // for test only

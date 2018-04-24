@@ -65,4 +65,10 @@ public class UserController {
     public void register() {
         userService.addUser();
     }
+
+    @GetMapping("/genderStats")
+    public Integer[] getGendersDiff() {
+        System.out.println(userService.getGenderCount().toString());
+        return userService.getGenderCount();
+    }
 }
