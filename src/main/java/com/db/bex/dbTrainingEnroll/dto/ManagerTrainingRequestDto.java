@@ -1,4 +1,5 @@
 package com.db.bex.dbTrainingEnroll.dto;
+
 import lombok.*;
 
 @Getter
