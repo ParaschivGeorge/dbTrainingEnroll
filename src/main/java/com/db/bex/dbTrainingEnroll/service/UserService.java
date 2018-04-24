@@ -91,7 +91,11 @@ public class UserService {
 
     public UserDto getUserData (EmailDto emailDto) {
         UserDtoTransformer userDtoTransformer = new UserDtoTransformer();
-        return  userDtoTransformer.transform(userRepository.findByMail(emailDto.getEmail()));
+        User user = userRepository.findByMail(emailDto.getEmail());
+        user.setLastLoginDate(user.getCurrentLoginDate());
+        user.setCurrentLoginDate(new Date());
+        userRepository.save(user);
+        return userDtoTransformer.transform(user);
     }
 
     // for test only

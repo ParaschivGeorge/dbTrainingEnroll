@@ -8,6 +8,8 @@ import com.db.bex.dbTrainingEnroll.dao.UserRepository;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,10 +31,13 @@ public class UserDtoTransformer {
     }
 
     public UserDto transform(User user){
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+        String userLastLoginDate = dateFormat.format(user.getLastLoginDate());
         return UserDto.builder()
                 .mail(user.getMail())
                 .name(user.getName())
                 .userType(user.getType())
+                .lastLoginDate(userLastLoginDate)
                 .build();
     }
 

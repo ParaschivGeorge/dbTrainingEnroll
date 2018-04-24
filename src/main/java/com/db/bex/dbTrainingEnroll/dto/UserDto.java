@@ -13,4 +13,5 @@ public class UserDto {
     private String name;
     private String mail;
     private UserType userType;
+    private String lastLoginDate;
 }
