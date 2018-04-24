@@ -90,6 +90,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.POST,"/approveList").hasAuthority(UserType.PM.name())
                     .antMatchers(HttpMethod.POST,"/subordinates").hasAuthority(UserType.MANAGER.name())
                     .antMatchers(HttpMethod.POST,"/subordinatesResult").hasAuthority(UserType.MANAGER.name())
+                    .antMatchers(HttpMethod.GET,"/recommend").hasAuthority(UserType.USER.name())
 
                 // TODO: for local testing
 //                    .antMatchers("/crapa").permitAll()
