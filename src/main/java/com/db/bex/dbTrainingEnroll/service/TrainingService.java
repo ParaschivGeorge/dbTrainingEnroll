@@ -61,8 +61,15 @@ public class TrainingService {
         return techReport;
     }
 
-    public List<PopularityDto> countTopAttendees() {
-        return trainingRepository.countAcceptedTrainingsForEachTechnology(TrainingCategoryType.TECHNICAL);
+    public List<PopularityDto> countTopTechnicalAttendees() {
+        return trainingRepository.countAcceptedTrainingsForEachCategory(TrainingCategoryType.TECHNICAL);
+    }
 
+    public List<PopularityDto> countTopSoftAttendees() {
+        return trainingRepository.countAcceptedTrainingsForEachCategory(TrainingCategoryType.SOFT);
+    }
+
+    public List<PopularityDto> countTopAllAttendees() {
+        return trainingRepository.countAcceptedTrainingsForAllCategories();
     }
 }
