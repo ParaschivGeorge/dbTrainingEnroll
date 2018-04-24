@@ -2,15 +2,9 @@ package com.db.bex.dbTrainingEnroll.service;
 
 import com.db.bex.dbTrainingEnroll.dao.EnrollmentRepository;
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
-import com.db.bex.dbTrainingEnroll.dto.EmailDto;
-import com.db.bex.dbTrainingEnroll.dto.UserDto;
-import com.db.bex.dbTrainingEnroll.dto.UserDtoTransformer;
-import com.db.bex.dbTrainingEnroll.dto.UserStatusDto;
-import com.db.bex.dbTrainingEnroll.entity.Enrollment;
-import com.db.bex.dbTrainingEnroll.entity.EnrollmentStatusType;
-import com.db.bex.dbTrainingEnroll.entity.User;
+import com.db.bex.dbTrainingEnroll.dto.*;
+import com.db.bex.dbTrainingEnroll.entity.*;
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
-import com.db.bex.dbTrainingEnroll.entity.UserType;
 import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -207,4 +201,37 @@ public class UserService {
         }
         return stringBuilder.toString();
     }
+
+    public void saveUserSaveEnroll(UserSelfEnrollDto userSelfEnrollDto) {
+
+        Long trainingId = userSelfEnrollDto.getTrainingId();
+        String userEmail = userSelfEnrollDto.getUserEmail();
+        Enrollment enrollment = new Enrollment();
+
+        enrollment.setTraining(trainingRepository.findById(trainingId).get());
+        enrollment.setUser(userRepository.findByMail(userEmail));
+        enrollment.setStatus(EnrollmentStatusType.SELF_ENROLLED);
+
+        enrollmentRepository.save(enrollment);
+    }
+
+    public List<UserDto> findSelfEnrolledSubordinates(ManagerRequestDto managerRequestDto) throws MissingDataException {
+        String email = managerRequestDto.getEmail(); //manager email
+        Long id = managerRequestDto.getId(); //training id
+
+        User user= userRepository.findByMail(email);
+        if(user == null)
+            throw new MissingDataException("Manager email does exist");
+
+        Long idManager = user.getId();
+
+        if(email == null || id == null)
+            throw new MissingDataException("Manager email or id null");
+
+         if(userRepository.findUsersSelfEnrolled(idManager, id) == null)
+             throw new MissingDataException("Manager does not have self enrolled users");
+
+         return userDtoTransformer.getUserSubordinates1(userRepository.findUsersSelfEnrolled(idManager, id));
+    }
+
 }

@@ -2,7 +2,8 @@ package com.db.bex.dbTrainingEnroll.entity;
 
 public enum EnrollmentStatusType {
     ACCEPTED ("ACCEPTED"),
-    PENDING ("PENDING");
+    PENDING ("PENDING"),
+    SELF_ENROLLED("SELF_ENROLLED");
 
     private final String status;
 

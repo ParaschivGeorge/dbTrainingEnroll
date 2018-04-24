@@ -1,9 +1,11 @@
 package com.db.bex.dbTrainingEnroll.dao;
 
 
+import com.db.bex.dbTrainingEnroll.dto.UserDto;
 import com.db.bex.dbTrainingEnroll.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
@@ -23,6 +25,9 @@ public interface UserRepository extends JpaRepository <User, Long> {
             "and e.training.id =?1")
     List<User> findPendingUsers (Long idTraining, Long idPm);
 
-
-
+    @Query("select u from Enrollment e " +
+            "join e.user u where u.manager.id =?1 " +
+            "and e.status = 'SELF_ENROLLED' " +
+            "and e.training.id =?2")
+    List<User> findUsersSelfEnrolled(Long idManager, Long id);
 }

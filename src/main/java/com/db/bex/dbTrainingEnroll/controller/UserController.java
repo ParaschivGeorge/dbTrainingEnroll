@@ -7,6 +7,7 @@ import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
 import com.db.bex.dbTrainingEnroll.service.EmailService;
 import com.db.bex.dbTrainingEnroll.service.UserService;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -64,5 +65,15 @@ public class UserController {
     @GetMapping("/register")
     public void register() {
         userService.addUser();
+    }
+
+    @PostMapping("/userSelfEnroll")
+    public void userSelfEnroll(@RequestBody UserSelfEnrollDto userSelfEnrollDto) {
+        userService.saveUserSaveEnroll(userSelfEnrollDto);
+    }
+
+    @PostMapping("/getSelfEnrolled")
+    public List<UserDto> getUsersSelfEnrolled(@RequestBody ManagerRequestDto managerRequestDto) throws MissingDataException {
+        return userService.findSelfEnrolledSubordinates(managerRequestDto);
     }
 }
