@@ -31,19 +31,20 @@ public class UserDtoTransformer {
     }
 
     public UserDto transform(User user){
+
+        String userLastLoginDate = "Never";
+
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
-        String userLastLoginDate = dateFormat.format(user.getLastLoginDate());
+
+        if(user.getLastLoginDate() != null)
+            userLastLoginDate = dateFormat.format(user.getLastLoginDate());
+
         return UserDto.builder()
                 .mail(user.getMail())
                 .name(user.getName())
                 .userType(user.getType())
                 .lastLoginDate(userLastLoginDate)
                 .build();
-    }
-
-    public List<UserDto> getUserSubordinates(List<User> user, long id) {
-        List<UserDto> userDtoList = user.stream().map(this::transform).collect(Collectors.toList());
-        return this.filterUsers(userDtoList, id);
     }
 
     public List<UserDto> getUserSubordinates1(List<User> user) {
