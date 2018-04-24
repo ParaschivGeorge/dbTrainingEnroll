@@ -93,4 +93,10 @@ public class UserController {
     public List<UserDto> getUsersSelfEnrolled(@RequestBody ManagerRequestDto managerRequestDto) throws MissingDataException {
         return userService.findSelfEnrolledSubordinates(managerRequestDto);
     }
+
+    @GetMapping("/genderStats")
+    public Integer[] getGendersDiff() {
+        System.out.println(userService.getGenderCount().toString());
+        return userService.getGenderCount();
+    }
 }

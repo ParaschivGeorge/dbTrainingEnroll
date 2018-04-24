@@ -1,6 +1,7 @@
 package com.db.bex.dbTrainingEnroll.controller;
 
 import com.db.bex.dbTrainingEnroll.dto.EmailDto;
+import com.db.bex.dbTrainingEnroll.dto.PopularityDto;
 import com.db.bex.dbTrainingEnroll.dto.TrainingDto;
 import com.db.bex.dbTrainingEnroll.service.TrainingService;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,21 @@ public class TrainingController {
     @PostMapping("/pendingTrainings")
     public List<TrainingDto> getPendingTrainings(@RequestBody EmailDto email){
         return trainingService.findPendingTrainings(email);
+    }
+
+    @GetMapping("/attendedSoftTrainings")
+    public Integer[] getSoftAttendedTrainings() {
+        return trainingService.countAcceptedSoftTrainings();
+    }
+
+    @GetMapping("/attendedTechTrainings")
+    public Integer[] getTechAttendedTrainings() {
+        return trainingService.countAcceptedTechTrainings();
+    }
+
+    @GetMapping("/topDeTop")
+    public List<PopularityDto> getTopTop() {
+        return trainingService.countTopAttendees();
     }
 
 }

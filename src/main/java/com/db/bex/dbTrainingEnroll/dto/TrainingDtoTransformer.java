@@ -26,7 +26,7 @@ public class TrainingDtoTransformer {
 
        TrainingDto trainingDto = TrainingDto.builder()
                 .id(training.getId())
-                .name(training.getName())
+                .name(training.getName().replaceAll("[\"]",""))
                 .technology(training.getTechnology())
                 .categoryType(training.getCategory())
                 .acceptedUsers(enrollmentRepository.countAcceptedUsers(training.getId()).toString())

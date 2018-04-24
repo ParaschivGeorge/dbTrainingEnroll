@@ -2,19 +2,18 @@ package com.db.bex.dbTrainingEnroll.service;
 
 import com.db.bex.dbTrainingEnroll.dao.EnrollmentRepository;
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
+import com.db.bex.dbTrainingEnroll.dao.UserRepository;
 import com.db.bex.dbTrainingEnroll.dto.*;
 import com.db.bex.dbTrainingEnroll.entity.*;
-import com.db.bex.dbTrainingEnroll.dao.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.db.bex.dbTrainingEnroll.entity.UserType;
 import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.MissingFormatArgumentException;
 
 @Service
 public class UserService {
@@ -120,6 +119,13 @@ public class UserService {
         user.setCurrentLoginDate(new Date());
         userRepository.save(user);
         return userDtoTransformer.transform(user);
+    }
+
+    public Integer[] getGenderCount () {
+        Integer males = userRepository.countByGender(UserGenderType.MALE);
+        Integer females = userRepository.countByGender(UserGenderType.FEMALE);
+        Integer[] genders = {males, females};
+        return genders;
     }
 
     // for test only
