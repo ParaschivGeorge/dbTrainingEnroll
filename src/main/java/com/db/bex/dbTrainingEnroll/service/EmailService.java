@@ -67,6 +67,7 @@ public class EmailService {
             message.addHeaderLine("component=vevent");
             message.setFrom(new InternetAddress(username));
             message.setSubject(subject);
+            message.setText(text);
 
             String[] bccList = new String[receivers.size()];
             bccList = receivers.toArray(bccList);
