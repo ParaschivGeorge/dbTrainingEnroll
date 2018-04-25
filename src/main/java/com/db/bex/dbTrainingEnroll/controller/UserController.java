@@ -43,7 +43,6 @@ public class UserController {
 
     @PostMapping("/subordinatesResult")
     public void saveSubordinates(@RequestBody ManagerResponseDto managerResponseDto) throws MissingDataException {
-        //TODO : Remove Recommender from method and make separate method, uncomment functionality
         Long trainingId = managerResponseDto.getTrainingId();
         List<String> emails = managerResponseDto.getEmails();
         userService.savePendingSubordinates(trainingId, emails);

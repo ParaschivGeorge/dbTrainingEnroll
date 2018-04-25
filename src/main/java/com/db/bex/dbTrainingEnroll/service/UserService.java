@@ -178,11 +178,6 @@ public class UserService {
             if (status == 0)
                 enrollmentRepository.delete(enrollment);
         }
-
-        //TODO: Delete hardcoding
-        managerEmails.clear();
-        managerEmails.add("stefaneva25@yahoo.com");
-        managerEmails.add("stefaneva25@yahoo.com");
         this.sendEmailToSubordinates(userEmails, trainingId);
         this.sendEmailToManagersWithSubordinates(managerEmails,trainingId);
     }
@@ -200,12 +195,12 @@ public class UserService {
         try {
             List<String> emails;
             for(String s : managers) {
-//                emails = enrollmentRepository.findApprovedSubordinatesAtTrainingId(userRepository.findByMail(s).getId(), trainingId);
-//                Mocks for emails
-                emails = new ArrayList<>();
-                emails.add("stefaneva25@yahoo.com");
-                emails.add("asdasdasd@fsssccc.com");
-                emails.add("asdasdas@gmail.com");
+                emails = enrollmentRepository.findApprovedSubordinatesAtTrainingId(userRepository.findByMail(s).getId(), trainingId);
+////                Mocks for emails
+//                emails = new ArrayList<>();
+//                emails.add("stefaneva25@yahoo.com");
+//                emails.add("asdasdasd@fsssccc.com");
+//                emails.add("asdasdas@gmail.com");
                 emailService.sendEmailToManager(s, "The following: \n\n " +
                         this.emailFormatter(emails) +  " \n have been approved at " +
                         trainingRepository.findById(trainingId).get() + ".", "Subordinates approved at training");
