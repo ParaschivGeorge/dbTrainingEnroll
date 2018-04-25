@@ -1,20 +1,22 @@
 package com.db.bex.dbTrainingEnroll.service;
 
+import com.db.bex.dbTrainingEnroll.Recommender;
 import com.db.bex.dbTrainingEnroll.dao.EnrollmentRepository;
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
+import com.db.bex.dbTrainingEnroll.dao.UserRepository;
 import com.db.bex.dbTrainingEnroll.dto.*;
 import com.db.bex.dbTrainingEnroll.entity.*;
-import com.db.bex.dbTrainingEnroll.dao.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.db.bex.dbTrainingEnroll.entity.UserType;
 import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import javax.mail.MessagingException;
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.MissingFormatArgumentException;
 
 @Service
 public class UserService {
@@ -26,6 +28,9 @@ public class UserService {
     private EmailService emailService;
     @Autowired
     private TrainingDtoTransformer trainingDtoTransformer;
+    @Autowired
+    @Qualifier("dataSource1")
+    private DataSource dataSource;
 
     public UserService(UserRepository userRepository, UserDtoTransformer userDtoTransformer,
                        EnrollmentRepository enrollmentRepository, TrainingRepository trainingRepository, EmailService emailService) {
@@ -120,6 +125,13 @@ public class UserService {
         user.setCurrentLoginDate(new Date());
         userRepository.save(user);
         return userDtoTransformer.transform(user);
+    }
+
+    public Integer[] getGenderCount () {
+        Integer males = userRepository.countByGender(UserGenderType.MALE);
+        Integer females = userRepository.countByGender(UserGenderType.FEMALE);
+        Integer[] genders = {males, females};
+        return genders;
     }
 
     // for test only
@@ -248,7 +260,9 @@ public class UserService {
          return userDtoTransformer.getUserSubordinates1(userRepository.findUsersSelfEnrolled(idManager, id));
     }
 
-    public List<TrainingDto> findRecommendedTrainings(List<Long> trainingsId){
+    public List<TrainingDto> findRecommendedTrainings(Long userId){
+        Recommender recommender = new Recommender(trainingRepository,dataSource);
+        List<Long> trainingsId = recommender.recommendTraining(userId,4);
         List<Training> trainings = null;
         if(!trainingsId.isEmpty())
         {

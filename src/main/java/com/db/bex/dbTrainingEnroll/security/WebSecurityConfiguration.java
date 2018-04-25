@@ -77,20 +77,33 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
-                    .antMatchers(HttpMethod.POST,"/auth").permitAll()
-                    .antMatchers(HttpMethod.GET,"/trainings").permitAll()
                     .antMatchers(HttpMethod.GET,"/dummy").authenticated()
                     .antMatchers(HttpMethod.POST,"/dummypost").authenticated()
                     .antMatchers(HttpMethod.POST,"/getUserData").authenticated()
 
                 // TODO: for master
-                    .antMatchers(HttpMethod.GET,"/crapa").hasAuthority(UserType.MANAGER.name())
+
                     .antMatchers(HttpMethod.POST,"/pendingTrainings").hasAuthority(UserType.PM.name())
                     .antMatchers(HttpMethod.POST,"/pendingUsers").hasAuthority(UserType.PM.name())
                     .antMatchers(HttpMethod.POST,"/approveList").hasAuthority(UserType.PM.name())
+
+                    .antMatchers(HttpMethod.GET,"/crapa").hasAuthority(UserType.MANAGER.name())
                     .antMatchers(HttpMethod.POST,"/subordinates").hasAuthority(UserType.MANAGER.name())
                     .antMatchers(HttpMethod.POST,"/subordinatesResult").hasAuthority(UserType.MANAGER.name())
+                    .antMatchers(HttpMethod.POST,"/getSelfEnrolled").hasAuthority(UserType.MANAGER.name())
+
                     .antMatchers(HttpMethod.GET,"/recommend").hasAuthority(UserType.USER.name())
+                    .antMatchers(HttpMethod.GET,"/userSelfEnroll").hasAuthority(UserType.USER.name())
+
+                    .antMatchers(HttpMethod.GET,"/attendedSoftTrainings").permitAll()
+                    .antMatchers(HttpMethod.GET,"/attendedTechTrainings").permitAll()
+                    .antMatchers(HttpMethod.GET,"/topTechnicalAttendees").permitAll()
+                    .antMatchers(HttpMethod.GET,"/topSoftAttendees").permitAll()
+                    .antMatchers(HttpMethod.GET,"/topAllAttendees").permitAll()
+                    .antMatchers(HttpMethod.GET,"/genderStats").permitAll()
+                    .antMatchers(HttpMethod.POST,"/auth").permitAll()
+                    .antMatchers(HttpMethod.GET,"/trainings").permitAll()
+
 
                 // TODO: for local testing
 //                    .antMatchers("/crapa").permitAll()
@@ -149,7 +162,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         HttpMethod.POST,
                         authenticationPath
-//                        "/getUserData"
                 )
 
                 // allow anonymous resource requests
@@ -158,7 +170,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         HttpMethod.GET,
                         "/",
-                        "/trainings"
+                        "/trainings",
+                        "/topTechnicalAttendees",
+                        "/topSoftAttendees",
+                        "/topAllAttendees",
+                        "/genderStats",
+                        "/attendedTechTrainings",
+                        "/attendedSoftTrainings"
                 );
     }
 }

@@ -22,11 +22,6 @@ public class UserController {
     private UserRepository userRepository;
     private UserService userService;
 
-    @Autowired
-    @Qualifier("dataSource1")
-    private DataSource dataSource;
-
-
     public UserController(TrainingRepository trainingRepository, UserService userService) {
         this.trainingRepository = trainingRepository;
         this.userService = userService;
@@ -72,11 +67,12 @@ public class UserController {
 
     @PostMapping("/recommend")
     public List<TrainingDto> recommend(@RequestBody EmailDto emailDto){
-        Recommender recommender = new Recommender(trainingRepository,dataSource);
+//        Recommender recommender = new Recommender(trainingRepository,dataSource);
 //        System.out.println(emailDto.getEmail());
 //        List<Long> items = recommender.recommendTraining(userRepository.findByMail(email).getId(),2);
-        List<Long> items = recommender.recommendTraining(userRepository.findByMail(emailDto.getEmail()).getId(),2);
-        return userService.findRecommendedTrainings(items);
+//        List<Long> items = recommender.recommendTraining(userRepository.findByMail(emailDto.getEmail()).getId(),2);
+//        return userService.findRecommendedTrainings(items);
+        return userService.findRecommendedTrainings(userRepository.findByMail(emailDto.getEmail()).getId());
     }
 
     @GetMapping("/register")
@@ -92,5 +88,11 @@ public class UserController {
     @PostMapping("/getSelfEnrolled")
     public List<UserDto> getUsersSelfEnrolled(@RequestBody ManagerRequestDto managerRequestDto) throws MissingDataException {
         return userService.findSelfEnrolledSubordinates(managerRequestDto);
+    }
+
+    @GetMapping("/genderStats")
+    public Integer[] getGendersDiff() {
+        System.out.println(userService.getGenderCount().toString());
+        return userService.getGenderCount();
     }
 }
