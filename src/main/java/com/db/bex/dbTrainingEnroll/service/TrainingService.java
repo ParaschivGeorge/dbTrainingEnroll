@@ -45,17 +45,10 @@ public class TrainingService {
         return enrollmentRepository.countAcceptedUsers(idTraining);
     }
 
-    public Integer[] countAcceptedSoftTrainings() {
-        Integer acceptedSoft = trainingRepository.countAcceptedSoftTrainings();
-        Integer numberOfTrainings = trainingRepository.countAllAcceptedTrainings();
-        Integer[] softReport = {acceptedSoft, numberOfTrainings};
-        return softReport;
-    }
-
-    public Integer[] countAcceptedTechTrainings() {
+    public Integer[] countAcceptedTrainings() {
         Integer acceptedTech = trainingRepository.countAcceptedTechTraining();
-        Integer numberOfTrainings = trainingRepository.countAllAcceptedTrainings();
-        Integer[] techReport = {acceptedTech, numberOfTrainings};
+        Integer acceptedSoft = trainingRepository.countAcceptedSoftTrainings();
+        Integer[] techReport = {acceptedTech, acceptedSoft};
         return techReport;
     }
 

@@ -31,11 +31,11 @@ public class Training {
     @Enumerated(EnumType.STRING)
     private TrainingCategoryType category;
 
-    @Column(name = "start_date", nullable = false)
-    private Date startDate;
-
     @Column(name = "end_date", nullable = false)
     private Date endDate;
+
+    @Column(name = "start_date", nullable = false)
+    private Date startDate;
 
     @JsonIgnore
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, orphanRemoval = true)

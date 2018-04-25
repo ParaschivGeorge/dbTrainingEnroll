@@ -27,14 +27,9 @@ public class TrainingController {
         return trainingService.findPendingTrainings(email);
     }
 
-    @GetMapping("/attendedSoftTrainings")
-    public Integer[] getSoftAttendedTrainings() {
-        return trainingService.countAcceptedSoftTrainings();
-    }
-
-    @GetMapping("/attendedTechTrainings")
-    public Integer[] getTechAttendedTrainings() {
-        return trainingService.countAcceptedTechTrainings();
+    @GetMapping("/attendedTrainings")
+    public Integer[] getAttendedTrainings() {
+        return trainingService.countAcceptedTrainings();
     }
 
     @GetMapping("/topTechnicalAttendees")

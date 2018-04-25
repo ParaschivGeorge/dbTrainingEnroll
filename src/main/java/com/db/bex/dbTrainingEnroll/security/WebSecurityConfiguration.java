@@ -90,12 +90,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.POST,"/approveList").hasAuthority(UserType.PM.name())
                     .antMatchers(HttpMethod.POST,"/subordinates").hasAuthority(UserType.MANAGER.name())
                     .antMatchers(HttpMethod.POST,"/subordinatesResult").hasAuthority(UserType.MANAGER.name())
-                    .antMatchers(HttpMethod.GET,"/attendedSoftTrainings").permitAll()
-                    .antMatchers(HttpMethod.GET,"/attendedTechTrainings").permitAll()
+                    .antMatchers(HttpMethod.GET,"/attendedTrainings").permitAll()
                     .antMatchers(HttpMethod.GET,"/topTechnicalAttendees").permitAll()
                     .antMatchers(HttpMethod.GET,"/topSoftAttendees").permitAll()
                     .antMatchers(HttpMethod.GET,"/topAllAttendees").permitAll()
                     .antMatchers(HttpMethod.GET,"/genderStats").permitAll()
+                    .antMatchers(HttpMethod.GET,"/reportByMonth").permitAll()
 
                 // TODO: for local testing
 //                    .antMatchers("/crapa").permitAll()
@@ -167,8 +167,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/topSoftAttendees",
                         "/topAllAttendees",
                         "/genderStats",
-                        "/attendedTechTrainings",
-                        "/attendedSoftTrainings"
+                        "/attendedTrainings",
+                        "/reportByMonth"
                 );
     }
 }
