@@ -1,22 +1,28 @@
 package com.db.bex.dbTrainingEnroll.controller;
 
+import com.db.bex.dbTrainingEnroll.Recommender;
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
+import com.db.bex.dbTrainingEnroll.dao.UserRepository;
 import com.db.bex.dbTrainingEnroll.dto.*;
 import com.db.bex.dbTrainingEnroll.entity.Training;
 import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
 import com.db.bex.dbTrainingEnroll.service.EmailService;
 import com.db.bex.dbTrainingEnroll.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
+import javax.sql.DataSource;
 import java.util.List;
 
 @RestController
 public class UserController {
 
     private TrainingRepository trainingRepository;
-
+    @Autowired
+    private UserRepository userRepository;
     private UserService userService;
 
-    public UserController(TrainingRepository trainingRepository, UserService userService, EmailService emailService) {
+    public UserController(TrainingRepository trainingRepository, UserService userService) {
         this.trainingRepository = trainingRepository;
         this.userService = userService;
     }
@@ -41,12 +47,10 @@ public class UserController {
         Long trainingId = managerResponseDto.getTrainingId();
         List<String> emails = managerResponseDto.getEmails();
         userService.savePendingSubordinates(trainingId, emails);
-
-        //Recommender recommender = new Recommender(trainingRepository);
     }
 
     @PostMapping("/approveList")
-    public void postUserStatus(@RequestBody List<UserStatusDto> userStatusDto) {
+    public void postUserStatus(@RequestBody List<UserStatusDto> userStatusDto) throws MissingDataException {
         //TODO : Enable email functionality, eliminate hard coding
         userService.saveSubordinatesStatusAndSendEmail(userStatusDto);
     }
@@ -61,8 +65,34 @@ public class UserController {
         return trainingRepository.findById(3);
     }
 
+    @PostMapping("/recommend")
+    public List<TrainingDto> recommend(@RequestBody EmailDto emailDto){
+//        Recommender recommender = new Recommender(trainingRepository,dataSource);
+//        System.out.println(emailDto.getEmail());
+//        List<Long> items = recommender.recommendTraining(userRepository.findByMail(email).getId(),2);
+//        List<Long> items = recommender.recommendTraining(userRepository.findByMail(emailDto.getEmail()).getId(),2);
+//        return userService.findRecommendedTrainings(items);
+        return userService.findRecommendedTrainings(userRepository.findByMail(emailDto.getEmail()).getId());
+    }
+
     @GetMapping("/register")
     public void register() {
         userService.addUser();
+    }
+
+    @PostMapping("/userSelfEnroll")
+    public void userSelfEnroll(@RequestBody ManagerRequestDto managerRequestDto) throws MissingDataException {
+        userService.saveUserSaveEnroll(managerRequestDto);
+    }
+
+    @PostMapping("/getSelfEnrolled")
+    public List<UserDto> getUsersSelfEnrolled(@RequestBody ManagerRequestDto managerRequestDto) throws MissingDataException {
+        return userService.findSelfEnrolledSubordinates(managerRequestDto);
+    }
+
+    @GetMapping("/genderStats")
+    public Integer[] getGendersDiff() {
+        System.out.println(userService.getGenderCount().toString());
+        return userService.getGenderCount();
     }
 }

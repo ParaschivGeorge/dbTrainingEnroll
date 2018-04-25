@@ -1,5 +1,6 @@
 package com.db.bex.dbTrainingEnroll.dao;
 
+import com.db.bex.dbTrainingEnroll.dto.UserDto;
 import com.db.bex.dbTrainingEnroll.entity.Enrollment;
 import com.db.bex.dbTrainingEnroll.entity.Training;
 import com.db.bex.dbTrainingEnroll.entity.User;

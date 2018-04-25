@@ -63,8 +63,10 @@ public class User {
     private Set<Enrollment> enrollments;
 
     @JsonIgnore
+    @Column(name="last_login_date")
     private Date lastLoginDate;
 
     @JsonIgnore
+    @Column(name="current_login_date")
     private Date currentLoginDate;
 }

@@ -1,6 +1,8 @@
 package com.db.bex.dbTrainingEnroll.controller;
 
 import com.db.bex.dbTrainingEnroll.dto.EmailDto;
+import com.db.bex.dbTrainingEnroll.dto.MonthlyReportDto;
+import com.db.bex.dbTrainingEnroll.dto.PopularityDto;
 import com.db.bex.dbTrainingEnroll.dto.TrainingDto;
 import com.db.bex.dbTrainingEnroll.service.TrainingService;
 import org.springframework.web.bind.annotation.*;
@@ -25,4 +27,33 @@ public class TrainingController {
         return trainingService.findPendingTrainings(email);
     }
 
+    @GetMapping("/attendedSoftTrainings")
+    public Integer[] getSoftAttendedTrainings() {
+        return trainingService.countAcceptedSoftTrainings();
+    }
+
+    @GetMapping("/attendedTechTrainings")
+    public Integer[] getTechAttendedTrainings() {
+        return trainingService.countAcceptedTechTrainings();
+    }
+
+    @GetMapping("/topTechnicalAttendees")
+    public List<PopularityDto> getTopTechincalAttendees() {
+        return trainingService.countTopTechnicalAttendees();
+    }
+
+    @GetMapping("/topSoftAttendees")
+    public List<PopularityDto> getTopSoftAttendees() {
+        return trainingService.countTopSoftAttendees();
+    }
+
+    @GetMapping("/topAllAttendees")
+    public List<PopularityDto> getTopAllAttendees() {
+        return trainingService.countTopAllAttendees();
+    }
+
+    @GetMapping("/reportByMonth")
+    public List<MonthlyReportDto> getReportByMonth() {
+        return trainingService.findMonthlyReport();
+    }
 }

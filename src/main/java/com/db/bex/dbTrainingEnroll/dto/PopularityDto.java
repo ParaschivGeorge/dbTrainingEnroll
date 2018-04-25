@@ -7,8 +7,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserStatusDto {
-    private String mailUser;
-    private Long idTraining;
-    private Long status;
+public class PopularityDto {
+
+    private String technology;
+    private Long attendees;
+
 }

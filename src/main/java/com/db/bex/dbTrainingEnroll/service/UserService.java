@@ -1,20 +1,19 @@
 package com.db.bex.dbTrainingEnroll.service;
 
+import com.db.bex.dbTrainingEnroll.Recommender;
 import com.db.bex.dbTrainingEnroll.dao.EnrollmentRepository;
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
-import com.db.bex.dbTrainingEnroll.dto.EmailDto;
-import com.db.bex.dbTrainingEnroll.dto.UserDto;
-import com.db.bex.dbTrainingEnroll.dto.UserDtoTransformer;
-import com.db.bex.dbTrainingEnroll.dto.UserStatusDto;
-import com.db.bex.dbTrainingEnroll.entity.Enrollment;
-import com.db.bex.dbTrainingEnroll.entity.EnrollmentStatusType;
-import com.db.bex.dbTrainingEnroll.entity.User;
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
-import com.db.bex.dbTrainingEnroll.entity.UserType;
+import com.db.bex.dbTrainingEnroll.dto.*;
+import com.db.bex.dbTrainingEnroll.entity.*;
 import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import javax.mail.MessagingException;
+import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +26,11 @@ public class UserService {
     private EnrollmentRepository enrollmentRepository;
     private TrainingRepository trainingRepository;
     private EmailService emailService;
+    @Autowired
+    private TrainingDtoTransformer trainingDtoTransformer;
+    @Autowired
+    @Qualifier("dataSource1")
+    private DataSource dataSource;
 
     public UserService(UserRepository userRepository, UserDtoTransformer userDtoTransformer,
                        EnrollmentRepository enrollmentRepository, TrainingRepository trainingRepository, EmailService emailService) {
@@ -76,14 +80,17 @@ public class UserService {
         }
 
         for(String s:emails) {
-            if((enrollmentRepository.findByUserIdAndTrainingId(userRepository.findByMail(s).getId(),idTraining) != null))
-                throw new MissingDataException("User does not exist");
+            Enrollment enrollment = enrollmentRepository.findByUserIdAndTrainingId(userRepository.findByMail(s).getId(),idTraining);
+            if((enrollment != null))
+                if(enrollment.getStatus() == EnrollmentStatusType.SELF_ENROLLED)
+                    enrollment.setStatus(EnrollmentStatusType.PENDING);
+                else throw new MissingDataException("User already enrolled");
             else {
-                Enrollment enrollment = new Enrollment();
-                enrollment.setStatus(EnrollmentStatusType.PENDING);
-                enrollment.setTraining(trainingRepository.findById(idTraining).get());
-                enrollment.setUser(userRepository.findByMail(s));
-                enrollmentRepository.save(enrollment);
+                Enrollment newEnrollment = new Enrollment();
+                newEnrollment.setStatus(EnrollmentStatusType.PENDING);
+                newEnrollment.setTraining(trainingRepository.findById(idTraining).get());
+                newEnrollment.setUser(userRepository.findByMail(s));
+                enrollmentRepository.save(newEnrollment);
             }
         }
     }
@@ -123,6 +130,13 @@ public class UserService {
         return userDtoTransformer.transform(user);
     }
 
+    public Integer[] getGenderCount () {
+        Integer males = userRepository.countByGender(UserGenderType.MALE);
+        Integer females = userRepository.countByGender(UserGenderType.FEMALE);
+        Integer[] genders = {males, females};
+        return genders;
+    }
+
     // for test only
     public void addUser() {
         User user = new User();
@@ -137,10 +151,11 @@ public class UserService {
         userRepository.saveAndFlush(user);
     }
 
-    public void saveSubordinatesStatusAndSendEmail(List<UserStatusDto> userStatusDtos){
+    public void saveSubordinatesStatusAndSendEmail(List<UserStatusDto> userStatusDtos) throws MissingDataException {
         List<String> userEmails = new ArrayList<>();
         List<String> managerEmails = new ArrayList<>();
         Long trainingId = userStatusDtos.get(0).getIdTraining();
+
         for(UserStatusDto u : userStatusDtos) {
             String mailUser = u.getMailUser();
             Long idTraining = u.getIdTraining();
@@ -148,6 +163,9 @@ public class UserService {
             Long id = userRepository.findByMail(mailUser).getId();
 
             Enrollment enrollment = enrollmentRepository.findByUserIdAndTrainingId(id, idTraining);
+
+            if( enrollment == null)
+                throw new MissingDataException("Error");
 
             if (status == 1) {
                 userEmails.add(mailUser);
@@ -160,6 +178,7 @@ public class UserService {
             if (status == 0)
                 enrollmentRepository.delete(enrollment);
         }
+
         //TODO: Delete hardcoding
         managerEmails.clear();
         managerEmails.add("stefaneva25@yahoo.com");
@@ -210,5 +229,55 @@ public class UserService {
             stringBuilder.append("\n");
         }
         return stringBuilder.toString();
+    }
+
+    public void saveUserSaveEnroll(ManagerRequestDto managerRequestDto) throws MissingDataException {
+
+        Long trainingId = managerRequestDto.getId();
+        String userEmail = managerRequestDto.getEmail();
+        Long userId = userRepository.findByMail(userEmail).getId();
+
+        if(enrollmentRepository.findByUserIdAndTrainingId(userId, trainingId) != null)
+            throw new MissingDataException("User already enrolled");
+
+        Enrollment enrollment = new Enrollment();
+
+        enrollment.setTraining(trainingRepository.findById(trainingId).get());
+        enrollment.setUser(userRepository.findByMail(userEmail));
+        enrollment.setStatus(EnrollmentStatusType.SELF_ENROLLED);
+
+        enrollmentRepository.save(enrollment);
+    }
+
+    public List<UserDto> findSelfEnrolledSubordinates(ManagerRequestDto managerRequestDto) throws MissingDataException {
+        String email = managerRequestDto.getEmail(); //manager email
+        Long id = managerRequestDto.getId(); //training id
+
+        User user= userRepository.findByMail(email);
+        if(user == null)
+            throw new MissingDataException("Manager email does exist");
+
+        Long idManager = user.getId();
+
+        if(email == null || id == null)
+            throw new MissingDataException("Manager email or id null");
+
+         if(userRepository.findUsersSelfEnrolled(idManager, id) == null)
+             throw new MissingDataException("Manager does not have self enrolled users");
+
+         return userDtoTransformer.getUserSubordinates1(userRepository.findUsersSelfEnrolled(idManager, id));
+    }
+
+    public List<TrainingDto> findRecommendedTrainings(Long userId){
+        Recommender recommender = new Recommender(trainingRepository,dataSource);
+        List<Long> trainingsId = recommender.recommendTraining(userId,4);
+        List<Training> trainings = null;
+        if(!trainingsId.isEmpty())
+        {
+            trainings = new ArrayList<>();
+            for(Long i : trainingsId)
+                trainings.add(trainingRepository.findById(i).get());
+        }
+        return trainingDtoTransformer.getTrainings(trainings);
     }
 }

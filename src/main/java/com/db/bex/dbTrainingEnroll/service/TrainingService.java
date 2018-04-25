@@ -3,12 +3,15 @@ package com.db.bex.dbTrainingEnroll.service;
 import com.db.bex.dbTrainingEnroll.dao.EnrollmentRepository;
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
-import com.db.bex.dbTrainingEnroll.dto.EmailDto;
-import com.db.bex.dbTrainingEnroll.dto.TrainingDto;
-import com.db.bex.dbTrainingEnroll.dto.TrainingDtoTransformer;
+import com.db.bex.dbTrainingEnroll.dto.*;
+import com.db.bex.dbTrainingEnroll.entity.TrainingCategoryType;
 import com.db.bex.dbTrainingEnroll.entity.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+
+import java.time.LocalDate;
+
 import java.util.List;
 
 @Service
@@ -44,4 +47,43 @@ public class TrainingService {
         return enrollmentRepository.countAcceptedUsers(idTraining);
     }
 
+    public Integer[] countAcceptedSoftTrainings() {
+        Integer acceptedSoft = trainingRepository.countAcceptedSoftTrainings();
+        Integer numberOfTrainings = trainingRepository.countAllAcceptedTrainings();
+        Integer[] softReport = {acceptedSoft, numberOfTrainings};
+        return softReport;
+    }
+
+    public Integer[] countAcceptedTechTrainings() {
+        Integer acceptedTech = trainingRepository.countAcceptedTechTraining();
+        Integer numberOfTrainings = trainingRepository.countAllAcceptedTrainings();
+        Integer[] techReport = {acceptedTech, numberOfTrainings};
+        return techReport;
+    }
+
+    public List<PopularityDto> countTopTechnicalAttendees() {
+        return trainingRepository.countAcceptedTrainingsForEachCategory(TrainingCategoryType.TECHNICAL);
+    }
+
+    public List<PopularityDto> countTopSoftAttendees() {
+        return trainingRepository.countAcceptedTrainingsForEachCategory(TrainingCategoryType.SOFT);
+    }
+
+    public List<PopularityDto> countTopAllAttendees() {
+        return trainingRepository.countAcceptedTrainingsForAllCategories();
+    }
+
+    public List<MonthlyReportDto> findMonthlyReport() {
+        List<MonthlyReportDto> list = trainingRepository.getMonthlyReport();
+        for (MonthlyReportDto report : list) {
+            Integer month = Integer.parseInt(report.getMonthNumber());
+            report.setMonthString(getMonthName(month));
+        }
+        return list;
+    }
+
+    private String getMonthName(Integer month) {
+        LocalDate localDate = LocalDate.of(1990, month, 1);
+        return localDate.getMonth().name();
+    }
 }
