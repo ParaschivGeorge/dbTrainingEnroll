@@ -80,14 +80,17 @@ public class UserService {
         }
 
         for(String s:emails) {
-            if((enrollmentRepository.findByUserIdAndTrainingId(userRepository.findByMail(s).getId(),idTraining) != null))
-                throw new MissingDataException("User does not exist");
+            Enrollment enrollment = enrollmentRepository.findByUserIdAndTrainingId(userRepository.findByMail(s).getId(),idTraining);
+            if((enrollment != null))
+                if(enrollment.getStatus() == EnrollmentStatusType.SELF_ENROLLED)
+                    enrollment.setStatus(EnrollmentStatusType.PENDING);
+                else throw new MissingDataException("User already enrolled");
             else {
-                Enrollment enrollment = new Enrollment();
-                enrollment.setStatus(EnrollmentStatusType.PENDING);
-                enrollment.setTraining(trainingRepository.findById(idTraining).get());
-                enrollment.setUser(userRepository.findByMail(s));
-                enrollmentRepository.save(enrollment);
+                Enrollment newEnrollment = new Enrollment();
+                newEnrollment.setStatus(EnrollmentStatusType.PENDING);
+                newEnrollment.setTraining(trainingRepository.findById(idTraining).get());
+                newEnrollment.setUser(userRepository.findByMail(s));
+                enrollmentRepository.save(newEnrollment);
             }
         }
     }
