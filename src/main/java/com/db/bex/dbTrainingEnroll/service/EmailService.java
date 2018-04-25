@@ -25,8 +25,7 @@ public class EmailService {
         for(String s : receivers)
             System.out.println(s);
         if(receivers.size() > 0) {
-//            helper.setTo(receivers.get(0));
-            helper.setTo("stefaneva25@yahoo.com");
+            helper.setTo(receivers.get(0));
             helper.setSubject(subject);
             if (receivers.size() > 1) {
                 receivers.remove(0);
@@ -40,8 +39,7 @@ public class EmailService {
     public void sendEmailToManager(@NotEmpty String manager,@NotEmpty String text, @NotEmpty String subject) throws MessagingException {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-//        helper.setTo(manager);
-        helper.setTo("stefaneva25@yahoo.com");
+        helper.setTo(manager);
         helper.setSubject(subject);
         helper.setText(text);
         mailSender.send(mimeMessage);
