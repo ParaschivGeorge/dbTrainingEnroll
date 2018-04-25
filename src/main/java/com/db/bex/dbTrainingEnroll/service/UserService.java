@@ -262,7 +262,7 @@ public class UserService {
 
     public List<TrainingDto> findRecommendedTrainings(Long userId){
         Recommender recommender = new Recommender(trainingRepository,dataSource);
-        List<Long> trainingsId = recommender.recommendTraining(userId,2);
+        List<Long> trainingsId = recommender.recommendTraining(userId,4);
         List<Training> trainings = null;
         if(!trainingsId.isEmpty())
         {
