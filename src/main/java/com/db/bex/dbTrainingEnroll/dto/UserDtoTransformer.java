@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,8 +37,12 @@ public class UserDtoTransformer {
 
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
-        if(user.getLastLoginDate() != null)
-            userLastLoginDate = dateFormat.format(user.getLastLoginDate());
+        if(user.getLastLoginDate() != null) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(user.getLastLoginDate());
+            cal.add(Calendar.HOUR_OF_DAY, 3);
+            userLastLoginDate = dateFormat.format(cal.getTime());
+        }
 
         return UserDto.builder()
                 .mail(user.getMail())
