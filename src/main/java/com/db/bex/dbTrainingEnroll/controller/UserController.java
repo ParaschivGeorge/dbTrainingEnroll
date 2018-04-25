@@ -81,8 +81,8 @@ public class UserController {
     }
 
     @PostMapping("/userSelfEnroll")
-    public void userSelfEnroll(@RequestBody UserSelfEnrollDto userSelfEnrollDto) {
-        userService.saveUserSaveEnroll(userSelfEnrollDto);
+    public void userSelfEnroll(@RequestBody ManagerRequestDto managerRequestDto) throws MissingDataException {
+        userService.saveUserSaveEnroll(managerRequestDto);
     }
 
     @PostMapping("/getSelfEnrolled")

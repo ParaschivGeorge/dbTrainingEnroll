@@ -231,10 +231,15 @@ public class UserService {
         return stringBuilder.toString();
     }
 
-    public void saveUserSaveEnroll(UserSelfEnrollDto userSelfEnrollDto) {
+    public void saveUserSaveEnroll(ManagerRequestDto managerRequestDto) throws MissingDataException {
 
-        Long trainingId = userSelfEnrollDto.getTrainingId();
-        String userEmail = userSelfEnrollDto.getUserEmail();
+        Long trainingId = managerRequestDto.getId();
+        String userEmail = managerRequestDto.getEmail();
+        Long userId = userRepository.findByMail(userEmail).getId();
+
+        if(enrollmentRepository.findByUserIdAndTrainingId(userId, trainingId) != null)
+            throw new MissingDataException("User already enrolled");
+
         Enrollment enrollment = new Enrollment();
 
         enrollment.setTraining(trainingRepository.findById(trainingId).get());
