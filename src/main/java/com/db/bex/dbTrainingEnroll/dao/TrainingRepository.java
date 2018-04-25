@@ -1,5 +1,6 @@
 package com.db.bex.dbTrainingEnroll.dao;
 
+import com.db.bex.dbTrainingEnroll.dto.MonthlyReportDto;
 import com.db.bex.dbTrainingEnroll.dto.PopularityDto;
 import com.db.bex.dbTrainingEnroll.entity.EnrollmentStatusType;
 import com.db.bex.dbTrainingEnroll.entity.Training;
@@ -45,4 +46,15 @@ public interface TrainingRepository extends JpaRepository<Training, Long> {
             "WHERE e.status = 'ACCEPTED' " +
             "GROUP BY t.technology")
     List<PopularityDto> countAcceptedTrainingsForAllCategories();
+
+    @Query("SELECT new com.db.bex.dbTrainingEnroll.dto.MonthlyReportDto(" +
+            "t.category, " +
+            "substring(t.startDate,7,1), " +
+            "count(e.id), " +
+            "t.name) " +
+            "FROM Enrollment e " +
+            "JOIN e.training t " +
+            "WHERE e.status = 'ACCEPTED' " +
+            "GROUP BY t.category, substring(t.startDate,7,1)")
+    List<MonthlyReportDto> getMonthlyReport();
 }

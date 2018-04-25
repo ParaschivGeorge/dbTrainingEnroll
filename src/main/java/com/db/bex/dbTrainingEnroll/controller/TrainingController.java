@@ -1,6 +1,7 @@
 package com.db.bex.dbTrainingEnroll.controller;
 
 import com.db.bex.dbTrainingEnroll.dto.EmailDto;
+import com.db.bex.dbTrainingEnroll.dto.MonthlyReportDto;
 import com.db.bex.dbTrainingEnroll.dto.PopularityDto;
 import com.db.bex.dbTrainingEnroll.dto.TrainingDto;
 import com.db.bex.dbTrainingEnroll.service.TrainingService;
@@ -49,5 +50,10 @@ public class TrainingController {
     @GetMapping("/topAllAttendees")
     public List<PopularityDto> getTopAllAttendees() {
         return trainingService.countTopAllAttendees();
+    }
+
+    @GetMapping("/reportByMonth")
+    public List<MonthlyReportDto> getReportByMonth() {
+        return trainingService.findMonthlyReport();
     }
 }
