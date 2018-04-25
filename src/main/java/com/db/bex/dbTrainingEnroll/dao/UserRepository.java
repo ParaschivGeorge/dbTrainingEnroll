@@ -19,7 +19,11 @@ public interface UserRepository extends JpaRepository <User, Long> {
 
     User findByMail(String email);
 
-    Integer countByGender(UserGenderType genderType);
+    @Query("select count(u.id) from Enrollment e " +
+            "join e.user u " +
+            "where e.status = 'ACCEPTED' " +
+            "and u.gender = ?1")
+    Integer countAcceptedUsersByGender(UserGenderType genderType);
 
     @Query("select u from Enrollment e " +
             "join e.user u where u.manager.id IN " +

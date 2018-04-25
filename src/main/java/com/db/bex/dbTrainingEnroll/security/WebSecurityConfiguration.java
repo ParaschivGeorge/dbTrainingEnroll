@@ -94,16 +94,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                     .antMatchers(HttpMethod.GET,"/recommend").hasAuthority(UserType.USER.name())
                     .antMatchers(HttpMethod.GET,"/userSelfEnroll").hasAuthority(UserType.USER.name())
-
-                    .antMatchers(HttpMethod.GET,"/attendedSoftTrainings").permitAll()
-                    .antMatchers(HttpMethod.GET,"/attendedTechTrainings").permitAll()
+                    .antMatchers(HttpMethod.GET,"/attendedTrainings").permitAll()
                     .antMatchers(HttpMethod.GET,"/topTechnicalAttendees").permitAll()
                     .antMatchers(HttpMethod.GET,"/topSoftAttendees").permitAll()
                     .antMatchers(HttpMethod.GET,"/topAllAttendees").permitAll()
                     .antMatchers(HttpMethod.GET,"/genderStats").permitAll()
                     .antMatchers(HttpMethod.POST,"/auth").permitAll()
                     .antMatchers(HttpMethod.GET,"/trainings").permitAll()
-
+                    .antMatchers(HttpMethod.GET,"/reportByMonth").permitAll()
 
                 // TODO: for local testing
 //                    .antMatchers("/crapa").permitAll()
@@ -175,8 +173,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/topSoftAttendees",
                         "/topAllAttendees",
                         "/genderStats",
-                        "/attendedTechTrainings",
-                        "/attendedSoftTrainings"
+                        "/attendedTrainings",
+                        "/reportByMonth"
                 );
     }
 }

@@ -131,8 +131,8 @@ public class UserService {
     }
 
     public Integer[] getGenderCount () {
-        Integer males = userRepository.countByGender(UserGenderType.MALE);
-        Integer females = userRepository.countByGender(UserGenderType.FEMALE);
+        Integer males = userRepository.countAcceptedUsersByGender(UserGenderType.MALE);
+        Integer females = userRepository.countAcceptedUsersByGender(UserGenderType.FEMALE);
         Integer[] genders = {males, females};
         return genders;
     }
