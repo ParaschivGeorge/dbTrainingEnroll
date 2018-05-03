@@ -37,6 +37,15 @@ public class Training {
     @Column(name = "start_date", nullable = false)
     private Date startDate;
 
+    @Column(name = "nr_min", nullable = false)
+    private Long nrMin;
+
+    @Column(name = "nr_max", nullable = false)
+    private Long nrMax;
+
+    @Column(name = "training_accountable_id", nullable = false)
+    private Long trainingAccountableId;
+
     @JsonIgnore
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Enrollment> enrollments;

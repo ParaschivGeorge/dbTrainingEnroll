@@ -33,4 +33,17 @@ public class Enrollment implements Serializable {
     @Enumerated(EnumType.STRING)
     private EnrollmentStatusType status;
 
+    @Column(name = "manager_comment")
+    private String managerComment;
+
+    @Column(name = "pm_comment")
+    private String pmComment;
+
+    @Column(name = "training_type")
+    @Enumerated(EnumType.STRING)
+    private TrainingType trainingType;
+
+    @Column(name = "urgency_type")
+    @Enumerated(EnumType.STRING)
+    private UrgencyType urgency;
 }

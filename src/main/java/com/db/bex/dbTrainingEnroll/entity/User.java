@@ -55,6 +55,16 @@ public class User {
     private User manager;
 
     @JsonIgnore
+    @ManyToOne(cascade ={CascadeType.ALL}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id")
+    private Department department;
+
+    @JsonIgnore
+    @ManyToOne(cascade ={CascadeType.ALL}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "subdepartment_id")
+    private Subdepartment subdepartment;
+
+    @JsonIgnore
     @OneToMany(mappedBy="manager" , fetch = FetchType.EAGER)
     private Set<User> subordinates;
 
