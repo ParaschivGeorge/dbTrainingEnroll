@@ -13,4 +13,8 @@ public class UserDto {
     private String mail;
     private UserType userType;
     private String lastLoginDate;
+    private Long departmentId;
+    private String departmentName;
+    private Long subdepartmentId;
+    private String subdepartmentName;
 }
