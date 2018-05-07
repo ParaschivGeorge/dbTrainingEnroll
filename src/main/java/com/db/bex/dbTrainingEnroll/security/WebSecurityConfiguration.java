@@ -174,7 +174,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/topAllAttendees",
                         "/genderStats",
                         "/attendedTrainings",
-                        "/reportByMonth"
+                        "/reportByMonth",
+                        "/approveListEx"
                 );
     }
 }

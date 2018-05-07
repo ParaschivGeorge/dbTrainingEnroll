@@ -73,14 +73,25 @@ public class UserService {
 
     }
 
-    public void savePendingSubordinates(Long idTraining, List<String> emails) throws MissingDataException {
+    public void savePendingSubordinates(ManagerResponseDto managerResponseDto) throws MissingDataException {
 
-        if(idTraining == null || emails == null) {
-            throw new MissingDataException("Id or email is null");
+        Long trainingId = managerResponseDto.getTrainingId();
+        List<EnrollmentDetailsDto> enrollmentDetailsDtos =  managerResponseDto.getEnrollmentDetailsDto();
+
+        if(trainingId == null || managerResponseDto == null) {
+            throw new MissingDataException("Id or list of users is null");
         }
 
-        for(String s:emails) {
-            Enrollment enrollment = enrollmentRepository.findByUserIdAndTrainingId(userRepository.findByMail(s).getId(),idTraining);
+        for(EnrollmentDetailsDto enrollmentDetailsDto : enrollmentDetailsDtos) {
+        String userEmail = enrollmentDetailsDto.getUserEmail();
+        String comment = enrollmentDetailsDto.getComment();
+        TrainingType trainingType = enrollmentDetailsDto.getTrainingType();
+        UrgencyType urgencyType = enrollmentDetailsDto.getUrgencyType();
+
+        User user = userRepository.findByMail(userEmail);
+        if(user == null) throw new MissingDataException("Id or list of users is null");
+
+            Enrollment enrollment = enrollmentRepository.findByUserIdAndTrainingId(user.getId(),trainingId);
             if((enrollment != null))
                 if(enrollment.getStatus() == EnrollmentStatusType.SELF_ENROLLED)
                     enrollment.setStatus(EnrollmentStatusType.PENDING);
@@ -88,11 +99,14 @@ public class UserService {
             else {
                 Enrollment newEnrollment = new Enrollment();
                 newEnrollment.setStatus(EnrollmentStatusType.PENDING);
-                newEnrollment.setTraining(trainingRepository.findById(idTraining).get());
-                newEnrollment.setUser(userRepository.findByMail(s));
+                newEnrollment.setTraining(trainingRepository.findById(trainingId).get());
+                newEnrollment.setUser(userRepository.findByMail(userEmail));
+                newEnrollment.setManagerComment(comment);
+                newEnrollment.setTrainingType(trainingType);
+                newEnrollment.setUrgency(urgencyType);
                 enrollmentRepository.save(newEnrollment);
-            }
-        }
+            }}
+
     }
 
     public void saveSubordinatesStatus(String emailUser, Long idTraining, Long status) throws MissingDataException {
@@ -160,6 +174,7 @@ public class UserService {
             String mailUser = u.getMailUser();
             Long idTraining = u.getIdTraining();
             Long status = u.getStatus();
+            String comment = u.getComment();
             Long id = userRepository.findByMail(mailUser).getId();
 
             Enrollment enrollment = enrollmentRepository.findByUserIdAndTrainingId(id, idTraining);
@@ -173,6 +188,7 @@ public class UserService {
                 if (!managerEmails.contains(managerMail))
                     managerEmails.add(managerMail);
                 enrollment.setStatus(EnrollmentStatusType.ACCEPTED);
+                enrollment.setPmComment(comment);
                 enrollmentRepository.save(enrollment);
             }
             if (status == 0)

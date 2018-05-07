@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -43,9 +44,7 @@ public class UserController {
 
     @PostMapping("/subordinatesResult")
     public void saveSubordinates(@RequestBody ManagerResponseDto managerResponseDto) throws MissingDataException {
-        Long trainingId = managerResponseDto.getTrainingId();
-        List<String> emails = managerResponseDto.getEmails();
-        userService.savePendingSubordinates(trainingId, emails);
+        userService.savePendingSubordinates(managerResponseDto);
     }
 
     @PostMapping("/approveList")

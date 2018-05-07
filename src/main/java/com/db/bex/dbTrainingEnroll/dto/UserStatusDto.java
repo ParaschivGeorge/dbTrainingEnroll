@@ -11,4 +11,5 @@ public class UserStatusDto {
     private String mailUser;
     private Long idTraining;
     private Long status;
+    private String comment;
 }

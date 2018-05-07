@@ -10,5 +10,5 @@ import java.util.List;
 @Builder
 public class ManagerResponseDto {
     private Long trainingId;
-    private List<String> emails;
+    private List<EnrollmentDetailsDto> enrollmentDetailsDto;
 }
