@@ -152,7 +152,8 @@ public class UserService {
     }
 
     public void saveSubordinatesStatusAndSendEmail(List<UserStatusDto> userStatusDtos) throws MissingDataException {
-        List<String> userEmails = new ArrayList<>();
+        List<String> approvedUserEmails = new ArrayList<>();
+        List<String> declinedUserEmails = new ArrayList<>();
         List<String> managerEmails = new ArrayList<>();
         Long trainingId = userStatusDtos.get(0).getIdTraining();
 
@@ -168,25 +169,38 @@ public class UserService {
                 throw new MissingDataException("Error");
 
             if (status == 1) {
-                userEmails.add(mailUser);
+                approvedUserEmails.add(mailUser);
                 String managerMail = userRepository.findByMail(mailUser).getManager().getMail();
                 if (!managerEmails.contains(managerMail))
                     managerEmails.add(managerMail);
                 enrollment.setStatus(EnrollmentStatusType.ACCEPTED);
                 enrollmentRepository.save(enrollment);
             }
-            if (status == 0)
+            if (status == 0) {
+                declinedUserEmails.add(mailUser);
                 enrollmentRepository.delete(enrollment);
+            }
         }
-        this.sendEmailToSubordinates(userEmails, trainingId);
+        this.sendEmailToApprovedSubordinates(approvedUserEmails, trainingId);
         this.sendEmailToManagersWithSubordinates(managerEmails,trainingId);
+        this.sendEmailToDeclinedSubordinates(declinedUserEmails, trainingId);
     }
 
-    public void sendEmailToSubordinates(List<String> emails, Long trainingId){
+    public void sendEmailToApprovedSubordinates(List<String> emails, Long trainingId){
         try {
-            emailService.sendEmailToUsers(emails,"Congratulations! \n You've been approved at the training " +  trainingRepository.findById(trainingId).get() + "."
+            emailService.sendEmailToUsers(emails,"Congratulations! \n You've been approved at the training "
+                            +  trainingRepository.findById(trainingId).get() + "."
                     ,"Training Approval");
         } catch (MessagingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendEmailToDeclinedSubordinates(List<String> emails, Long trainingId){
+        try{
+            emailService.sendEmailToUsers(emails, "We are sorry to inform you that your enrollment at the training "
+            + trainingRepository.findById(trainingId).get() + " has been denied.", "Training Approval");
+        } catch (MessagingException e){
             e.printStackTrace();
         }
     }
