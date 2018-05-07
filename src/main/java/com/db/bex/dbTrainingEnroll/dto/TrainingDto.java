@@ -16,4 +16,7 @@ public class TrainingDto {
     private String technology;
     private TrainingCategoryType categoryType;
     private String acceptedUsers;
+    private Long nrMin;
+    private Long nrMax;
+    private Long trainingAccountableId;
 }
