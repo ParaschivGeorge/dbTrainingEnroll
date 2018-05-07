@@ -186,6 +186,7 @@ public class UserService {
         this.sendEmailToDeclinedSubordinates(declinedUserEmails, trainingId);
     }
 
+
     public void sendEmailToApprovedSubordinates(List<String> emails, Long trainingId){
         try {
             emailService.sendEmailToUsers(emails,"Congratulations! \n You've been approved at the training "
