@@ -20,7 +20,7 @@ public class Subdepartment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long subdepartmentId;
 
-    @Column(name = "department_name")
+    @Column(name = "subdepartment_name")
     private String subdepartmentName;
 
     @JsonIgnore

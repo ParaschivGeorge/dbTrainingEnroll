@@ -52,6 +52,22 @@ public class TrainingService {
         return enrollmentRepository.countAcceptedUsers(idTraining);
     }
 
+    public void insertTrainingList(List<InsertedTrainingDto> insertedTrainingDtoList) {
+        for(InsertedTrainingDto insertedTrainingDto : insertedTrainingDtoList) {
+            Training training = new Training();
+            training.setName(insertedTrainingDto.getName());
+            training.setTechnology(insertedTrainingDto.getTechnology());
+            training.setCategory(insertedTrainingDto.getCategoryType());
+            training.setEndDate(insertedTrainingDto.getEndDate());
+            training.setStartDate(insertedTrainingDto.getStartDate());
+            training.setNrMax(insertedTrainingDto.getNrMax());
+            training.setNrMin(insertedTrainingDto.getNrMin());
+            training.setTrainingResponsibleId(userRepository.findById(insertedTrainingDto.getResponsibleId()).get());
+
+            trainingRepository.save(training);
+        }
+    }
+
     public Integer[] countAcceptedTrainings() {
         Integer acceptedTech = trainingRepository.countAcceptedTechTraining();
         Integer acceptedSoft = trainingRepository.countAcceptedSoftTrainings();

@@ -1,9 +1,6 @@
 package com.db.bex.dbTrainingEnroll.controller;
 
-import com.db.bex.dbTrainingEnroll.dto.EmailDto;
-import com.db.bex.dbTrainingEnroll.dto.MonthlyReportDto;
-import com.db.bex.dbTrainingEnroll.dto.PopularityDto;
-import com.db.bex.dbTrainingEnroll.dto.TrainingDto;
+import com.db.bex.dbTrainingEnroll.dto.*;
 import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
 import com.db.bex.dbTrainingEnroll.service.TrainingService;
 import org.springframework.web.bind.annotation.*;
@@ -55,5 +52,10 @@ public class TrainingController {
     @GetMapping("/reportByMonth")
     public List<MonthlyReportDto> getReportByMonth() {
         return trainingService.findMonthlyReport();
+    }
+
+    @PostMapping("/insertTrainings")
+    public void insertTrainings(@RequestBody List<InsertedTrainingDto> insertedTrainingDtoList) {
+        trainingService.insertTrainingList(insertedTrainingDtoList);
     }
 }
