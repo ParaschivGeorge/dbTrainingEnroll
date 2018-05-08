@@ -1,9 +1,7 @@
 package com.db.bex.dbTrainingEnroll.dao;
 
-import com.db.bex.dbTrainingEnroll.dto.UserDto;
 import com.db.bex.dbTrainingEnroll.entity.Enrollment;
 import com.db.bex.dbTrainingEnroll.entity.Training;
-import com.db.bex.dbTrainingEnroll.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,13 +19,11 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
             "(select uu.id from User uu where uu.manager.id =:id))")
     List<Training> findTrainingsThatHavePendingParticipants(@Param("id") Long id);
 
-    List<Enrollment> findAllByUserId(long id);
     List<Enrollment> findAllByUserIdAndTrainingId(Long user_id, Long training_id);
 
     List<Enrollment> findAllByTrainingId(long id);
 
     Enrollment findByUserIdAndTrainingId(Long user_id, Long training_id);
-    Enrollment findByTrainingId(Long training_id);
 
     @Query("select count(e) from Enrollment e " +
             "where e.status = 'ACCEPTED'" +

@@ -2,7 +2,6 @@ package com.db.bex.dbTrainingEnroll.dao;
 
 import com.db.bex.dbTrainingEnroll.dto.MonthlyReportDto;
 import com.db.bex.dbTrainingEnroll.dto.PopularityDto;
-import com.db.bex.dbTrainingEnroll.entity.EnrollmentStatusType;
 import com.db.bex.dbTrainingEnroll.entity.Training;
 import com.db.bex.dbTrainingEnroll.entity.TrainingCategoryType;
 import org.springframework.data.jpa.repository.JpaRepository;

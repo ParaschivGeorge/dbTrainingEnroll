@@ -1,5 +1,7 @@
 package com.db.bex.dbTrainingEnroll.dto;
 
+import com.db.bex.dbTrainingEnroll.entity.TrainingType;
+import com.db.bex.dbTrainingEnroll.entity.UrgencyType;
 import com.db.bex.dbTrainingEnroll.entity.UserType;
 import lombok.*;
 
@@ -17,4 +19,8 @@ public class UserDto {
     private String departmentName;
     private Long subdepartmentId;
     private String subdepartmentName;
+    private TrainingType trainingType;
+    private UrgencyType urgencyType;
+    private String comment;
+
 }

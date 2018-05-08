@@ -1,12 +1,9 @@
 package com.db.bex.dbTrainingEnroll.dao;
 
-
-import com.db.bex.dbTrainingEnroll.dto.UserDto;
 import com.db.bex.dbTrainingEnroll.entity.User;
 import com.db.bex.dbTrainingEnroll.entity.UserGenderType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
