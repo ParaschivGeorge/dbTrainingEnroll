@@ -2,6 +2,7 @@ package com.db.bex.dbTrainingEnroll.controller;
 
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
 import com.db.bex.dbTrainingEnroll.dto.*;
+import com.db.bex.dbTrainingEnroll.entity.Training;
 import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
 import com.db.bex.dbTrainingEnroll.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -72,4 +73,6 @@ public class UserController {
     public Integer[] getGendersDiff() {
         return userService.getGenderCount();
     }
+
+
 }
