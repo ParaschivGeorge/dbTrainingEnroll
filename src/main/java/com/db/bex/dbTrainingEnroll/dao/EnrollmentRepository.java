@@ -34,5 +34,8 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
             " where u.manager.id =?1" +
             " and e.status = 'ACCEPTED' and e.training.id =?2")
     List<String> findApprovedSubordinatesAtTrainingId(Long idManager, Long idTraining);
+
+    @Query("select t from Enrollment e join e.training t where e.user.id =?1 and e.status = 'ACCEPTED'")
+    List<Training> findAllByUserId(Long user_id);
 }
 
