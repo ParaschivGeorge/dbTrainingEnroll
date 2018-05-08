@@ -20,4 +20,5 @@ public class TrainingDto {
     private Long nrMin;
     private Long nrMax;
     private User trainingResponsibleId;
+    private String vendor;
 }

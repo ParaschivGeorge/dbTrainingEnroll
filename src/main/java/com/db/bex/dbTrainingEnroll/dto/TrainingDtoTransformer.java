@@ -33,6 +33,7 @@ public class TrainingDtoTransformer {
                 .nrMax(training.getNrMax())
                 .nrMin(training.getNrMin())
                 .trainingResponsibleId(training.getTrainingResponsibleId())
+                .vendor(training.getVendor())
                 .build();
        return trainingDto;
     }
