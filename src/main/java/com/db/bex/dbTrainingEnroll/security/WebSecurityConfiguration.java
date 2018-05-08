@@ -1,9 +1,6 @@
 package com.db.bex.dbTrainingEnroll.security;
 
 import com.db.bex.dbTrainingEnroll.entity.UserType;
-import com.db.bex.dbTrainingEnroll.security.JwtAuthenticationEntryPoint;
-import com.db.bex.dbTrainingEnroll.security.JwtAuthorizationTokenFilter;
-import com.db.bex.dbTrainingEnroll.security.JwtTokenUtil;
 import com.db.bex.dbTrainingEnroll.security.service.JwtUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,8 +22,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import javax.servlet.Filter;
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 
@@ -83,9 +78,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 // TODO: for master
 
-                    .antMatchers(HttpMethod.POST,"/pendingTrainings").hasAuthority(UserType.PM.name())
-                    .antMatchers(HttpMethod.POST,"/pendingUsers").hasAuthority(UserType.PM.name())
-                    .antMatchers(HttpMethod.POST,"/approveList").hasAuthority(UserType.PM.name())
+                    .antMatchers(HttpMethod.POST,"/pendingTrainings").hasAuthority(UserType.SPOC.name())
+                    .antMatchers(HttpMethod.POST,"/pendingUsers").hasAuthority(UserType.SPOC.name())
+                    .antMatchers(HttpMethod.POST,"/approveList").hasAuthority(UserType.SPOC.name())
 
                     .antMatchers(HttpMethod.GET,"/crapa").hasAuthority(UserType.MANAGER.name())
                     .antMatchers(HttpMethod.POST,"/subordinates").hasAuthority(UserType.MANAGER.name())

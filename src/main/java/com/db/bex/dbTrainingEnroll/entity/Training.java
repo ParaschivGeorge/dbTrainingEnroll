@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -43,8 +44,13 @@ public class Training {
     @Column(name = "nr_max", nullable = false)
     private Long nrMax;
 
-    @Column(name = "training_accountable_id", nullable = false)
-    private Long trainingAccountableId;
+    @JsonIgnore
+    @ManyToOne(cascade ={CascadeType.ALL}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "training_responsible_id")
+    private User trainingResponsible;
+
+    @Column(name = "vendor")
+    private String vendor;
 
     @JsonIgnore
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, orphanRemoval = true)
