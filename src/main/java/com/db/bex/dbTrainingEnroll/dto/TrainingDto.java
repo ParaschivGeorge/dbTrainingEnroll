@@ -1,6 +1,7 @@
 package com.db.bex.dbTrainingEnroll.dto;
 
 import com.db.bex.dbTrainingEnroll.entity.TrainingCategoryType;
+import com.db.bex.dbTrainingEnroll.entity.User;
 import lombok.*;
 
 @Getter
@@ -18,5 +19,5 @@ public class TrainingDto {
     private String acceptedUsers;
     private Long nrMin;
     private Long nrMax;
-    private Long trainingAccountableId;
+    private User trainingResponsibleId;
 }

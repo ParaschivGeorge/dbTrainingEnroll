@@ -30,8 +30,10 @@ public class TrainingDtoTransformer {
                 .technology(training.getTechnology())
                 .categoryType(training.getCategory())
                 .acceptedUsers(enrollmentRepository.countAcceptedUsers(training.getId()).toString())
+                .nrMax(training.getNrMax())
+                .nrMin(training.getNrMin())
+                .trainingResponsibleId(training.getTrainingResponsibleId())
                 .build();
-
        return trainingDto;
     }
 
