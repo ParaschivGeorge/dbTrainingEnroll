@@ -31,14 +31,17 @@ public class UserService {
     @Autowired
     @Qualifier("dataSource1")
     private DataSource dataSource;
+    private EnrollmentService enrollmentService;
 
     public UserService(UserRepository userRepository, UserDtoTransformer userDtoTransformer,
-                       EnrollmentRepository enrollmentRepository, TrainingRepository trainingRepository, EmailService emailService) {
+                       EnrollmentRepository enrollmentRepository, TrainingRepository trainingRepository, EmailService emailService,
+                       EnrollmentService enrollmentService) {
         this.userRepository = userRepository;
         this.userDtoTransformer = userDtoTransformer;
         this.enrollmentRepository = enrollmentRepository;
         this.trainingRepository = trainingRepository;
         this.emailService = emailService;
+        this.enrollmentService = enrollmentService;
     }
 
     public List<UserDto> findSubordinates(String email, Long trainingId) throws MissingDataException {
@@ -61,7 +64,7 @@ public class UserService {
         return userDtoList;
     }
 
-    public List<UserDto> findPendingUsers(Long idTraining, String email) throws MissingDataException {
+    public List<EnrollmentDetailsDto> findPendingUsers(Long idTraining, String email) throws MissingDataException {
 
         Long idPm = userRepository.findByMail(email).getId();
 
@@ -69,7 +72,7 @@ public class UserService {
             throw new MissingDataException("Email does not exist");
         }
 
-        return userDtoTransformer.getUserSubordinates1(userRepository.findPendingUsers(idTraining, idPm));
+        return enrollmentService.getUserSubordinates(enrollmentRepository.findPendingUsers(idTraining, idPm));
 
     }
 
