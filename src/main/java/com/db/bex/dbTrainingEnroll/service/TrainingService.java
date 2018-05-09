@@ -17,6 +17,7 @@ import java.time.LocalDate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.LongSummaryStatistics;
 
 @Service
 @AllArgsConstructor
@@ -99,6 +100,12 @@ public class TrainingService {
     private String getMonthName(Integer month) {
         LocalDate localDate = LocalDate.of(1990, month, 1);
         return localDate.getMonth().name();
+    }
+
+    public void deleteTrainingList(List<Long> trainingIdList) {
+        for (Long trainingId : trainingIdList) {
+            trainingRepository.deleteById(trainingId);
+        }
     }
 
     private List<TrainingDto> dateSetter(List<Training> trainingList) {
