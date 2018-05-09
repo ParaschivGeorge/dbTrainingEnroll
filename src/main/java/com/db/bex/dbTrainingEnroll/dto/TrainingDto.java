@@ -19,6 +19,6 @@ public class TrainingDto {
     private String acceptedUsers;
     private Long nrMin;
     private Long nrMax;
-    private User trainingResponsibleId;
+//    private User trainingResponsibleId;
     private String vendor;
 }

@@ -169,8 +169,7 @@ public class TrainingService {
     }
 
     public List<TrainingDto> getAllApprovedTrainings(String userEmail) {
-        return trainingDtoTransformer.getTrainings(
-                    enrollmentRepository.findAllByUserId(
-                            userRepository.findByMail(userEmail).getId()));
+        return this.dateSetter(enrollmentRepository.findAllByUserId(
+                userRepository.findByMail(userEmail).getId()));
     }
 }

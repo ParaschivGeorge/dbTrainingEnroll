@@ -32,7 +32,7 @@ public class TrainingDtoTransformer {
                 .acceptedUsers(enrollmentRepository.countAcceptedUsers(training.getId()).toString())
                 .nrMax(training.getNrMax())
                 .nrMin(training.getNrMin())
-                .trainingResponsibleId(training.getTrainingResponsibleId())
+//                .trainingResponsibleId(training.getTrainingResponsibleId())
                 .vendor(training.getVendor())
                 .build();
        return trainingDto;
