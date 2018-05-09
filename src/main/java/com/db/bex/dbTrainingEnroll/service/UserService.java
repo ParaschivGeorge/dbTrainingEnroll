@@ -179,6 +179,7 @@ public class UserService {
             Long idTraining = u.getIdTraining();
             Long status = u.getStatus();
             Long id = userRepository.findByMail(mailUser).getId();
+            String pmComment = u.getComment();
 
             Enrollment enrollment = enrollmentRepository.findByUserIdAndTrainingId(id, idTraining);
 
@@ -191,6 +192,7 @@ public class UserService {
                 if (!managerEmails.contains(managerMail))
                     managerEmails.add(managerMail);
                 enrollment.setStatus(EnrollmentStatusType.ACCEPTED);
+                enrollment.setPmComment(pmComment);
                 enrollmentRepository.save(enrollment);
             }
             if (status == 0) {
