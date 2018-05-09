@@ -2,6 +2,7 @@ package com.db.bex.dbTrainingEnroll.dto;
 
 import com.db.bex.dbTrainingEnroll.dao.EnrollmentRepository;
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
+import com.db.bex.dbTrainingEnroll.dao.UserRepository;
 import com.db.bex.dbTrainingEnroll.entity.Training;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,9 @@ public class TrainingDtoTransformer {
 
     TrainingRepository trainingRepository;
     EnrollmentRepository enrollmentRepository;
+    UserRepository userRepository;
+    private UserDtoTransformer userDtoTransformer;
+
 
     public List<TrainingDto> getTrainings(List<Training> training){
         return training.stream().map(this::transform).collect(Collectors.toList());
@@ -32,7 +36,7 @@ public class TrainingDtoTransformer {
                 .acceptedUsers(enrollmentRepository.countAcceptedUsers(training.getId()).toString())
                 .nrMax(training.getNrMax())
                 .nrMin(training.getNrMin())
-//                .trainingResponsibleId(training.getTrainingResponsibleId())
+                .trainingResponsible(userDtoTransformer.transform(training.getTrainingResponsible()))
                 .vendor(training.getVendor())
                 .build();
        return trainingDto;

@@ -37,5 +37,13 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
 
     @Query("select t from Enrollment e join e.training t where e.user.id =?1 and e.status = 'ACCEPTED'")
     List<Training> findAllByUserId(Long user_id);
+
+    @Query("select e from Enrollment e " +
+            "join e.user u where u.manager.id IN " +
+            "(select uu.id from User uu where uu.manager.id=?2) " +
+            "and e.status = 'PENDING'" +
+            "and e.training.id =?1")
+    List<Enrollment> findPendingUsers (Long idTraining, Long idPm);
+
 }
 

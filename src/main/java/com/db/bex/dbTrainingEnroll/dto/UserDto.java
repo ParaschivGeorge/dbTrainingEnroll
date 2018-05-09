@@ -19,8 +19,4 @@ public class UserDto {
     private String departmentName;
     private Long subdepartmentId;
     private String subdepartmentName;
-    private TrainingType trainingType;
-    private UrgencyType urgencyType;
-    private String comment;
-
 }

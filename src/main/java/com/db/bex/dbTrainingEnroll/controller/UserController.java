@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @PostMapping("/pendingUsers")
-    public List<UserDto> getUserTrainings(@RequestBody ManagerTrainingRequestDto managerTrainingRequestDto) throws MissingDataException {
+    public List<EnrollmentDetailsDto> getUserTrainings(@RequestBody ManagerTrainingRequestDto managerTrainingRequestDto) throws MissingDataException {
         String email = managerTrainingRequestDto.getEmail();
         Long id = managerTrainingRequestDto.getId();
         return userService.findPendingUsers(id, email);

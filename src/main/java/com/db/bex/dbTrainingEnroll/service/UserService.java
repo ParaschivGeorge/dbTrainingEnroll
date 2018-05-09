@@ -31,14 +31,17 @@ public class UserService {
     @Autowired
     @Qualifier("dataSource1")
     private DataSource dataSource;
+    private EnrollmentService enrollmentService;
 
     public UserService(UserRepository userRepository, UserDtoTransformer userDtoTransformer,
-                       EnrollmentRepository enrollmentRepository, TrainingRepository trainingRepository, EmailService emailService) {
+                       EnrollmentRepository enrollmentRepository, TrainingRepository trainingRepository, EmailService emailService,
+                       EnrollmentService enrollmentService) {
         this.userRepository = userRepository;
         this.userDtoTransformer = userDtoTransformer;
         this.enrollmentRepository = enrollmentRepository;
         this.trainingRepository = trainingRepository;
         this.emailService = emailService;
+        this.enrollmentService = enrollmentService;
     }
 
     public List<UserDto> findSubordinates(String email, Long trainingId) throws MissingDataException {
@@ -61,7 +64,7 @@ public class UserService {
         return userDtoList;
     }
 
-    public List<UserDto> findPendingUsers(Long idTraining, String email) throws MissingDataException {
+    public List<EnrollmentDetailsDto> findPendingUsers(Long idTraining, String email) throws MissingDataException {
 
         Long idPm = userRepository.findByMail(email).getId();
 
@@ -69,7 +72,7 @@ public class UserService {
             throw new MissingDataException("Email does not exist");
         }
 
-        return userDtoTransformer.getUserSubordinates1(userRepository.findPendingUsers(idTraining, idPm));
+        return enrollmentService.getUserSubordinates(enrollmentRepository.findPendingUsers(idTraining, idPm));
 
     }
 
@@ -176,6 +179,7 @@ public class UserService {
             Long idTraining = u.getIdTraining();
             Long status = u.getStatus();
             Long id = userRepository.findByMail(mailUser).getId();
+            String pmComment = u.getComment();
 
             Enrollment enrollment = enrollmentRepository.findByUserIdAndTrainingId(id, idTraining);
 
@@ -188,6 +192,7 @@ public class UserService {
                 if (!managerEmails.contains(managerMail))
                     managerEmails.add(managerMail);
                 enrollment.setStatus(EnrollmentStatusType.ACCEPTED);
+                enrollment.setPmComment(pmComment);
                 enrollmentRepository.save(enrollment);
             }
             if (status == 0) {

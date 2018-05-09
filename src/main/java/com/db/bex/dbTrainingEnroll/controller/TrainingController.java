@@ -30,8 +30,9 @@ public class TrainingController {
         return trainingService.findTrainings();
     }
 
-    @PutMapping("/update")
-    public void updateTrainings(@RequestBody TrainingDto trainingDto ) throws MissingDataException {
+    @PutMapping("/updateTrainings")
+    public void updateTrainings(@RequestBody List<TrainingDto> trainingDtos) throws MissingDataException {
+        trainingService.updateTrainingList(trainingDtos);
     }
 
     @PostMapping("/pendingTrainings")
@@ -64,7 +65,6 @@ public class TrainingController {
         return trainingService.findMonthlyReport();
     }
 
-
     @PostMapping("/insertTrainings")
     public void insertTrainings(@RequestBody List<InsertedTrainingDto> insertedTrainingDtoList) {
         trainingService.insertTrainingList(insertedTrainingDtoList);
@@ -73,5 +73,10 @@ public class TrainingController {
     @PostMapping("/testingquery")
     public List<TrainingDto> trainingList(@RequestBody EmailDto emailDto){
         return trainingService.getAllApprovedTrainings(emailDto.getEmail());
+    }
+
+    @DeleteMapping("/deleteTrainings")
+    public void deleteTrainings(@RequestBody List<Long> trainingIdList) {
+        trainingService.deleteTrainingList(trainingIdList);
     }
 }

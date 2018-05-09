@@ -47,7 +47,7 @@ public class Training {
     @JsonIgnore
     @ManyToOne(cascade ={CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinColumn(name = "training_responsible_id")
-    private User trainingResponsibleId;
+    private User trainingResponsible;
 
     @Column(name = "vendor")
     private String vendor;
