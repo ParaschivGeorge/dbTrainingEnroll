@@ -7,16 +7,20 @@ import com.db.bex.dbTrainingEnroll.dto.*;
 import com.db.bex.dbTrainingEnroll.entity.Training;
 import com.db.bex.dbTrainingEnroll.entity.TrainingCategoryType;
 import com.db.bex.dbTrainingEnroll.entity.User;
+import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -62,10 +66,60 @@ public class TrainingService {
             training.setStartDate(insertedTrainingDto.getStartDate());
             training.setNrMax(insertedTrainingDto.getNrMax());
             training.setNrMin(insertedTrainingDto.getNrMin());
-            training.setTrainingResponsibleId(userRepository.findById(insertedTrainingDto.getResponsibleId()).get());
+            training.setTrainingResponsible(userRepository.findById(insertedTrainingDto.getResponsibleId()).get());
+            training.setVendor(insertedTrainingDto.getVendor());
 
             trainingRepository.save(training);
         }
+    }
+
+    public void updateTrainingList(List<TrainingDto> trainingDtos) throws MissingDataException {
+
+        for(TrainingDto trainingDto : trainingDtos) {
+            long id = trainingDto.getId();
+
+            Training training = trainingRepository.findById(id);
+
+            training.setName(trainingDto.getName());
+            training.setTechnology(trainingDto.getTechnology());
+            training.setCategory(trainingDto.getCategoryType());
+            training.setNrMax(trainingDto.getNrMax());
+            training.setNrMin(trainingDto.getNrMin());
+            training.setTrainingResponsible(userRepository.findByMail(trainingDto.getTrainingResponsible().getMail()));
+            training.setVendor(trainingDto.getVendor());
+            dateSetter(trainingDto, training);
+
+            trainingRepository.save(training);
+
+        }
+    }
+
+    private void dateSetter(TrainingDto trainingDto, Training training) {
+        String endDate, startDate;
+        String date = trainingDto.getDate();
+
+        if(date.indexOf('-') >= 0) { //contine n-, deci trebuie sa impartim date in startDate si endDate
+            String[] dates = date.split("\\ - ");
+            startDate = dates[0];
+            endDate = dates[1];
+        }
+        else {
+            startDate = date;
+            endDate = date;
+        }
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            Date startDate1 = formatter.parse(startDate);
+            Date endDate1 = formatter.parse(endDate);
+            training.setStartDate(startDate1);
+            training.setEndDate(endDate1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     public Integer[] countAcceptedTrainings() {

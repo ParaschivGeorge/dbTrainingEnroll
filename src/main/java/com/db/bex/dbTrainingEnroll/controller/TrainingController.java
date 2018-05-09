@@ -30,8 +30,9 @@ public class TrainingController {
         return trainingService.findTrainings();
     }
 
-    @PutMapping("/update")
-    public void updateTrainings(@RequestBody TrainingDto trainingDto ) throws MissingDataException {
+    @PutMapping("/updateTrainings")
+    public void updateTrainings(@RequestBody List<TrainingDto> trainingDtos) throws MissingDataException {
+        trainingService.updateTrainingList(trainingDtos);
     }
 
     @PostMapping("/pendingTrainings")
