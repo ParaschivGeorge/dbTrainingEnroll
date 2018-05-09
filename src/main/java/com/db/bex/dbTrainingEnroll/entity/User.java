@@ -73,6 +73,10 @@ public class  User {
     private Set<Enrollment> enrollments;
 
     @JsonIgnore
+    @OneToMany(mappedBy = "user")
+    private Set<Notification> notifications;
+
+    @JsonIgnore
     @Column(name="last_login_date")
     private Date lastLoginDate;
 
