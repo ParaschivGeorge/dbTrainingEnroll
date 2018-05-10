@@ -1,12 +1,11 @@
 package com.db.bex.dbTrainingEnroll.service;
 
 import com.db.bex.dbTrainingEnroll.dao.EnrollmentRepository;
+import com.db.bex.dbTrainingEnroll.dao.NotificationRepository;
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
 import com.db.bex.dbTrainingEnroll.dto.*;
-import com.db.bex.dbTrainingEnroll.entity.Training;
-import com.db.bex.dbTrainingEnroll.entity.TrainingCategoryType;
-import com.db.bex.dbTrainingEnroll.entity.User;
+import com.db.bex.dbTrainingEnroll.entity.*;
 import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,6 +19,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -29,6 +29,7 @@ public class TrainingService {
     private UserRepository userRepository;
     private EnrollmentRepository enrollmentRepository;
     private TrainingRepository trainingRepository;
+    private NotificationRepository notificationRepository;
 
     public List<TrainingDto> findPendingTrainings(EmailDto email) {
 
@@ -90,6 +91,16 @@ public class TrainingService {
 
             trainingRepository.save(training);
 
+            List<Enrollment> enrollments = enrollmentRepository.findAllByTrainingId(id);
+
+            for (Enrollment enrollment : enrollments) {
+                Notification notification = new Notification();
+                notification.setStatus(NotificationStatus.NEW);
+                notification.setType(NotifycationType.UPDATE);
+                notification.setMessage(training.getName() + " has been modified!");
+                notification.setUser(enrollment.getUser());
+                notificationRepository.save(notification);
+            }
         }
     }
 
@@ -156,6 +167,18 @@ public class TrainingService {
 
     public void deleteTrainingList(List<Long> trainingIdList) {
         for (Long trainingId : trainingIdList) {
+            List<Enrollment> enrollments = enrollmentRepository.findAllByTrainingId(trainingId);
+            Training training = trainingRepository.findById(trainingId).get();
+
+            for (Enrollment enrollment : enrollments) {
+                Notification notification = new Notification();
+                notification.setStatus(NotificationStatus.NEW);
+                notification.setType(NotifycationType.UPDATE);
+                notification.setMessage(training.getName() + " has been deleted!");
+                notification.setUser(enrollment.getUser());
+                notificationRepository.save(notification);
+            }
+
             trainingRepository.deleteById(trainingId);
         }
     }

@@ -2,6 +2,7 @@ package com.db.bex.dbTrainingEnroll.service;
 
 import com.db.bex.dbTrainingEnroll.Recommender;
 import com.db.bex.dbTrainingEnroll.dao.EnrollmentRepository;
+import com.db.bex.dbTrainingEnroll.dao.NotificationRepository;
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
 import com.db.bex.dbTrainingEnroll.dto.*;
@@ -25,6 +26,7 @@ public class UserService {
     private UserDtoTransformer userDtoTransformer;
     private EnrollmentRepository enrollmentRepository;
     private TrainingRepository trainingRepository;
+    private NotificationRepository notificationRepository;
     private EmailService emailService;
     @Autowired
     private TrainingDtoTransformer trainingDtoTransformer;
@@ -35,13 +37,14 @@ public class UserService {
 
     public UserService(UserRepository userRepository, UserDtoTransformer userDtoTransformer,
                        EnrollmentRepository enrollmentRepository, TrainingRepository trainingRepository, EmailService emailService,
-                       EnrollmentService enrollmentService) {
+                       EnrollmentService enrollmentService, NotificationRepository notificationRepository) {
         this.userRepository = userRepository;
         this.userDtoTransformer = userDtoTransformer;
         this.enrollmentRepository = enrollmentRepository;
         this.trainingRepository = trainingRepository;
         this.emailService = emailService;
         this.enrollmentService = enrollmentService;
+        this.notificationRepository = notificationRepository;
     }
 
     public List<UserDto> findSubordinates(String email, Long trainingId) throws MissingDataException {
@@ -173,12 +176,14 @@ public class UserService {
         List<String> declinedUserEmails = new ArrayList<>();
         List<String> managerEmails = new ArrayList<>();
         Long trainingId = userStatusDtos.get(0).getIdTraining();
+        Training training = trainingRepository.findById(trainingId).get();
 
         for(UserStatusDto u : userStatusDtos) {
             String mailUser = u.getMailUser();
             Long idTraining = u.getIdTraining();
             Long status = u.getStatus();
-            Long id = userRepository.findByMail(mailUser).getId();
+            User user = userRepository.findByMail(mailUser);
+            Long id = user.getId();
             String pmComment = u.getComment();
 
             Enrollment enrollment = enrollmentRepository.findByUserIdAndTrainingId(id, idTraining);
@@ -188,16 +193,31 @@ public class UserService {
 
             if (status == 1) {
                 approvedUserEmails.add(mailUser);
-                String managerMail = userRepository.findByMail(mailUser).getManager().getMail();
+
+                String managerMail = user.getManager().getMail();
                 if (!managerEmails.contains(managerMail))
                     managerEmails.add(managerMail);
                 enrollment.setStatus(EnrollmentStatusType.ACCEPTED);
                 enrollment.setPmComment(pmComment);
                 enrollmentRepository.save(enrollment);
+
+                Notification notification = new Notification();
+                notification.setStatus(NotificationStatus.NEW);
+                notification.setType(NotifycationType.APPROVAL);
+                notification.setMessage("You have been approved at " + training.getName());
+                notification.setUser(user);
+                notificationRepository.save(notification);
             }
             if (status == 0) {
                 declinedUserEmails.add(mailUser);
                 enrollmentRepository.delete(enrollment);
+
+                Notification notification = new Notification();
+                notification.setStatus(NotificationStatus.NEW);
+                notification.setType(NotifycationType.DENIAL);
+                notification.setMessage("You have been denied at " + training.getName() + " because: " + pmComment);
+                notification.setUser(user);
+                notificationRepository.save(notification);
             }
         }
         this.sendEmailToApprovedSubordinates(approvedUserEmails, trainingId);
@@ -303,5 +323,14 @@ public class UserService {
                 trainings.add(trainingRepository.findById(i).get());
         }
         return trainingDtoTransformer.getTrainings(trainings);
+    }
+
+    public List<Notification> getAllNotifications(EmailDto emailDto) {
+        return notificationRepository.findAllByUserId(userRepository.findByMail(emailDto.getEmail()).getId());
+    }
+
+    public List<Notification> getNewNotifications(EmailDto emailDto) {
+        return notificationRepository.findAllByUserIdAndStatus(userRepository.findByMail(emailDto.getEmail()).getId(),
+                NotificationStatus.NEW);
     }
 }

@@ -2,6 +2,7 @@ package com.db.bex.dbTrainingEnroll.controller;
 
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
 import com.db.bex.dbTrainingEnroll.dto.*;
+import com.db.bex.dbTrainingEnroll.entity.Notification;
 import com.db.bex.dbTrainingEnroll.entity.Training;
 import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
 import com.db.bex.dbTrainingEnroll.service.UserService;
@@ -74,5 +75,13 @@ public class UserController {
         return userService.getGenderCount();
     }
 
+    @PostMapping("/getAllNotifications")
+    public List<Notification> getAllNotifications(@RequestBody EmailDto emailDto) {
+        return userService.getAllNotifications(emailDto);
+    }
 
+    @PostMapping("/getNewNotifications")
+    public List<Notification> getNewNotifications(@RequestBody EmailDto emailDto) {
+        return userService.getNewNotifications(emailDto);
+    }
 }
