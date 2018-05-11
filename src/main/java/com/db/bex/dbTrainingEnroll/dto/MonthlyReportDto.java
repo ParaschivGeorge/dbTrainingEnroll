@@ -11,10 +11,8 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 public class MonthlyReportDto {
-
     private TrainingCategoryType category;
     private String monthNumber;
     private Long enrolled;
     private String monthString;
-
 }

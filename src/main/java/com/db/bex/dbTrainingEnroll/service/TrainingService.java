@@ -55,19 +55,10 @@ public class TrainingService {
         return enrollmentRepository.countAcceptedUsers(idTraining);
     }
 
-    public void insertTrainingList(List<InsertedTrainingDto> insertedTrainingDtoList) {
-        for(InsertedTrainingDto insertedTrainingDto : insertedTrainingDtoList) {
+    public void insertTrainingList(List<TrainingDto> trainingDtos) {
+        for(TrainingDto trainingDto : trainingDtos) {
             Training training = new Training();
-            training.setName(insertedTrainingDto.getName());
-            training.setTechnology(insertedTrainingDto.getTechnology());
-            training.setCategory(insertedTrainingDto.getCategoryType());
-            training.setEndDate(insertedTrainingDto.getEndDate());
-            training.setStartDate(insertedTrainingDto.getStartDate());
-            training.setNrMax(insertedTrainingDto.getNrMax());
-            training.setNrMin(insertedTrainingDto.getNrMin());
-            training.setTrainingResponsible(userRepository.findById(insertedTrainingDto.getResponsibleId()).get());
-            training.setVendor(insertedTrainingDto.getVendor());
-
+            trainingSetter(trainingDto, training);
             trainingRepository.save(training);
         }
     }
@@ -79,18 +70,22 @@ public class TrainingService {
 
             Training training = trainingRepository.findById(id);
 
-            training.setName(trainingDto.getName());
-            training.setTechnology(trainingDto.getTechnology());
-            training.setCategory(trainingDto.getCategoryType());
-            training.setNrMax(trainingDto.getNrMax());
-            training.setNrMin(trainingDto.getNrMin());
-            training.setTrainingResponsible(userRepository.findByMail(trainingDto.getTrainingResponsible().getMail()));
-            training.setVendor(trainingDto.getVendor());
-            dateSetter(trainingDto, training);
+            trainingSetter(trainingDto, training);
 
             trainingRepository.save(training);
 
         }
+    }
+
+    private void trainingSetter(TrainingDto trainingDto, Training training) {
+        training.setName(trainingDto.getName());
+        training.setTechnology(trainingDto.getTechnology());
+        training.setCategory(trainingDto.getCategoryType());
+        training.setNrMax(trainingDto.getNrMax());
+        training.setNrMin(trainingDto.getNrMin());
+        training.setTrainingResponsible(userRepository.findByMail(trainingDto.getTrainingResponsible().getMail()));
+        training.setVendor(trainingDto.getVendor());
+        dateSetter(trainingDto, training);
     }
 
     private void dateSetter(TrainingDto trainingDto, Training training) {

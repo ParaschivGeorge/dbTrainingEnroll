@@ -1,21 +1,13 @@
 package com.db.bex.dbTrainingEnroll.service;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 
-import javax.activation.DataHandler;
 import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.util.ByteArrayDataSource;
 import javax.validation.constraints.NotEmpty;
-import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
 @Component
 public class EmailService {
