@@ -88,7 +88,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                     .antMatchers(HttpMethod.POST, "/insertTrainings").hasAuthority(UserType.ADMIN.name())
                     .antMatchers(HttpMethod.POST, "/updateTrainings").hasAuthority(UserType.ADMIN.name())
-                    .antMatchers(HttpMethod.POST, "/deleteTrainings").hasAuthority(UserType.ADMIN.name())
+                    .antMatchers(HttpMethod.DELETE, "/deleteTrainings").hasAuthority(UserType.ADMIN.name())
 
                     .antMatchers(HttpMethod.GET,"/recommend").hasAuthority(UserType.USER.name())
                     .antMatchers(HttpMethod.GET,"/userSelfEnroll").hasAuthority(UserType.USER.name())
@@ -159,7 +159,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         HttpMethod.POST,
                         authenticationPath,
                         "/insertTrainings",
-                        "/updateTrainings",
+                        "/updateTrainings"
+                )
+
+                .and()
+                .ignoring()
+                .antMatchers(
+                        HttpMethod.DELETE,
                         "/deleteTrainings"
                 )
 
