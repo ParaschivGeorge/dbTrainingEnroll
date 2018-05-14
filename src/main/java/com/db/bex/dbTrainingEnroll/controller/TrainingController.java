@@ -69,7 +69,7 @@ public class TrainingController {
         return trainingService.getAllApprovedTrainings(emailDto.getEmail());
     }
 
-    @DeleteMapping("/deleteTrainings")
+    @PostMapping("/deleteTrainings")
     public void deleteTrainings(@RequestBody List<Long> trainingIdList) {
         trainingService.deleteTrainingList(trainingIdList);
     }
