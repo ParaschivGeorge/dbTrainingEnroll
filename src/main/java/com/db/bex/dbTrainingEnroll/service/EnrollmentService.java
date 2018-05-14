@@ -1,9 +1,7 @@
 package com.db.bex.dbTrainingEnroll.service;
 
 import com.db.bex.dbTrainingEnroll.dto.EnrollmentDetailsDto;
-import com.db.bex.dbTrainingEnroll.dto.UserDto;
 import com.db.bex.dbTrainingEnroll.entity.Enrollment;
-import com.db.bex.dbTrainingEnroll.entity.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

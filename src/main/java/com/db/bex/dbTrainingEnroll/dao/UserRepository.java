@@ -10,8 +10,6 @@ import java.util.List;
 @Repository
 public interface UserRepository extends JpaRepository <User, Long> {
 
-    User findByName(String name);
-
     List<User> findAllByManagerId(long id);
 
     User findByMail(String email);
@@ -21,13 +19,6 @@ public interface UserRepository extends JpaRepository <User, Long> {
             "where e.status = 'ACCEPTED' " +
             "and u.gender = ?1")
     Integer countAcceptedUsersByGender(UserGenderType genderType);
-
-//    @Query("select u from Enrollment e " +
-//            "join e.user u where u.manager.id IN " +
-//            "(select uu.id from User uu where uu.manager.id=?2) " +
-//            "and e.status = 'PENDING'" +
-//            "and e.training.id =?1")
-//    List<User> findPendingUsers (Long idTraining, Long idPm);
 
     @Query("select u from Enrollment e " +
             "join e.user u where u.manager.id =?1 " +

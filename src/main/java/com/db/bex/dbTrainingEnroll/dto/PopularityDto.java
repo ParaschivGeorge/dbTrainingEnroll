@@ -8,8 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class PopularityDto {
-
     private String technology;
     private Long attendees;
-
 }
