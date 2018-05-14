@@ -73,4 +73,9 @@ public class TrainingController {
     public void deleteTrainings(@RequestBody List<Long> trainingIdList) {
         trainingService.deleteTrainingList(trainingIdList);
     }
+
+    @PostMapping("/recommend")
+    public List<TrainingDto> recommend(@RequestBody EmailDto emailDto){
+        return trainingService.findRecommendedTrainings(emailDto.getEmail());
+    }
 }

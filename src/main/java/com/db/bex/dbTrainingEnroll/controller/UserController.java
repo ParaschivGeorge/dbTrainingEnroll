@@ -49,10 +49,10 @@ public class UserController {
         return userService.getUserData(emailDto);
     }
 
-    @PostMapping("/recommend")
-    public List<TrainingDto> recommend(@RequestBody EmailDto emailDto){
-        return userService.findRecommendedTrainings(userRepository.findByMail(emailDto.getEmail()).getId());
-    }
+//    @PostMapping("/recommend")
+//    public List<TrainingDto> recommend(@RequestBody EmailDto emailDto){
+//        return userService.findRecommendedTrainings(userRepository.findByMail(emailDto.getEmail()).getId());
+//    }
 
     @GetMapping("/register")
     public void register() {
