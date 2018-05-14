@@ -82,10 +82,18 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.POST,"/pendingUsers").hasAuthority(UserType.SPOC.name())
                     .antMatchers(HttpMethod.POST,"/approveList").hasAuthority(UserType.SPOC.name())
 
-                    .antMatchers(HttpMethod.GET,"/crapa").hasAuthority(UserType.MANAGER.name())
                     .antMatchers(HttpMethod.POST,"/subordinates").hasAuthority(UserType.MANAGER.name())
                     .antMatchers(HttpMethod.POST,"/subordinatesResult").hasAuthority(UserType.MANAGER.name())
                     .antMatchers(HttpMethod.POST,"/getSelfEnrolled").hasAuthority(UserType.MANAGER.name())
+
+                    .antMatchers(HttpMethod.POST,"/pendingTrainings").hasAuthority(UserType.ADMIN.name())
+                    .antMatchers(HttpMethod.POST,"/pendingUsers").hasAuthority(UserType.ADMIN.name())
+                    .antMatchers(HttpMethod.POST,"/approveList").hasAuthority(UserType.ADMIN.name())
+                    .antMatchers(HttpMethod.POST,"/subordinates").hasAuthority(UserType.ADMIN.name())
+                    .antMatchers(HttpMethod.POST,"/subordinatesResult").hasAuthority(UserType.ADMIN.name())
+                    .antMatchers(HttpMethod.POST,"/getSelfEnrolled").hasAuthority(UserType.ADMIN.name())
+                    .antMatchers(HttpMethod.GET,"/recommend").hasAuthority(UserType.ADMIN.name())
+                    .antMatchers(HttpMethod.GET,"/userSelfEnroll").hasAuthority(UserType.ADMIN.name())
 
                     .antMatchers(HttpMethod.GET,"/recommend").hasAuthority(UserType.USER.name())
                     .antMatchers(HttpMethod.GET,"/userSelfEnroll").hasAuthority(UserType.USER.name())
@@ -157,7 +165,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         authenticationPath,
                         "/insertTrainings",
                         "/updateTrainings",
-                        "deleteTrainings"
+                        "/deleteTrainings"
                 )
 
                 // allow anonymous resource requests
