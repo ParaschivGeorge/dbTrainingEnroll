@@ -291,17 +291,4 @@ public class UserService {
 
          return userDtoTransformer.getUserSubordinates1(userRepository.findUsersSelfEnrolled(idManager, id));
     }
-
-    public List<TrainingDto> findRecommendedTrainings(Long userId){
-        Recommender recommender = new Recommender(trainingRepository,dataSource);
-        List<Long> trainingsId = recommender.recommendTraining(userId,4);
-        List<Training> trainings = null;
-        if(!trainingsId.isEmpty())
-        {
-            trainings = new ArrayList<>();
-            for(Long i : trainingsId)
-                trainings.add(trainingRepository.findById(i).get());
-        }
-        return trainingDtoTransformer.getTrainings(trainings);
-    }
 }

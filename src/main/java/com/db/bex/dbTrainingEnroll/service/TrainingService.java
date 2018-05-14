@@ -1,5 +1,6 @@
 package com.db.bex.dbTrainingEnroll.service;
 
+import com.db.bex.dbTrainingEnroll.Recommender;
 import com.db.bex.dbTrainingEnroll.dao.EnrollmentRepository;
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
 import com.db.bex.dbTrainingEnroll.dao.UserRepository;
@@ -9,9 +10,12 @@ import com.db.bex.dbTrainingEnroll.entity.TrainingCategoryType;
 import com.db.bex.dbTrainingEnroll.entity.User;
 import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 
+import javax.sql.DataSource;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,6 +33,9 @@ public class TrainingService {
     private UserRepository userRepository;
     private EnrollmentRepository enrollmentRepository;
     private TrainingRepository trainingRepository;
+    @Autowired
+    @Qualifier("dataSource1")
+    private DataSource dataSource;
 
     public List<TrainingDto> findPendingTrainings(EmailDto email) {
 
@@ -230,5 +237,19 @@ public class TrainingService {
     public List<TrainingDto> getAllApprovedTrainings(String userEmail) {
         return this.dateSetter(enrollmentRepository.findAllByUserId(
                 userRepository.findByMail(userEmail).getId()));
+    }
+
+    public List<TrainingDto> findRecommendedTrainings(String email){
+        Long userId = userRepository.findByMail(email).getId();
+        Recommender recommender = new Recommender(trainingRepository,dataSource);
+        List<Long> trainingsId = recommender.recommendTraining(userId,4);
+        List<Training> trainings = null;
+        if(!trainingsId.isEmpty())
+        {
+            trainings = new ArrayList<>();
+            for(Long i : trainingsId)
+                trainings.add(trainingRepository.findById(i).get());
+        }
+        return this.dateSetter(trainings);
     }
 }
