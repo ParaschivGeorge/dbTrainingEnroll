@@ -25,6 +25,11 @@ public class TrainingController {
         return trainingService.findTrainings(pageable);
     }
 
+    @GetMapping("/trainingsAdmin")
+    public List<TrainingDto> getTrainings(){
+        return trainingService.findTrainings();
+    }
+
     @PostMapping("/pendingTrainings")
     public List<TrainingDto> getPendingTrainings(@RequestBody EmailDto email){
         return trainingService.findPendingTrainings(email);

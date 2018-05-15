@@ -64,6 +64,11 @@ public class TrainingService {
         return page;
     }
 
+    public List<TrainingDto> findTrainings() {
+        List<Training> trainings = trainingRepository.findAll();
+        return dateSetter(trainings);
+    }
+
     public Integer countAcceptedUsers(Long idTraining) {
         return enrollmentRepository.countAcceptedUsers(idTraining);
     }

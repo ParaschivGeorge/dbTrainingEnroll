@@ -45,7 +45,7 @@ public class Training {
     private Long nrMax;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne( fetch = FetchType.LAZY)
     @JoinColumn(name = "training_responsible_id")
     private User trainingResponsible;
 
@@ -53,7 +53,7 @@ public class Training {
     private String vendor;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "training",cascade ={CascadeType.ALL}, orphanRemoval = true)
     private Set<Enrollment> enrollments;
 
     @Override
