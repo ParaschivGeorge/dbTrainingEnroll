@@ -25,7 +25,7 @@ public class Enrollment implements Serializable {
     private Training training;
 
     @JsonIgnore
-    @ManyToOne(optional=true, fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 

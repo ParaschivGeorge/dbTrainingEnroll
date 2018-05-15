@@ -45,7 +45,7 @@ public class Training {
     private Long nrMax;
 
     @JsonIgnore
-    @ManyToOne(cascade ={CascadeType.ALL}, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "training_responsible_id")
     private User trainingResponsible;
 

@@ -1,12 +1,13 @@
 package com.db.bex.dbTrainingEnroll.controller;
 
-import com.db.bex.dbTrainingEnroll.dto.*;
 import com.db.bex.dbTrainingEnroll.dto.EmailDto;
 import com.db.bex.dbTrainingEnroll.dto.MonthlyReportDto;
 import com.db.bex.dbTrainingEnroll.dto.PopularityDto;
 import com.db.bex.dbTrainingEnroll.dto.TrainingDto;
 import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
 import com.db.bex.dbTrainingEnroll.service.TrainingService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -20,8 +21,8 @@ public class TrainingController {
     }
 
     @GetMapping("/trainings")
-    public List<TrainingDto> getTrainings(){
-        return trainingService.findTrainings();
+    public Page<TrainingDto> getTrainings(Pageable pageable){
+        return trainingService.findTrainings(pageable);
     }
 
     @PostMapping("/pendingTrainings")
@@ -64,7 +65,7 @@ public class TrainingController {
         trainingService.updateTrainingList(trainingDtos);
     }
 
-    @PostMapping("/testingquery")
+    @PostMapping("/testingQuery")
     public List<TrainingDto> trainingList(@RequestBody EmailDto emailDto){
         return trainingService.getAllApprovedTrainings(emailDto.getEmail());
     }

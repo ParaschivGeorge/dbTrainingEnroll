@@ -11,6 +11,9 @@ import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
@@ -23,7 +26,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @AllArgsConstructor
@@ -54,9 +56,12 @@ public class TrainingService {
         return trainingDtoTransformer.getTrainings(enrollmentRepository.findTrainingsThatHavePendingParticipants(id));
     }
 
-    public List<TrainingDto> findTrainings() {
-        List<Training> trainingList = trainingRepository.findAll();
-        return dateSetter(trainingList);
+    public Page<TrainingDto> findTrainings(Pageable pageable) {
+        Page<Training> trainingPage = trainingRepository.findAll(pageable);
+        List<Training> trainingList = trainingPage.getContent();
+        List<TrainingDto> trainingDtoList = dateSetter(trainingList);
+        Page<TrainingDto> page = new PageImpl<TrainingDto>(trainingDtoList);
+        return page;
     }
 
     public Integer countAcceptedUsers(Long idTraining) {
@@ -176,7 +181,7 @@ public class TrainingService {
                 Notification notification = new Notification();
                 notification.setStatus(NotificationStatus.NEW);
                 notification.setType(NotifycationType.UPDATE);
-                notification.setMessage(training.getName() + " has been deleted!");
+                notification.setMessage("Training " + training.getName() + " has been deleted!");
                 notification.setUser(enrollment.getUser());
                 notificationRepository.save(notification);
             }

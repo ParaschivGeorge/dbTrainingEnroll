@@ -1,6 +1,5 @@
 package com.db.bex.dbTrainingEnroll.controller;
 
-import com.db.bex.dbTrainingEnroll.dao.UserRepository;
 import com.db.bex.dbTrainingEnroll.dto.*;
 import com.db.bex.dbTrainingEnroll.entity.Notification;
 import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
@@ -12,11 +11,9 @@ import java.util.List;
 public class UserController {
 
     private UserService userService;
-    private UserRepository userRepository;
 
-    public UserController(UserService userService, UserRepository userRepository) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.userRepository = userRepository;
     }
 
     @PostMapping("/subordinates")

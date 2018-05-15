@@ -11,13 +11,8 @@ import java.util.List;
 
 @Repository
 public interface TrainingRepository extends JpaRepository<Training, Long> {
-    List<Training> findByIdIn(List<Long> id);
 
     Training findById(long id);
-
-    @Query("SELECT count(e) FROM Enrollment e " +
-            "where e.status = 'ACCEPTED'")
-    Integer countAllAcceptedTrainings();
 
     @Query("SELECT count(e) FROM Enrollment e " +
             "join e.training t " +

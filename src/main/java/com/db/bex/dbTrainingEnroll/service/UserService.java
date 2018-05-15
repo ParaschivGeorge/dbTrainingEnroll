@@ -28,12 +28,11 @@ public class UserService {
     private TrainingRepository trainingRepository;
     private NotificationRepository notificationRepository;
     private EmailService emailService;
-    @Autowired
-    private TrainingDtoTransformer trainingDtoTransformer;
+    private EnrollmentService enrollmentService;
+
     @Autowired
     @Qualifier("dataSource1")
     private DataSource dataSource;
-    private EnrollmentService enrollmentService;
 
     public UserService(UserRepository userRepository, UserDtoTransformer userDtoTransformer,
                        EnrollmentRepository enrollmentRepository, TrainingRepository trainingRepository, EmailService emailService,
