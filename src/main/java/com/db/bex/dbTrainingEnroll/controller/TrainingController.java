@@ -71,7 +71,7 @@ public class TrainingController {
         trainingService.updateTrainingList(trainingDtos);
     }
 
-    @PostMapping("/testingQuery")
+    @PostMapping("/myTrainings")
     public List<TrainingDto> trainingList(@RequestBody EmailDto emailDto){
         return trainingService.getAllApprovedTrainings(emailDto.getEmail());
     }

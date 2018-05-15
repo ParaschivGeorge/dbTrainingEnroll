@@ -275,8 +275,11 @@ public class TrainingService {
         if(!trainingsId.isEmpty())
         {
             trainings = new ArrayList<>();
-            for(Long i : trainingsId)
-                trainings.add(trainingRepository.findById(i).get());
+            for(Long i : trainingsId) {
+                if(trainingRepository.findById(i).isPresent())
+                    trainings.add(trainingRepository.findById(i).get());
+            }
+
         }
         return this.dateSetter(trainings);
     }
