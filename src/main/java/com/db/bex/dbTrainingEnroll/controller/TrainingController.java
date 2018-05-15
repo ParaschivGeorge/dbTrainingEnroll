@@ -21,8 +21,9 @@ public class TrainingController {
     }
 
     @GetMapping("/trainings")
-    public Page<TrainingDto> getTrainings(Pageable pageable){
-        return trainingService.findTrainings(pageable);
+    public List<TrainingDto> getTrainings(Pageable pageable){
+        Page<TrainingDto> trainingPage = trainingService.findTrainings(pageable);
+        return trainingPage.getContent();
     }
 
     @GetMapping("/trainingsAdmin")
