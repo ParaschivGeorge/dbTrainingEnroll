@@ -1,5 +1,7 @@
 package com.db.bex.dbTrainingEnroll.service;
 
+import com.db.bex.dbTrainingEnroll.service.email.MailContentBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -13,13 +15,15 @@ import java.util.List;
 public class EmailService {
 
     private JavaMailSender mailSender;
+    @Autowired
+    private MailContentBuilder mailContentBuilder;
 
     public EmailService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
 
     public void sendEmailToUsers(List<String> receivers, @NotEmpty String text, @NotEmpty String subject) throws MessagingException {
-       MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
         for(String s : receivers)
             System.out.println(s);
@@ -30,7 +34,10 @@ public class EmailService {
                 receivers.remove(0);
                 helper.setBcc(receivers.toArray(new String[receivers.size()]));
             }
-            helper.setText(text);
+
+            String content = mailContentBuilder.build(text);
+            helper.setText(content, true);
+//            helper.setText(text);
             mailSender.send(mimeMessage);
         }
     }
