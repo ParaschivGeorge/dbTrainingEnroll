@@ -1,6 +1,5 @@
 package com.db.bex.dbTrainingEnroll.service;
 
-import com.db.bex.dbTrainingEnroll.Recommender;
 import com.db.bex.dbTrainingEnroll.dao.EnrollmentRepository;
 import com.db.bex.dbTrainingEnroll.dao.NotificationRepository;
 import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
@@ -24,26 +23,26 @@ public class UserService {
 
     private UserRepository userRepository;
     private UserDtoTransformer userDtoTransformer;
+    private EnrollmentDetailsDtoTransformer enrollmentDetailsDtoTransformer;
     private EnrollmentRepository enrollmentRepository;
     private TrainingRepository trainingRepository;
     private NotificationRepository notificationRepository;
     private EmailService emailService;
-    private EnrollmentService enrollmentService;
 
     @Autowired
     @Qualifier("dataSource1")
     private DataSource dataSource;
 
-    public UserService(UserRepository userRepository, UserDtoTransformer userDtoTransformer,
-                       EnrollmentRepository enrollmentRepository, TrainingRepository trainingRepository, EmailService emailService,
-                       EnrollmentService enrollmentService, NotificationRepository notificationRepository) {
+    public UserService(UserRepository userRepository, UserDtoTransformer userDtoTransformer, EnrollmentRepository enrollmentRepository, TrainingRepository trainingRepository,
+                       NotificationRepository notificationRepository, EmailService emailService,
+                       EnrollmentDetailsDtoTransformer enrollmentDetailsDtoTransformer) {
         this.userRepository = userRepository;
         this.userDtoTransformer = userDtoTransformer;
+        this.enrollmentDetailsDtoTransformer = enrollmentDetailsDtoTransformer;
         this.enrollmentRepository = enrollmentRepository;
         this.trainingRepository = trainingRepository;
-        this.emailService = emailService;
-        this.enrollmentService = enrollmentService;
         this.notificationRepository = notificationRepository;
+        this.emailService = emailService;
     }
 
     public List<UserDto> findSubordinates(String email, Long trainingId) throws MissingDataException {
@@ -74,7 +73,7 @@ public class UserService {
             throw new MissingDataException("Email does not exist");
         }
 
-        return enrollmentService.getUserSubordinates(enrollmentRepository.findPendingUsers(idTraining, idPm));
+        return enrollmentDetailsDtoTransformer.getUserSubordinates(enrollmentRepository.findPendingUsers(idTraining, idPm));
 
     }
 

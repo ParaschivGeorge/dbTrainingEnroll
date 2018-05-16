@@ -1,14 +1,15 @@
-package com.db.bex.dbTrainingEnroll.service;
+package com.db.bex.dbTrainingEnroll.dto;
 
-import com.db.bex.dbTrainingEnroll.dto.EnrollmentDetailsDto;
 import com.db.bex.dbTrainingEnroll.entity.Enrollment;
-import org.springframework.stereotype.Service;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
-public class EnrollmentService {
+@Component
+@AllArgsConstructor
+public class EnrollmentDetailsDtoTransformer {
 
     public EnrollmentDetailsDto transform(Enrollment enrollment){
 

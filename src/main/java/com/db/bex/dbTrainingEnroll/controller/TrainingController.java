@@ -31,11 +31,42 @@ public class TrainingController {
         return trainingService.findTrainings();
     }
 
+    @PostMapping("/insertTrainings")
+    public void insertTrainings(@RequestBody List<TrainingDto> trainingDtos) {
+        trainingService.insertTrainingList(trainingDtos);
+    }
+
+    @PutMapping("/updateTrainings")
+    public void updateTrainings(@RequestBody List<TrainingDto> trainingDtos) throws MissingDataException {
+        trainingService.updateTrainingList(trainingDtos);
+    }
+
+    @DeleteMapping("/deleteTrainings")
+    public void deleteTrainings(@RequestBody List<Long> trainingIdList) {
+        trainingService.deleteTrainingList(trainingIdList);
+    }
+    
     @PostMapping("/pendingTrainings")
     public List<TrainingDto> getPendingTrainings(@RequestBody EmailDto email){
         return trainingService.findPendingTrainings(email);
     }
 
+    @PostMapping("/myTrainings")
+    public List<TrainingDto> trainingList(@RequestBody EmailDto emailDto){
+        return trainingService.getAllApprovedTrainings(emailDto.getEmail());
+    }
+
+    @PostMapping("/recommend")
+    public List<TrainingDto> recommend(@RequestBody EmailDto emailDto){
+        return trainingService.findRecommendedTrainings(emailDto.getEmail());
+    }
+
+    @PostMapping("/enrolledTrainings")
+    public List<TrainingDto> enrolledTrainings(@RequestBody EmailDto emailDto) {
+        return trainingService.findEnrolledTrainings(emailDto);
+    }
+
+    //methods used for reports
     @GetMapping("/attendedTrainings")
     public Integer[] getAttendedTrainings() {
         return trainingService.countAcceptedTrainings();
@@ -61,33 +92,4 @@ public class TrainingController {
         return trainingService.findMonthlyReport();
     }
 
-    @PostMapping("/insertTrainings")
-    public void insertTrainings(@RequestBody List<TrainingDto> trainingDtos) {
-        trainingService.insertTrainingList(trainingDtos);
-    }
-
-    @PutMapping("/updateTrainings")
-    public void updateTrainings(@RequestBody List<TrainingDto> trainingDtos) throws MissingDataException {
-        trainingService.updateTrainingList(trainingDtos);
-    }
-
-    @PostMapping("/myTrainings")
-    public List<TrainingDto> trainingList(@RequestBody EmailDto emailDto){
-        return trainingService.getAllApprovedTrainings(emailDto.getEmail());
-    }
-
-    @DeleteMapping("/deleteTrainings")
-    public void deleteTrainings(@RequestBody List<Long> trainingIdList) {
-        trainingService.deleteTrainingList(trainingIdList);
-    }
-
-    @PostMapping("/recommend")
-    public List<TrainingDto> recommend(@RequestBody EmailDto emailDto){
-        return trainingService.findRecommendedTrainings(emailDto.getEmail());
-    }
-
-    @PostMapping("/enrolledTrainings")
-    public List<TrainingDto> enrolledTrainings(@RequestBody EmailDto emailDto) {
-        return trainingService.findEnrolledTrainings(emailDto);
-    }
 }
