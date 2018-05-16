@@ -41,16 +41,6 @@ public class UserController {
         return userService.getUserData(emailDto);
     }
 
-//    @PostMapping("/recommend")
-//    public List<TrainingDto> recommend(@RequestBody EmailDto emailDto){
-//        return userService.findRecommendedTrainings(userRepository.findByMail(emailDto.getEmail()).getId());
-//    }
-
-    @GetMapping("/register")
-    public void register() {
-        userService.addUser();
-    }
-
     @PostMapping("/userSelfEnroll")
     public void userSelfEnroll(@RequestBody ManagerRequestDto managerRequestDto) throws MissingDataException {
         userService.saveUserSaveEnroll(managerRequestDto);
@@ -71,8 +61,18 @@ public class UserController {
         return userService.getNewNotifications(emailDto);
     }
 
+    @GetMapping("/register")
+    public void register() {
+        userService.addUser();
+    }
+
     @GetMapping("/genderStats")
     public Integer[] getGendersDiff() {
         return userService.getGenderCount();
     }
+
+//    @PostMapping("/recommend")
+//    public List<TrainingDto> recommend(@RequestBody EmailDto emailDto){
+//        return userService.findRecommendedTrainings(userRepository.findByMail(emailDto.getEmail()).getId());
+//    }
 }
