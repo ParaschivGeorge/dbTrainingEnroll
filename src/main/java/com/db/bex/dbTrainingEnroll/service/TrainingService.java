@@ -195,6 +195,12 @@ public class TrainingService {
         }
     }
 
+    public List<TrainingDto> findEnrolledTrainings(EmailDto emailDto) {
+        User manager = userRepository.findByMail(emailDto.getEmail());
+        List<Training> trainingList = trainingRepository.findEnrolledTrainingsByManagerId(manager.getId());
+        return dateSetter(trainingList);
+    }
+
     private List<TrainingDto> dateSetter(List<Training> trainingList) {
         List<TrainingDto> trainingDtoList = new ArrayList<>();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");

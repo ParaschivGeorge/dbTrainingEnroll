@@ -85,4 +85,9 @@ public class TrainingController {
     public List<TrainingDto> recommend(@RequestBody EmailDto emailDto){
         return trainingService.findRecommendedTrainings(emailDto.getEmail());
     }
+
+    @PostMapping("/enrolledTrainings")
+    public List<TrainingDto> enrolledTrainings(@RequestBody EmailDto emailDto) {
+        return trainingService.findEnrolledTrainings(emailDto);
+    }
 }

@@ -2,6 +2,7 @@ package com.db.bex.dbTrainingEnroll.dao;
 
 import com.db.bex.dbTrainingEnroll.dto.MonthlyReportDto;
 import com.db.bex.dbTrainingEnroll.dto.PopularityDto;
+import com.db.bex.dbTrainingEnroll.dto.TrainingDto;
 import com.db.bex.dbTrainingEnroll.entity.Training;
 import com.db.bex.dbTrainingEnroll.entity.TrainingCategoryType;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -52,4 +53,10 @@ public interface TrainingRepository extends JpaRepository<Training, Long> {
             "WHERE e.status = 'ACCEPTED' " +
             "GROUP BY t.category, substring(t.startDate,7,1)")
     List<MonthlyReportDto> getMonthlyReport();
+
+    @Query("SELECT DISTINCT t FROM Enrollment e " +
+            "join e.training t " +
+            "join e.user u " +
+            "WHERE u.manager.id = ?1 and e.status = 'ACCEPTED'")
+    List<Training> findEnrolledTrainingsByManagerId(Long managerId);
 }
