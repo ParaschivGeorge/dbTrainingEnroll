@@ -195,6 +195,12 @@ public class TrainingService {
         }
     }
 
+    public List<TrainingDto> findEnrolledTrainings(EmailDto emailDto) {
+        User manager = userRepository.findByMail(emailDto.getEmail());
+        List<Training> trainingList = trainingRepository.findEnrolledTrainingsByManagerId(manager.getId());
+        return dateSetter(trainingList);
+    }
+
     private List<TrainingDto> dateSetter(List<Training> trainingList) {
         List<TrainingDto> trainingDtoList = new ArrayList<>();
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -275,8 +281,11 @@ public class TrainingService {
         if(!trainingsId.isEmpty())
         {
             trainings = new ArrayList<>();
-            for(Long i : trainingsId)
-                trainings.add(trainingRepository.findById(i).get());
+            for(Long i : trainingsId) {
+                if(trainingRepository.findById(i).isPresent())
+                    trainings.add(trainingRepository.findById(i).get());
+            }
+
         }
         return this.dateSetter(trainings);
     }
