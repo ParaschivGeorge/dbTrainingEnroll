@@ -100,6 +100,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.POST,"/auth").permitAll()
                     .antMatchers(HttpMethod.GET,"/trainings").permitAll()
                     .antMatchers(HttpMethod.GET,"/reportByMonth").permitAll()
+                    .antMatchers(HttpMethod.POST,"/enrolledTrainings").permitAll()
 
                 // TODO: for local testing
 //                    .antMatchers("/crapa").permitAll()
@@ -159,7 +160,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         HttpMethod.POST,
                         authenticationPath,
                         "/insertTrainings",
-                        "/updateTrainings"
+                        "/updateTrainings",
+                        "/enrolledTrainings"
                 )
 
                 .and()
