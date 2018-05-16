@@ -45,7 +45,7 @@ public class TrainingController {
     public void deleteTrainings(@RequestBody List<Long> trainingIdList) {
         trainingService.deleteTrainingList(trainingIdList);
     }
-    
+
     @PostMapping("/pendingTrainings")
     public List<TrainingDto> getPendingTrainings(@RequestBody EmailDto email){
         return trainingService.findPendingTrainings(email);
@@ -56,17 +56,18 @@ public class TrainingController {
         return trainingService.getAllApprovedTrainings(emailDto.getEmail());
     }
 
-    @PostMapping("/recommend")
-    public List<TrainingDto> recommend(@RequestBody EmailDto emailDto){
-        return trainingService.findRecommendedTrainings(emailDto.getEmail());
-    }
-
     @PostMapping("/enrolledTrainings")
     public List<TrainingDto> enrolledTrainings(@RequestBody EmailDto emailDto) {
         return trainingService.findEnrolledTrainings(emailDto);
     }
 
+    @PostMapping("/recommend")
+    public List<TrainingDto> recommend(@RequestBody EmailDto emailDto){
+        return trainingService.findRecommendedTrainings(emailDto.getEmail());
+    }
+
     //methods used for reports
+
     @GetMapping("/attendedTrainings")
     public Integer[] getAttendedTrainings() {
         return trainingService.countAcceptedTrainings();

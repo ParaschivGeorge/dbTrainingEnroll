@@ -113,62 +113,6 @@ public class UserService {
 
     }
 
-    public void saveSubordinatesStatus(String emailUser, Long idTraining, Long status) throws MissingDataException {
-
-        if(emailUser == null || idTraining == null || status == null) {
-            throw new MissingDataException("Email, status or id is null");
-        }
-
-        User user = userRepository.findByMail(emailUser);
-
-        if(user == null)
-            throw new MissingDataException("User does not exist");
-
-        Enrollment enrollment = enrollmentRepository.findByUserIdAndTrainingId(user.getId(), idTraining);
-
-        if(enrollment == null) {
-            throw new MissingDataException("Email does not exist!");
-        }
-
-        if (status == 1) {
-            enrollment.setStatus(EnrollmentStatusType.ACCEPTED);
-            enrollmentRepository.save(enrollment);
-        }
-
-        if (status == 0)
-            enrollmentRepository.delete(enrollment);
-    }
-
-    public UserDto getUserData (EmailDto emailDto) {
-        UserDtoTransformer userDtoTransformer = new UserDtoTransformer();
-        User user = userRepository.findByMail(emailDto.getEmail());
-        user.setLastLoginDate(user.getCurrentLoginDate());
-        user.setCurrentLoginDate(new Date());
-        userRepository.save(user);
-        return userDtoTransformer.transform(user);
-    }
-
-    public Integer[] getGenderCount () {
-        Integer males = userRepository.countAcceptedUsersByGender(UserGenderType.MALE);
-        Integer females = userRepository.countAcceptedUsersByGender(UserGenderType.FEMALE);
-        Integer[] genders = {males, females};
-        return genders;
-    }
-
-    // for test only
-    public void addUser() {
-        User user = new User();
-        user.setName("Vasile");
-        user.setMail("vasile2@gmail.com");
-        user.setType(UserType.MANAGER);
-        user.setPassword(new BCryptPasswordEncoder().encode("test"));
-        user.setEnabled(true);
-        user.setId(111111113L);
-        user.setManager(null);
-        user.setLastPasswordResetDate(new Date());
-        userRepository.saveAndFlush(user);
-    }
-
     public void saveSubordinatesStatusAndSendEmail(List<UserStatusDto> userStatusDtos) throws MissingDataException {
         List<String> approvedUserEmails = new ArrayList<>();
         List<String> declinedUserEmails = new ArrayList<>();
@@ -317,5 +261,35 @@ public class UserService {
     public List<Notification> getNewNotifications(EmailDto emailDto) {
         return notificationRepository.findAllByUserIdAndStatus(userRepository.findByMail(emailDto.getEmail()).getId(),
                 NotificationStatus.NEW);
+    }
+
+    public UserDto getUserData (EmailDto emailDto) {
+        UserDtoTransformer userDtoTransformer = new UserDtoTransformer();
+        User user = userRepository.findByMail(emailDto.getEmail());
+        user.setLastLoginDate(user.getCurrentLoginDate());
+        user.setCurrentLoginDate(new Date());
+        userRepository.save(user);
+        return userDtoTransformer.transform(user);
+    }
+
+    public Integer[] getGenderCount () {
+        Integer males = userRepository.countAcceptedUsersByGender(UserGenderType.MALE);
+        Integer females = userRepository.countAcceptedUsersByGender(UserGenderType.FEMALE);
+        Integer[] genders = {males, females};
+        return genders;
+    }
+
+    // for test only
+    public void addUser() {
+        User user = new User();
+        user.setName("Vasile");
+        user.setMail("vasile2@gmail.com");
+        user.setType(UserType.MANAGER);
+        user.setPassword(new BCryptPasswordEncoder().encode("test"));
+        user.setEnabled(true);
+        user.setId(111111113L);
+        user.setManager(null);
+        user.setLastPasswordResetDate(new Date());
+        userRepository.saveAndFlush(user);
     }
 }

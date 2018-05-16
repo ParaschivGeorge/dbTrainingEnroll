@@ -40,22 +40,6 @@ public class TrainingService {
     private DataSource dataSource;
     private NotificationRepository notificationRepository;
 
-    public List<TrainingDto> findPendingTrainings(EmailDto email) {
-
-        if(email == null) {
-            throw new NullPointerException("Email is null");
-        }
-
-        User user = userRepository.findByMail(email.getEmail());
-        if (user == null)
-            return null;
-        Long id = user.getId();
-        if(id == null) {
-            throw new NullPointerException("Email does not exist");
-        }
-        return trainingDtoTransformer.getTrainings(enrollmentRepository.findTrainingsThatHavePendingParticipants(id));
-    }
-
     public Page<TrainingDto> findTrainings(Pageable pageable) {
         Page<Training> trainingPage = trainingRepository.findAll(pageable);
         List<Training> trainingList = trainingPage.getContent();
@@ -67,10 +51,6 @@ public class TrainingService {
     public List<TrainingDto> findTrainings() {
         List<Training> trainings = trainingRepository.findAll();
         return dateSetter(trainings);
-    }
-
-    public Integer countAcceptedUsers(Long idTraining) {
-        return enrollmentRepository.countAcceptedUsers(idTraining);
     }
 
     public void insertTrainingList(List<TrainingDto> trainingDtos) {
@@ -113,36 +93,47 @@ public class TrainingService {
         training.setNrMin(trainingDto.getNrMin());
         training.setTrainingResponsible(userRepository.findByMail(trainingDto.getTrainingResponsible().getMail()));
         training.setVendor(trainingDto.getVendor());
-        dateSetter(trainingDto, training);
+        splitDate(trainingDto, training);
     }
 
-    private void dateSetter(TrainingDto trainingDto, Training training) {
-        String endDate, startDate;
-        String date = trainingDto.getDate();
+    public void deleteTrainingList(List<Long> trainingIdList) {
+        for (Long trainingId : trainingIdList) {
+            List<Enrollment> enrollments = enrollmentRepository.findAllByTrainingId(trainingId);
+            Training training = trainingRepository.findById(trainingId).get();
 
-        if(date.indexOf('-') >= 0) { //contine n-, deci trebuie sa impartim date in startDate si endDate
-            String[] dates = date.split("\\ - ");
-            startDate = dates[0];
-            endDate = dates[1];
+            for (Enrollment enrollment : enrollments) {
+                Notification notification = new Notification();
+                notification.setStatus(NotificationStatus.NEW);
+                notification.setType(NotifycationType.UPDATE);
+                notification.setMessage("Training " + training.getName() + " has been deleted!");
+                notification.setUser(enrollment.getUser());
+                notificationRepository.save(notification);
+            }
+
+            trainingRepository.deleteById(trainingId);
         }
-        else {
-            startDate = date;
-            endDate = date;
-        }
-
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-
-        try {
-            Date startDate1 = formatter.parse(startDate);
-            Date endDate1 = formatter.parse(endDate);
-            training.setStartDate(startDate1);
-            training.setEndDate(endDate1);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-
     }
+
+    public List<TrainingDto> findPendingTrainings(EmailDto email) {
+
+        if(email == null) {
+            throw new NullPointerException("Email is null");
+        }
+
+        User user = userRepository.findByMail(email.getEmail());
+        if (user == null)
+            return null;
+        Long id = user.getId();
+        if(id == null) {
+            throw new NullPointerException("Email does not exist");
+        }
+        return trainingDtoTransformer.getTrainings(enrollmentRepository.findTrainingsThatHavePendingParticipants(id));
+    }
+
+    public Integer countAcceptedUsers(Long idTraining) {
+        return enrollmentRepository.countAcceptedUsers(idTraining);
+    }
+
 
     public Integer[] countAcceptedTrainings() {
         Integer acceptedTech = trainingRepository.countAcceptedTechTraining();
@@ -177,28 +168,32 @@ public class TrainingService {
         return localDate.getMonth().name();
     }
 
-    public void deleteTrainingList(List<Long> trainingIdList) {
-        for (Long trainingId : trainingIdList) {
-            List<Enrollment> enrollments = enrollmentRepository.findAllByTrainingId(trainingId);
-            Training training = trainingRepository.findById(trainingId).get();
-
-            for (Enrollment enrollment : enrollments) {
-                Notification notification = new Notification();
-                notification.setStatus(NotificationStatus.NEW);
-                notification.setType(NotifycationType.UPDATE);
-                notification.setMessage("Training " + training.getName() + " has been deleted!");
-                notification.setUser(enrollment.getUser());
-                notificationRepository.save(notification);
-            }
-
-            trainingRepository.deleteById(trainingId);
-        }
-    }
-
     public List<TrainingDto> findEnrolledTrainings(EmailDto emailDto) {
         User manager = userRepository.findByMail(emailDto.getEmail());
         List<Training> trainingList = trainingRepository.findEnrolledTrainingsByManagerId(manager.getId());
         return dateSetter(trainingList);
+    }
+
+    public List<TrainingDto> getAllApprovedTrainings(String userEmail) {
+        return this.dateSetter(enrollmentRepository.findAllByUserId(
+                userRepository.findByMail(userEmail).getId()));
+    }
+
+    public List<TrainingDto> findRecommendedTrainings(String email){
+        Long userId = userRepository.findByMail(email).getId();
+        Recommender recommender = new Recommender(trainingRepository,dataSource);
+        List<Long> trainingsId = recommender.recommendTraining(userId,4);
+        List<Training> trainings = null;
+        if(!trainingsId.isEmpty())
+        {
+            trainings = new ArrayList<>();
+            for(Long i : trainingsId) {
+                if(trainingRepository.findById(i).isPresent())
+                    trainings.add(trainingRepository.findById(i).get());
+            }
+
+        }
+        return this.dateSetter(trainings);
     }
 
     private List<TrainingDto> dateSetter(List<Training> trainingList) {
@@ -268,25 +263,29 @@ public class TrainingService {
         return trainingDtoList;
     }
 
-    public List<TrainingDto> getAllApprovedTrainings(String userEmail) {
-        return this.dateSetter(enrollmentRepository.findAllByUserId(
-                userRepository.findByMail(userEmail).getId()));
-    }
+    private void splitDate(TrainingDto trainingDto, Training training) {
+        String endDate, startDate;
+        String date = trainingDto.getDate();
 
-    public List<TrainingDto> findRecommendedTrainings(String email){
-        Long userId = userRepository.findByMail(email).getId();
-        Recommender recommender = new Recommender(trainingRepository,dataSource);
-        List<Long> trainingsId = recommender.recommendTraining(userId,4);
-        List<Training> trainings = null;
-        if(!trainingsId.isEmpty())
-        {
-            trainings = new ArrayList<>();
-            for(Long i : trainingsId) {
-                if(trainingRepository.findById(i).isPresent())
-                    trainings.add(trainingRepository.findById(i).get());
-            }
-
+        if(date.indexOf('-') >= 0) { //date contrains "-" , so we have stored in it the start date and the end date
+            String[] dates = date.split("\\ - ");
+            startDate = dates[0];
+            endDate = dates[1];
         }
-        return this.dateSetter(trainings);
+        else {
+            startDate = date;
+            endDate = date;
+        }
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            Date startDate1 = formatter.parse(startDate);
+            Date endDate1 = formatter.parse(endDate);
+            training.setStartDate(startDate1);
+            training.setEndDate(endDate1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }

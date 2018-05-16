@@ -65,11 +65,6 @@ public class UserController {
         return userService.findSelfEnrolledSubordinates(managerRequestDto);
     }
 
-    @GetMapping("/genderStats")
-    public Integer[] getGendersDiff() {
-        return userService.getGenderCount();
-    }
-
     @PostMapping("/getAllNotifications")
     public List<Notification> getAllNotifications(@RequestBody EmailDto emailDto) {
         return userService.getAllNotifications(emailDto);
@@ -78,5 +73,10 @@ public class UserController {
     @PostMapping("/getNewNotifications")
     public List<Notification> getNewNotifications(@RequestBody EmailDto emailDto) {
         return userService.getNewNotifications(emailDto);
+    }
+
+    @GetMapping("/genderStats")
+    public Integer[] getGendersDiff() {
+        return userService.getGenderCount();
     }
 }
