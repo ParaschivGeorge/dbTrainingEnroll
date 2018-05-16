@@ -18,16 +18,12 @@ public class UserController {
 
     @PostMapping("/subordinates")
     public List<UserDto> getSubordinates(@RequestBody ManagerRequestDto managerRequestDto) throws MissingDataException {
-        String email = managerRequestDto.getEmail();
-        Long id = managerRequestDto.getId();
-        return userService.findSubordinates(email, id);
+        return userService.findSubordinates(managerRequestDto);
     }
 
     @PostMapping("/pendingUsers")
     public List<EnrollmentDetailsDto> getUserTrainings(@RequestBody ManagerTrainingRequestDto managerTrainingRequestDto) throws MissingDataException {
-        String email = managerTrainingRequestDto.getEmail();
-        Long id = managerTrainingRequestDto.getId();
-        return userService.findPendingUsers(id, email);
+        return userService.findPendingUsers(managerTrainingRequestDto);
     }
 
     @PostMapping("/subordinatesResult")

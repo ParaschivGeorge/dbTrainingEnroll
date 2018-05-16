@@ -22,8 +22,7 @@ public class TrainingController {
 
     @GetMapping("/trainings")
     public List<TrainingDto> getTrainings(Pageable pageable){
-        Page<TrainingDto> trainingPage = trainingService.findTrainings(pageable);
-        return trainingPage.getContent();
+        return trainingService.findTrainings(pageable).getContent();
     }
 
     @GetMapping("/trainingsAdmin")
@@ -47,12 +46,12 @@ public class TrainingController {
     }
 
     @PostMapping("/pendingTrainings")
-    public List<TrainingDto> getPendingTrainings(@RequestBody EmailDto email){
+    public List<TrainingDto> getPendingTrainings(@RequestBody EmailDto email) {
         return trainingService.findPendingTrainings(email);
     }
 
     @PostMapping("/myTrainings")
-    public List<TrainingDto> trainingList(@RequestBody EmailDto emailDto){
+    public List<TrainingDto> trainingList(@RequestBody EmailDto emailDto) {
         return trainingService.getAllApprovedTrainings(emailDto.getEmail());
     }
 
@@ -62,7 +61,7 @@ public class TrainingController {
     }
 
     @PostMapping("/recommend")
-    public List<TrainingDto> recommend(@RequestBody EmailDto emailDto){
+    public List<TrainingDto> recommend(@RequestBody EmailDto emailDto) {
         return trainingService.findRecommendedTrainings(emailDto.getEmail());
     }
 

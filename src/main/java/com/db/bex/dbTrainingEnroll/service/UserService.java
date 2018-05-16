@@ -45,7 +45,10 @@ public class UserService {
         this.emailService = emailService;
     }
 
-    public List<UserDto> findSubordinates(String email, Long trainingId) throws MissingDataException {
+    public List<UserDto> findSubordinates(ManagerRequestDto managerRequestDto) throws MissingDataException {
+
+        String email = managerRequestDto.getEmail();
+        Long trainingId = managerRequestDto.getId();
 
         if(email == null || trainingId == null) {
             throw new MissingDataException("Email or id is null");
@@ -65,7 +68,10 @@ public class UserService {
         return userDtoList;
     }
 
-    public List<EnrollmentDetailsDto> findPendingUsers(Long idTraining, String email) throws MissingDataException {
+    public List<EnrollmentDetailsDto> findPendingUsers(ManagerTrainingRequestDto managerTrainingRequestDto) throws MissingDataException {
+
+        String email = managerTrainingRequestDto.getEmail();
+        Long idTraining = managerTrainingRequestDto.getId();
 
         Long idPm = userRepository.findByMail(email).getId();
 
