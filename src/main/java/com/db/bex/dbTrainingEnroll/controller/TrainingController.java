@@ -6,7 +6,6 @@ import com.db.bex.dbTrainingEnroll.dto.PopularityDto;
 import com.db.bex.dbTrainingEnroll.dto.TrainingDto;
 import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
 import com.db.bex.dbTrainingEnroll.service.TrainingService;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
