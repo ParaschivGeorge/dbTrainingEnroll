@@ -27,6 +27,7 @@ public class UserController {
         return userService.findPendingUsers(managerTrainingRequestDto);
     }
 
+    //used for manager to put subordinates in PENDING
     @PostMapping("/subordinatesResult")
     public void saveSubordinates(@RequestBody ManagerResponseDto managerResponseDto) throws MissingDataException {
         userService.savePendingSubordinates(managerResponseDto);

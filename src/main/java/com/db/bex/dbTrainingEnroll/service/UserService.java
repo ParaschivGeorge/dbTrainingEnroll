@@ -103,8 +103,9 @@ public class UserService {
 
             Enrollment enrollment = enrollmentRepository.findByUserIdAndTrainingId(user.getId(),trainingId);
             if((enrollment != null))
-                if(enrollment.getStatus() == EnrollmentStatusType.SELF_ENROLLED)
+                if(enrollment.getStatus() == EnrollmentStatusType.SELF_ENROLLED) {
                     enrollment.setStatus(EnrollmentStatusType.PENDING);
+                    enrollmentRepository.save(enrollment); }
                 else throw new MissingDataException("User already enrolled");
             else {
                 Enrollment newEnrollment = new Enrollment();
