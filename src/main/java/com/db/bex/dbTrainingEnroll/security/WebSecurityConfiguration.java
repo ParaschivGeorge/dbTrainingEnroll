@@ -92,6 +92,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                     .antMatchers(HttpMethod.GET,"/recommend").hasAuthority(UserType.USER.name())
                     .antMatchers(HttpMethod.GET,"/userSelfEnroll").hasAuthority(UserType.USER.name())
+                    .antMatchers(HttpMethod.GET,"/getAllNotifications").hasAuthority(UserType.USER.name())
+                    .antMatchers(HttpMethod.GET,"/getNewNotifications").hasAuthority(UserType.USER.name())
+
                     .antMatchers(HttpMethod.GET,"/attendedTrainings").permitAll()
                     .antMatchers(HttpMethod.GET,"/topTechnicalAttendees").permitAll()
                     .antMatchers(HttpMethod.GET,"/topSoftAttendees").permitAll()

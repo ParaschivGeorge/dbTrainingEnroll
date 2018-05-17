@@ -260,15 +260,6 @@ public class UserService {
          return userDtoTransformer.getUserSubordinates1(userRepository.findUsersSelfEnrolled(idManager, id));
     }
 
-    public List<Notification> getAllNotifications(EmailDto emailDto) {
-        return notificationRepository.findAllByUserId(userRepository.findByMail(emailDto.getEmail()).getId());
-    }
-
-    public List<Notification> getNewNotifications(EmailDto emailDto) {
-        return notificationRepository.findAllByUserIdAndStatus(userRepository.findByMail(emailDto.getEmail()).getId(),
-                NotificationStatus.NEW);
-    }
-
     public UserDto getUserData (EmailDto emailDto) {
         UserDtoTransformer userDtoTransformer = new UserDtoTransformer();
         User user = userRepository.findByMail(emailDto.getEmail());
