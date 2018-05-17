@@ -16,6 +16,11 @@ public class NotificationService {
     private UserRepository userRepository;
     private NotificationRepository notificationRepository;
 
+    public NotificationService(UserRepository userRepository, NotificationRepository notificationRepository) {
+        this.userRepository = userRepository;
+        this.notificationRepository = notificationRepository;
+    }
+
     public List<Notification> getAllNotifications(EmailDto emailDto) {
         List<Notification> notifications = notificationRepository
                 .findAllByUserId(userRepository.findByMail(emailDto.getEmail()).getId());
