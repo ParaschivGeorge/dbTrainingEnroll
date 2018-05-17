@@ -51,16 +51,6 @@ public class UserController {
         return userService.findSelfEnrolledSubordinates(managerRequestDto);
     }
 
-    @PostMapping("/getAllNotifications")
-    public List<Notification> getAllNotifications(@RequestBody EmailDto emailDto) {
-        return userService.getAllNotifications(emailDto);
-    }
-
-    @PostMapping("/getNewNotifications")
-    public List<Notification> getNewNotifications(@RequestBody EmailDto emailDto) {
-        return userService.getNewNotifications(emailDto);
-    }
-
     @GetMapping("/register")
     public void register() {
         userService.addUser();
