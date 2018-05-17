@@ -57,6 +57,6 @@ public interface TrainingRepository extends JpaRepository<Training, Long> {
     @Query("SELECT DISTINCT t FROM Enrollment e " +
             "join e.training t " +
             "join e.user u " +
-            "WHERE u.manager.id = ?1 and e.status = 'ACCEPTED'")
+            "WHERE u.manager.id = ?1 and e.status = 'SELF_ENROLLED'")
     List<Training> findEnrolledTrainingsByManagerId(Long managerId);
 }
