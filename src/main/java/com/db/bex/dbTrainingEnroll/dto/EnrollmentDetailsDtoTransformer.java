@@ -18,6 +18,9 @@ public class EnrollmentDetailsDtoTransformer {
                 .comment(enrollment.getManagerComment())
                 .trainingType(enrollment.getTrainingType())
                 .urgencyType(enrollment.getUrgency())
+                .department((enrollment.getUser().getDepartment().getDepartmentName()))
+                .subdepartment(enrollment.getUser().getSubdepartment().getSubdepartmentName())
+                .managerName(enrollment.getUser().getManager().getName())
                 .build();
     }
 

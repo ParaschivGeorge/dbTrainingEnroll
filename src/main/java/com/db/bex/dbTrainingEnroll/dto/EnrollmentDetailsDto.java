@@ -14,4 +14,7 @@ public class EnrollmentDetailsDto {
     private TrainingType trainingType;
     private UrgencyType urgencyType;
     private String comment;
+    private String department;
+    private String managerName;
+    private String subdepartment;
 }
