@@ -104,7 +104,7 @@ public class TrainingService {
             for (Enrollment enrollment : enrollments) {
                 Notification notification = new Notification();
                 notification.setStatus(NotificationStatus.NEW);
-                notification.setType(NotifycationType.UPDATE);
+                notification.setType(NotifycationType.DELETE);
                 notification.setMessage("Training " + training.getName() + " has been deleted!");
                 notification.setUser(enrollment.getUser());
                 notificationRepository.save(notification);
