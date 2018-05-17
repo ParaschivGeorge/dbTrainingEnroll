@@ -54,7 +54,7 @@ public class TrainingController {
         return trainingService.getAllApprovedTrainings(emailDto.getEmail());
     }
 
-    @PostMapping("/enrolledTrainings")
+    @PostMapping("/selfEnrolledTrainings")
     public List<TrainingDto> enrolledTrainings(@RequestBody EmailDto emailDto) {
         return trainingService.findEnrolledTrainings(emailDto);
     }
