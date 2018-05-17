@@ -30,7 +30,7 @@ public class TrainingController {
     }
 
     @PostMapping("/insertTrainings")
-    public void insertTrainings(@RequestBody List<TrainingDto> trainingDtos) {
+    public void insertTrainings(@RequestBody List<TrainingDto> trainingDtos) throws MissingDataException {
         trainingService.insertTrainingList(trainingDtos);
     }
 
