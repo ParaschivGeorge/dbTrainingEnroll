@@ -160,7 +160,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                         HttpMethod.POST,
                         authenticationPath,
                         "/insertTrainings",
-                        "/updateTrainings",
                         "/enrolledTrainings"
                 )
 
@@ -169,6 +168,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         HttpMethod.DELETE,
                         "/deleteTrainings"
+                )
+
+                .and()
+                .ignoring()
+                .antMatchers(
+                        HttpMethod.PUT,
+                        "/updateTrainings"
                 )
 
                 // allow anonymous resource requests

@@ -44,6 +44,7 @@ public class TrainingController {
         trainingService.deleteTrainingList(trainingIdList);
     }
 
+    //enrollments for admin
     @PostMapping("/pendingTrainings")
     public List<TrainingDto> getPendingTrainings(@RequestBody EmailDto email) {
         return trainingService.findPendingTrainings(email);
