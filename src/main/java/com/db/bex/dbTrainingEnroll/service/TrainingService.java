@@ -54,6 +54,21 @@ public class TrainingService {
     }
 
     public void insertTrainingList(List<TrainingDto> trainingDtos) throws MissingDataException {
+
+        List<String> wrongTrainings = new ArrayList<>();
+
+        for(TrainingDto trainingDto : trainingDtos)
+            if((userRepository.findByMail(trainingDto.getTrainingResponsible().getMail()))==null) {
+                wrongTrainings.add(trainingDto.getName());
+                wrongTrainings.add(trainingDto.getTrainingResponsible().getMail());
+            }
+
+        if(wrongTrainings.size()!=0)
+            throw new MissingDataException("The file could not been uploaded because you inserted emails " +
+                    "that does not exist. You have to " +
+                    "insert real user email as responsible: "+ wrongTrainings.toString()
+                    + " and upload the file again!");
+
         for(TrainingDto trainingDto : trainingDtos) {
             Training training = new Training();
             trainingSetter(trainingDto, training);
@@ -85,16 +100,12 @@ public class TrainingService {
         }
     }
 
-    private void trainingSetter(TrainingDto trainingDto, Training training) throws MissingDataException {
+    private void trainingSetter(TrainingDto trainingDto, Training training) {
         training.setName(trainingDto.getName());
         training.setTechnology(trainingDto.getTechnology());
         training.setCategory(trainingDto.getCategoryType());
         training.setNrMax(trainingDto.getNrMax());
         training.setNrMin(trainingDto.getNrMin());
-
-        if((userRepository.findByMail(trainingDto.getTrainingResponsible().getMail()))==null)
-            throw new MissingDataException("Training cannot be updated because the responsible email does not exist!");
-
         training.setTrainingResponsible(userRepository.findByMail(trainingDto.getTrainingResponsible().getMail()));
         training.setVendor(trainingDto.getVendor());
         splitDate(trainingDto, training);
