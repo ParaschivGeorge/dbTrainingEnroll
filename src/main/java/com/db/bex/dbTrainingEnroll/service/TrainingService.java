@@ -41,7 +41,7 @@ public class TrainingService {
     private NotificationRepository notificationRepository;
 
     public Page<TrainingDto> findTrainings(Pageable pageable) {
-        Page<Training> trainingPage = trainingRepository.findAll(pageable);
+        Page<Training> trainingPage = trainingRepository.findAllByOrderByStartDateDesc(pageable);
         List<Training> trainingList = trainingPage.getContent();
         List<TrainingDto> trainingDtoList = dateSetter(trainingList);
         Page<TrainingDto> page = new PageImpl<TrainingDto>(trainingDtoList);
@@ -49,11 +49,11 @@ public class TrainingService {
     }
 
     public List<TrainingDto> findTrainings() {
-        List<Training> trainings = trainingRepository.findAll();
+        List<Training> trainings = trainingRepository.findAllByOrderByStartDateDesc();
         return dateSetter(trainings);
     }
 
-    public void insertTrainingList(List<TrainingDto> trainingDtos) {
+    public void insertTrainingList(List<TrainingDto> trainingDtos) throws MissingDataException {
         for(TrainingDto trainingDto : trainingDtos) {
             Training training = new Training();
             trainingSetter(trainingDto, training);
@@ -85,12 +85,16 @@ public class TrainingService {
         }
     }
 
-    private void trainingSetter(TrainingDto trainingDto, Training training) {
+    private void trainingSetter(TrainingDto trainingDto, Training training) throws MissingDataException {
         training.setName(trainingDto.getName());
         training.setTechnology(trainingDto.getTechnology());
         training.setCategory(trainingDto.getCategoryType());
         training.setNrMax(trainingDto.getNrMax());
         training.setNrMin(trainingDto.getNrMin());
+
+        if((userRepository.findByMail(trainingDto.getTrainingResponsible().getMail()))==null)
+            throw new MissingDataException("Training cannot be updated because the responsible email does not exist!");
+
         training.setTrainingResponsible(userRepository.findByMail(trainingDto.getTrainingResponsible().getMail()));
         training.setVendor(trainingDto.getVendor());
         splitDate(trainingDto, training);

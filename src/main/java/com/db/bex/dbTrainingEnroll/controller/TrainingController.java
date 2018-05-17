@@ -30,7 +30,7 @@ public class TrainingController {
     }
 
     @PostMapping("/insertTrainings")
-    public void insertTrainings(@RequestBody List<TrainingDto> trainingDtos) {
+    public void insertTrainings(@RequestBody List<TrainingDto> trainingDtos) throws MissingDataException {
         trainingService.insertTrainingList(trainingDtos);
     }
 
@@ -44,6 +44,7 @@ public class TrainingController {
         trainingService.deleteTrainingList(trainingIdList);
     }
 
+    //pending trainings for spoc
     @PostMapping("/pendingTrainings")
     public List<TrainingDto> getPendingTrainings(@RequestBody EmailDto email) {
         return trainingService.findPendingTrainings(email);
@@ -54,7 +55,7 @@ public class TrainingController {
         return trainingService.getAllApprovedTrainings(emailDto.getEmail());
     }
 
-    @PostMapping("/enrolledTrainings")
+    @PostMapping("/selfEnrolledTrainings")
     public List<TrainingDto> enrolledTrainings(@RequestBody EmailDto emailDto) {
         return trainingService.findEnrolledTrainings(emailDto);
     }

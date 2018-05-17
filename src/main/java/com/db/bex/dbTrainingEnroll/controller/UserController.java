@@ -21,6 +21,7 @@ public class UserController {
         return userService.findSubordinates(managerRequestDto);
     }
 
+    //users waiting for SPOC approval
     @PostMapping("/pendingUsers")
     public List<EnrollmentDetailsDto> getUserTrainings(@RequestBody ManagerTrainingRequestDto managerTrainingRequestDto) throws MissingDataException {
         return userService.findPendingUsers(managerTrainingRequestDto);
