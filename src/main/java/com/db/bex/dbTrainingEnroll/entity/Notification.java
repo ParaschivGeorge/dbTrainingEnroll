@@ -31,4 +31,13 @@ public class Notification {
     private NotifycationType type;
     private NotificationStatus status;
     private String date;
+
+    public Notification(Notification notification) {
+        this.id = notification.getId();
+        this.user = notification.getUser();
+        this.message = notification.getMessage();
+        this.type = notification.getType();
+        this.status = notification.getStatus();
+        this.date = notification.getDate();
+    }
 }

@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -107,8 +108,11 @@ public class TrainingService {
                 notification.setType(NotifycationType.UPDATE);
                 notification.setMessage(training.getName() + " has been modified!");
                 notification.setUser(enrollment.getUser());
-                SimpleDateFormat dt = new SimpleDateFormat("dd-mm-yyyy hh:mm");
-                notification.setDate(dt.format(new Date()));
+                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(new Date());
+                cal.add(Calendar.HOUR_OF_DAY, 3);
+                notification.setDate(dateFormat.format(cal.getTime()));
                 notificationRepository.save(notification);
             }
         }
@@ -136,8 +140,11 @@ public class TrainingService {
                 notification.setType(NotifycationType.DELETE);
                 notification.setMessage("Training " + training.getName() + " has been deleted!");
                 notification.setUser(enrollment.getUser());
-                SimpleDateFormat dt = new SimpleDateFormat("dd-mm-yyyy hh:mm");
-                notification.setDate(dt.format(new Date()));
+                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(new Date());
+                cal.add(Calendar.HOUR_OF_DAY, 3);
+                notification.setDate(dateFormat.format(cal.getTime()));
                 notificationRepository.save(notification);
             }
 

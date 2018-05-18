@@ -23,8 +23,12 @@ public class NotificationService {
 
     public List<Notification> getAllNotifications(EmailDto emailDto) {
         List<Notification> notifications = notificationRepository
-                .findAllByUserIdOrderByDate(userRepository.findByMail(emailDto.getEmail()).getId());
-        List<Notification> saveNotifications = new ArrayList<>(notifications);
+                .findAllByUserIdOrderByDateDesc(userRepository.findByMail(emailDto.getEmail()).getId());
+        List<Notification> saveNotifications = new ArrayList<>();
+
+        for (Notification notification : notifications) {
+            saveNotifications.add(new Notification(notification));
+        }
 
         for (Notification notification : saveNotifications) {
             notification.setStatus(NotificationStatus.OLD);
@@ -36,7 +40,7 @@ public class NotificationService {
     }
 
     public List<Notification> getNewNotifications(EmailDto emailDto) {
-        return notificationRepository.findAllByUserIdAndStatusOrderByDate(userRepository.findByMail(emailDto.getEmail()).getId(),
+        return notificationRepository.findAllByUserIdAndStatusOrderByDateDesc(userRepository.findByMail(emailDto.getEmail()).getId(),
                 NotificationStatus.NEW);
     }
 }
