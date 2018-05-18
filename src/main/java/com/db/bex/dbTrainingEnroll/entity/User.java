@@ -74,6 +74,10 @@ public class  User {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user")
+    private Set<Rating> ratings;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
     private Set<Notification> notifications;
 
     @JsonIgnore

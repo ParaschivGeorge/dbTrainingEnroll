@@ -56,6 +56,10 @@ public class Training {
     @OneToMany(mappedBy = "training",cascade ={CascadeType.ALL}, orphanRemoval = true)
     private Set<Enrollment> enrollments;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "training",cascade ={CascadeType.ALL}, orphanRemoval = true)
+    private Set<Rating> ratings;
+
     @Override
     public String toString() {
         return name;

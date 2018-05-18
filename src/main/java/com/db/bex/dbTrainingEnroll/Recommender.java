@@ -37,8 +37,8 @@ public class Recommender {
         List<Long> list = null;
         try {
             list = new ArrayList<>();
-            DataModel model = new MySQLJDBCDataModel(dataSource,"preferences","user_id",
-                    "training_id","preference",null);
+            DataModel model = new MySQLJDBCDataModel(dataSource,"rating","user_id",
+                    "training_id","rating",null);
 //            ItemSimilarity similarity = new PearsonCorrelationSimilarity(model);
             ItemSimilarity similarity = new LogLikelihoodSimilarity(model);
             GenericItemBasedRecommender recommender = new GenericItemBasedRecommender(model, similarity);
