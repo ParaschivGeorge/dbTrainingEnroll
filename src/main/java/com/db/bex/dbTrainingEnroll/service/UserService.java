@@ -156,7 +156,7 @@ public class UserService {
                 notification.setType(NotifycationType.APPROVAL);
                 notification.setMessage("You have been approved at " + training.getName());
                 notification.setUser(user);
-                SimpleDateFormat dt = new SimpleDateFormat("dd-mm-yyyy at hh:mm");
+                SimpleDateFormat dt = new SimpleDateFormat("dd-mm-yyyy hh:mm");
                 notification.setDate(dt.format(new Date()));
                 notificationRepository.save(notification);
             }
@@ -169,7 +169,7 @@ public class UserService {
                 notification.setType(NotifycationType.DENIAL);
                 notification.setMessage("You have been denied at " + training.getName() + " because: " + pmComment);
                 notification.setUser(user);
-                SimpleDateFormat dt = new SimpleDateFormat("dd-mm-yyyy at hh:mm");
+                SimpleDateFormat dt = new SimpleDateFormat("dd-mm-yyyy hh:mm");
                 notification.setDate(dt.format(new Date()));
                 notificationRepository.save(notification);
             }
