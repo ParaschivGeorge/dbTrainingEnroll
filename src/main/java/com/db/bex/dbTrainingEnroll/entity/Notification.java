@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -29,4 +30,5 @@ public class Notification {
 
     private NotifycationType type;
     private NotificationStatus status;
+    private String date;
 }

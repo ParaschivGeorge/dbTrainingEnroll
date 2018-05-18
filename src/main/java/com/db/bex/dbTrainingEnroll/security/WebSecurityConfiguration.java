@@ -87,7 +87,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers(HttpMethod.POST,"/getSelfEnrolled").hasAuthority(UserType.MANAGER.name())
 
                     .antMatchers(HttpMethod.POST, "/insertTrainings").hasAuthority(UserType.ADMIN.name())
-                    .antMatchers(HttpMethod.POST, "/updateTrainings").hasAuthority(UserType.ADMIN.name())
+                    .antMatchers(HttpMethod.PUT, "/updateTrainings").hasAuthority(UserType.ADMIN.name())
                     .antMatchers(HttpMethod.DELETE, "/deleteTrainings").hasAuthority(UserType.ADMIN.name())
 
                     .antMatchers(HttpMethod.GET,"/recommend").hasAuthority(UserType.USER.name())
@@ -156,28 +156,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         // AuthenticationTokenFilter will ignore the below paths
-        // leave only / trainings and auth after frontend login complete
         web
                 .ignoring()
                 .antMatchers(
                         HttpMethod.POST,
                         authenticationPath,
-                        "/insertTrainings",
                         "/enrolledTrainings"
-                )
-
-                .and()
-                .ignoring()
-                .antMatchers(
-                        HttpMethod.DELETE,
-                        "/deleteTrainings"
-                )
-
-                .and()
-                .ignoring()
-                .antMatchers(
-                        HttpMethod.PUT,
-                        "/updateTrainings"
                 )
 
                 // allow anonymous resource requests

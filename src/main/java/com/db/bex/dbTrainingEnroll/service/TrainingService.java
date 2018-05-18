@@ -107,6 +107,8 @@ public class TrainingService {
                 notification.setType(NotifycationType.UPDATE);
                 notification.setMessage(training.getName() + " has been modified!");
                 notification.setUser(enrollment.getUser());
+                SimpleDateFormat dt = new SimpleDateFormat("dd-mm-yyyy hh:mm");
+                notification.setDate(dt.format(new Date()));
                 notificationRepository.save(notification);
             }
         }
@@ -134,6 +136,8 @@ public class TrainingService {
                 notification.setType(NotifycationType.DELETE);
                 notification.setMessage("Training " + training.getName() + " has been deleted!");
                 notification.setUser(enrollment.getUser());
+                SimpleDateFormat dt = new SimpleDateFormat("dd-mm-yyyy hh:mm");
+                notification.setDate(dt.format(new Date()));
                 notificationRepository.save(notification);
             }
 

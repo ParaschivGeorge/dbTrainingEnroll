@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.sql.DataSource;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -155,6 +156,8 @@ public class UserService {
                 notification.setType(NotifycationType.APPROVAL);
                 notification.setMessage("You have been approved at " + training.getName());
                 notification.setUser(user);
+                SimpleDateFormat dt = new SimpleDateFormat("dd-mm-yyyy hh:mm");
+                notification.setDate(dt.format(new Date()));
                 notificationRepository.save(notification);
             }
             if (status == 0) {
@@ -166,6 +169,8 @@ public class UserService {
                 notification.setType(NotifycationType.DENIAL);
                 notification.setMessage("You have been denied at " + training.getName() + " because: " + pmComment);
                 notification.setUser(user);
+                SimpleDateFormat dt = new SimpleDateFormat("dd-mm-yyyy hh:mm");
+                notification.setDate(dt.format(new Date()));
                 notificationRepository.save(notification);
             }
         }
