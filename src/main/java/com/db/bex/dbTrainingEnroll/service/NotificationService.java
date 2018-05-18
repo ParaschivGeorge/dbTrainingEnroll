@@ -24,7 +24,11 @@ public class NotificationService {
     public List<Notification> getAllNotifications(EmailDto emailDto) {
         List<Notification> notifications = notificationRepository
                 .findAllByUserIdOrderByDateDesc(userRepository.findByMail(emailDto.getEmail()).getId());
-        List<Notification> saveNotifications = new ArrayList<>(notifications);
+        List<Notification> saveNotifications = new ArrayList<>();
+
+        for (Notification notification : notifications) {
+            saveNotifications.add(new Notification(notification));
+        }
 
         for (Notification notification : saveNotifications) {
             notification.setStatus(NotificationStatus.OLD);
