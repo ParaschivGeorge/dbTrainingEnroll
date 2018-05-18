@@ -1,9 +1,11 @@
 package com.db.bex.dbTrainingEnroll.controller;
 
+import com.db.bex.dbTrainingEnroll.dao.RatingRepository;
 import com.db.bex.dbTrainingEnroll.dto.*;
 import com.db.bex.dbTrainingEnroll.entity.Notification;
 import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
 import com.db.bex.dbTrainingEnroll.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -11,6 +13,9 @@ import java.util.List;
 public class UserController {
 
     private UserService userService;
+
+    @Autowired
+    private RatingRepository ratingRepository;
 
     public UserController(UserService userService) {
         this.userService = userService;
@@ -63,8 +68,8 @@ public class UserController {
         return userService.getGenderCount();
     }
 
-//    @PostMapping("/recommend")
-//    public List<TrainingDto> recommend(@RequestBody EmailDto emailDto){
-//        return userService.findRecommendedTrainings(userRepository.findByMail(emailDto.getEmail()).getId());
+//    @GetMapping("/ratingTraining")
+//    public void getRating() {
+//        System.err.println( ratingRepository.getRating(3L));
 //    }
 }
