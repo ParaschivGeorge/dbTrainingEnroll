@@ -23,7 +23,7 @@ public class NotificationService {
 
     public List<Notification> getAllNotifications(EmailDto emailDto) {
         List<Notification> notifications = notificationRepository
-                .findAllByUserId(userRepository.findByMail(emailDto.getEmail()).getId());
+                .findAllByUserIdOrderByDate(userRepository.findByMail(emailDto.getEmail()).getId());
         List<Notification> saveNotifications = new ArrayList<>(notifications);
 
         for (Notification notification : saveNotifications) {
@@ -36,7 +36,7 @@ public class NotificationService {
     }
 
     public List<Notification> getNewNotifications(EmailDto emailDto) {
-        return notificationRepository.findAllByUserIdAndStatus(userRepository.findByMail(emailDto.getEmail()).getId(),
+        return notificationRepository.findAllByUserIdAndStatusOrderByDate(userRepository.findByMail(emailDto.getEmail()).getId(),
                 NotificationStatus.NEW);
     }
 }
