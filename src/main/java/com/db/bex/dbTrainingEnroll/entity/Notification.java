@@ -37,7 +37,7 @@ public class Notification {
         this.user = notification.getUser();
         this.message = notification.getMessage();
         this.type = notification.getType();
-        this.status = notification.getStatus();
+        this.status = NotificationStatus.OLD;
         this.date = notification.getDate();
     }
 }

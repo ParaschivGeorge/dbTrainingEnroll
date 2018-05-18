@@ -30,10 +30,6 @@ public class NotificationService {
             saveNotifications.add(new Notification(notification));
         }
 
-        for (Notification notification : saveNotifications) {
-            notification.setStatus(NotificationStatus.OLD);
-        }
-
         notificationRepository.saveAll(saveNotifications);
 
         return notifications;
