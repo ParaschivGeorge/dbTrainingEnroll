@@ -21,6 +21,10 @@ public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
 
     List<Enrollment> findAllByUserIdAndTrainingId(Long user_id, Long training_id);
 
+    @Query("select e.training.id from Enrollment e" +
+            " where e.user.id=?1 ")
+    List<Long> findEnrolledTrainings(Long idUser);
+
     List<Enrollment> findAllByTrainingId(long id);
 
     Enrollment findByUserIdAndTrainingId(Long user_id, Long training_id);

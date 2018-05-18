@@ -24,6 +24,12 @@ public class TrainingController {
         return trainingService.findTrainings(pageable).getContent();
     }
 
+    //list of enrolled trainings for the current user
+    @PostMapping("/enrolledTrainings")
+    public List<Long> getEnrolledTrainings(@RequestBody EmailDto emailDto) {
+        return trainingService.enrolledTrainings(emailDto);
+    }
+
     @GetMapping("/trainingsAdmin")
     public List<TrainingDto> getTrainings(){
         return trainingService.findTrainings();
