@@ -53,6 +53,18 @@ public class TrainingService {
         return dateSetter(trainings);
     }
 
+    public List<Long> enrolledTrainings(EmailDto emailDto) {
+
+        User user = userRepository.findByMail(emailDto.getEmail());
+        if (user == null)
+            return null;
+        Long id = user.getId();
+        if(id == null) {
+            throw new NullPointerException("Email does not exist");
+        }
+        return enrollmentRepository.findEnrolledTrainings(id);
+    }
+
     public void insertTrainingList(List<TrainingDto> trainingDtos) throws MissingDataException {
 
         List<String> wrongTrainings = new ArrayList<>();
