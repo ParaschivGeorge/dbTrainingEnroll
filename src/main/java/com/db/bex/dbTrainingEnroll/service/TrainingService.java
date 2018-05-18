@@ -165,7 +165,9 @@ public class TrainingService {
         if(id == null) {
             throw new NullPointerException("Email does not exist");
         }
-        return trainingDtoTransformer.getTrainings(enrollmentRepository.findTrainingsThatHavePendingParticipants(id));
+
+        List<Training> pendingTrainings = enrollmentRepository.findTrainingsThatHavePendingParticipants(id);
+        return dateSetter(pendingTrainings);
     }
 
     public Integer countAcceptedUsers(Long idTraining) {
