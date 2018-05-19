@@ -92,6 +92,20 @@ public class TrainingService {
 
     public void updateTrainingList(List<TrainingDto> trainingDtos) throws MissingDataException {
 
+        List<String> wrongTrainings = new ArrayList<>();
+
+        for(TrainingDto trainingDto : trainingDtos)
+            if((userRepository.findByMail(trainingDto.getTrainingResponsible().getMail()))==null) {
+                wrongTrainings.add(trainingDto.getName());
+                wrongTrainings.add(trainingDto.getTrainingResponsible().getMail());
+            }
+
+        if(wrongTrainings.size()!=0)
+            throw new MissingDataException("The file could not been uploaded because you inserted emails " +
+                    "that does not exist. You have to " +
+                    "insert real user email as responsible: "+ wrongTrainings.toString()
+                    + " and upload the file again!");
+
         for(TrainingDto trainingDto : trainingDtos) {
             long id = trainingDto.getId();
 
