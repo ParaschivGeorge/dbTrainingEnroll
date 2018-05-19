@@ -39,14 +39,12 @@ public class Recommender {
             list = new ArrayList<>();
             DataModel model = new MySQLJDBCDataModel(dataSource,"rating","user_id",
                     "training_id","rating",null);
-//            ItemSimilarity similarity = new PearsonCorrelationSimilarity(model);
             ItemSimilarity similarity = new LogLikelihoodSimilarity(model);
             GenericItemBasedRecommender recommender = new GenericItemBasedRecommender(model, similarity);
             CachingRecommender recommender1 = new CachingRecommender(recommender);
             List<RecommendedItem> recommendedItemList = recommender1.recommend(idUser,itemsRecommended);
             for(RecommendedItem i : recommendedItemList)
                 list.add(i.getItemID());
-//                System.out.println(trainingRepository.findById(i.getItemID()));
         } catch (TasteException e) {
             e.printStackTrace();
         }

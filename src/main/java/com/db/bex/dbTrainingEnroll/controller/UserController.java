@@ -14,9 +14,6 @@ public class UserController {
 
     private UserService userService;
 
-    @Autowired
-    private RatingRepository ratingRepository;
-
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -68,8 +65,4 @@ public class UserController {
         return userService.getGenderCount();
     }
 
-//    @GetMapping("/ratingTraining")
-//    public void getRating() {
-//        System.err.println( ratingRepository.getRating(3L));
-//    }
 }

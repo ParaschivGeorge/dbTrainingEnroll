@@ -1,10 +1,7 @@
 package com.db.bex.dbTrainingEnroll.service;
 
 import com.db.bex.dbTrainingEnroll.Recommender;
-import com.db.bex.dbTrainingEnroll.dao.EnrollmentRepository;
-import com.db.bex.dbTrainingEnroll.dao.NotificationRepository;
-import com.db.bex.dbTrainingEnroll.dao.TrainingRepository;
-import com.db.bex.dbTrainingEnroll.dao.UserRepository;
+import com.db.bex.dbTrainingEnroll.dao.*;
 import com.db.bex.dbTrainingEnroll.dto.*;
 import com.db.bex.dbTrainingEnroll.entity.*;
 import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
@@ -39,19 +36,23 @@ public class TrainingService {
     @Autowired
     @Qualifier("dataSource1")
     private DataSource dataSource;
+    private RatingRepository ratingRepository;
     private NotificationRepository notificationRepository;
+    private UpdateRatingDtoTransformer updateRatingDtoTransformer;
 
     public Page<TrainingDto> findTrainings(Pageable pageable) {
         Page<Training> trainingPage = trainingRepository.findAllByOrderByStartDateDesc(pageable);
         List<Training> trainingList = trainingPage.getContent();
         List<TrainingDto> trainingDtoList = dateSetter(trainingList);
+        trainingDtoList = this.setRating(trainingDtoList);
         Page<TrainingDto> page = new PageImpl<TrainingDto>(trainingDtoList);
         return page;
     }
 
     public List<TrainingDto> findTrainings() {
         List<Training> trainings = trainingRepository.findAllByOrderByStartDateDesc();
-        return dateSetter(trainings);
+        List<TrainingDto> trainingDtoList = dateSetter(trainings);
+        return this.setRating(trainingDtoList);
     }
 
     public List<Long> enrolledTrainings(EmailDto emailDto) {
@@ -167,7 +168,8 @@ public class TrainingService {
         }
 
         List<Training> pendingTrainings = enrollmentRepository.findTrainingsThatHavePendingParticipants(id);
-        return dateSetter(pendingTrainings);
+        List<TrainingDto> trainingDtoList = dateSetter(pendingTrainings);
+        return this.setRating(trainingDtoList);
     }
 
     public Integer countAcceptedUsers(Long idTraining) {
@@ -211,18 +213,21 @@ public class TrainingService {
     public List<TrainingDto> findEnrolledTrainings(EmailDto emailDto) {
         User manager = userRepository.findByMail(emailDto.getEmail());
         List<Training> trainingList = trainingRepository.findEnrolledTrainingsByManagerId(manager.getId());
-        return dateSetter(trainingList);
+        List<TrainingDto> trainingDtoList = dateSetter(trainingList);
+        return this.setRating(trainingDtoList);
     }
 
     public List<TrainingDto> getAllApprovedTrainings(String userEmail) {
-        return this.dateSetter(enrollmentRepository.findAllByUserId(
+        List<TrainingDto> trainingDtoList = this.dateSetter(enrollmentRepository.findAllByUserId(
                 userRepository.findByMail(userEmail).getId()));
+        return this.setRating(trainingDtoList);
     }
 
     public List<TrainingDto> findRecommendedTrainings(String email){
         Long userId = userRepository.findByMail(email).getId();
         Recommender recommender = new Recommender(trainingRepository,dataSource);
         List<Long> trainingsId = recommender.recommendTraining(userId,4);
+        System.out.println(trainingsId.size());
         List<Training> trainings = null;
         if(!trainingsId.isEmpty())
         {
@@ -230,10 +235,12 @@ public class TrainingService {
             for(Long i : trainingsId) {
                 if(trainingRepository.findById(i).isPresent())
                     trainings.add(trainingRepository.findById(i).get());
+                System.out.println(i);
             }
 
         }
-        return this.dateSetter(trainings);
+        List<TrainingDto> trainingDtoList = dateSetter(trainings);
+        return this.setRating(trainingDtoList);
     }
 
     private List<TrainingDto> dateSetter(List<Training> trainingList) {
@@ -327,5 +334,31 @@ public class TrainingService {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<TrainingDto> setRating(List<TrainingDto> trainingDtos) {
+        for(TrainingDto i : trainingDtos) {
+            i.setRating(ratingRepository.getRating(i.getId()));
+        }
+        return trainingDtos;
+    }
+
+    public Double updateRating(UpdateRatingDto updateRatingDto){
+        Double updatedRating;
+        Rating rating = ratingRepository.
+                findByTrainingIdAndUserId(updateRatingDto.getTrainingId(),
+                        userRepository.findByMail(updateRatingDto.getUserEmail()).getId());
+        if(rating != null)
+            rating.setRating(updateRatingDto.getRating());
+        else{
+            updatedRating = updateRatingDto.getRating();
+            rating = new Rating();
+            rating.setRating(updatedRating);
+            rating.setTraining(trainingRepository.findById(updateRatingDto.getTrainingId()).get());
+            rating.setUser(userRepository.findByMail(updateRatingDto.getUserEmail()));
+        }
+        ratingRepository.save(rating);
+        updatedRating = ratingRepository.getRating(updateRatingDto.getTrainingId());
+        return updatedRating;
     }
 }
