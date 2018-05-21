@@ -40,6 +40,7 @@ public class TrainingService {
     private NotificationRepository notificationRepository;
     private UpdateRatingDtoTransformer updateRatingDtoTransformer;
 
+    //get all trainings
     public Page<TrainingDto> findTrainings(Pageable pageable) {
         Page<Training> trainingPage = trainingRepository.findAllByOrderByStartDateDesc(pageable);
         List<Training> trainingList = trainingPage.getContent();
@@ -49,12 +50,14 @@ public class TrainingService {
         return page;
     }
 
+    //get trainings for admin page
     public List<TrainingDto> findTrainings() {
         List<Training> trainings = trainingRepository.findAllByOrderByStartDateDesc();
         List<TrainingDto> trainingDtoList = dateSetter(trainings);
         return this.setRating(trainingDtoList);
     }
 
+    //list of enrolled trainings for the current user
     public List<Long> enrolledTrainings(EmailDto emailDto) {
 
         User user = userRepository.findByMail(emailDto.getEmail());
@@ -67,6 +70,7 @@ public class TrainingService {
         return enrollmentRepository.findEnrolledTrainings(id);
     }
 
+    //admin method to insert trainings
     public void insertTrainingList(List<TrainingDto> trainingDtos) throws MissingDataException {
 
         List<String> wrongTrainings = new ArrayList<>();
@@ -89,6 +93,7 @@ public class TrainingService {
         }
     }
 
+    //admin method to update trainings
     public void updateTrainingList(List<TrainingDto> trainingDtos) throws MissingDataException {
 
         List<String> wrongTrainings = new ArrayList<>();
@@ -142,6 +147,7 @@ public class TrainingService {
         splitDate(trainingDto, training);
     }
 
+    //admin method to delete trainings
     public void deleteTrainingList(List<Long> trainingIdList) {
         for (Long trainingId : trainingIdList) {
             List<Enrollment> enrollments = enrollmentRepository.findAllByTrainingId(trainingId);
@@ -165,6 +171,7 @@ public class TrainingService {
         }
     }
 
+    //pending trainings for spoc
     public List<TrainingDto> findPendingTrainings(EmailDto email) {
 
         if(email == null) {
@@ -222,6 +229,7 @@ public class TrainingService {
         return localDate.getMonth().name();
     }
 
+    //used to get self enrolled trainings for user
     public List<TrainingDto> findEnrolledTrainings(EmailDto emailDto) {
         User manager = userRepository.findByMail(emailDto.getEmail());
         List<Training> trainingList = trainingRepository.findEnrolledTrainingsByManagerId(manager.getId());
@@ -229,12 +237,14 @@ public class TrainingService {
         return this.setRating(trainingDtoList);
     }
 
+    //used to get enrolled trainings for current user
     public List<TrainingDto> getAllApprovedTrainings(String userEmail) {
         List<TrainingDto> trainingDtoList = this.dateSetter(enrollmentRepository.findAllByUserId(
                 userRepository.findByMail(userEmail).getId()));
         return this.setRating(trainingDtoList);
     }
 
+    //used for recommendation
     public List<TrainingDto> findRecommendedTrainings(String email){
         Long userId = userRepository.findByMail(email).getId();
         Recommender recommender = new Recommender(trainingRepository,dataSource);

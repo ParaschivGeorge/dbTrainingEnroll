@@ -16,6 +16,7 @@ public class TrainingController {
         this.trainingService = trainingService;
     }
 
+    //get all trainings
     @GetMapping("/trainings")
     public List<TrainingDto> getTrainings(Pageable pageable){
         return trainingService.findTrainings(pageable).getContent();
@@ -27,21 +28,25 @@ public class TrainingController {
         return trainingService.enrolledTrainings(emailDto);
     }
 
+    //get trainings for admin page
     @GetMapping("/trainingsAdmin")
     public List<TrainingDto> getTrainings(){
         return trainingService.findTrainings();
     }
 
+    //admin method to insert trainings
     @PostMapping("/insertTrainings")
     public void insertTrainings(@RequestBody List<TrainingDto> trainingDtos) throws MissingDataException {
         trainingService.insertTrainingList(trainingDtos);
     }
 
+    //admin method to update trainings
     @PutMapping("/updateTrainings")
     public void updateTrainings(@RequestBody List<TrainingDto> trainingDtos) throws MissingDataException {
         trainingService.updateTrainingList(trainingDtos);
     }
 
+    //admin method to delete trainings
     @DeleteMapping("/deleteTrainings")
     public void deleteTrainings(@RequestBody List<Long> trainingIdList) {
         trainingService.deleteTrainingList(trainingIdList);
@@ -53,16 +58,19 @@ public class TrainingController {
         return trainingService.findPendingTrainings(email);
     }
 
+    //used to get enrolled trainings for current user
     @PostMapping("/myTrainings")
     public List<TrainingDto> trainingList(@RequestBody EmailDto emailDto) {
         return trainingService.getAllApprovedTrainings(emailDto.getEmail());
     }
 
+    //used to get self enrolled trainings for user
     @PostMapping("/selfEnrolledTrainings")
     public List<TrainingDto> enrolledTrainings(@RequestBody EmailDto emailDto) {
         return trainingService.findEnrolledTrainings(emailDto);
     }
 
+    //used for recommendation
     @PostMapping("/recommend")
     public List<TrainingDto> recommend(@RequestBody EmailDto emailDto) {
         return trainingService.findRecommendedTrainings(emailDto.getEmail());
