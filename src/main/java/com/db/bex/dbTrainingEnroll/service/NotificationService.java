@@ -21,6 +21,7 @@ public class NotificationService {
         this.notificationRepository = notificationRepository;
     }
 
+    // used to get all notifications and make the new notifications old
     public List<Notification> getAllNotifications(EmailDto emailDto) {
         List<Notification> saveNotifications = notificationRepository
                 .findAllByUserIdOrderByDateDesc(userRepository.findByMail(emailDto.getEmail()).getId());
@@ -39,6 +40,7 @@ public class NotificationService {
         return notifications;
     }
 
+    // used to get all the new notifications
     public List<Notification> getNewNotifications(EmailDto emailDto) {
         return notificationRepository.findAllByUserIdAndStatusOrderByDateDesc(userRepository.findByMail(emailDto.getEmail()).getId(),
                 NotificationStatus.NEW);

@@ -36,6 +36,7 @@ public class UserController {
         userService.savePendingSubordinates(managerResponseDto);
     }
 
+    // used for SPOC to approve or deny enrollments
     @PostMapping("/approveList")
     public void postUserStatus(@RequestBody List<UserStatusDto> userStatusDto) throws MissingDataException {
         userService.saveSubordinatesStatusAndSendEmail(userStatusDto);
@@ -50,20 +51,22 @@ public class UserController {
     // used by the user to self-enroll
     @PostMapping("/userSelfEnroll")
     public void userSelfEnroll(@RequestBody ManagerRequestDto managerRequestDto) throws MissingDataException {
-        userService.saveUserSaveEnroll(managerRequestDto);
+        userService.saveUserSelfEnroll(managerRequestDto);
     }
 
-    // used
+    // used to get all subordinates of a manager self-enrolled at a training
     @PostMapping("/getSelfEnrolled")
     public List<UserDto> getUsersSelfEnrolled(@RequestBody ManagerRequestDto managerRequestDto) throws MissingDataException {
         return userService.findSelfEnrolledSubordinates(managerRequestDto);
     }
 
+    // test function
     @GetMapping("/register")
     public void register() {
         userService.addUser();
     }
 
+    // used to get gender statistics of accepted users
     @GetMapping("/genderStats")
     public Integer[] getGendersDiff() {
         return userService.getGenderCount();

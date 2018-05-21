@@ -48,6 +48,7 @@ public class UserService {
         this.emailService = emailService;
     }
 
+    // used to get all subordinates of an manager
     public List<UserDto> findSubordinates(ManagerRequestDto managerRequestDto) throws MissingDataException {
 
         String email = managerRequestDto.getEmail();
@@ -71,6 +72,7 @@ public class UserService {
         return userDtoList;
     }
 
+    // users waiting for SPOC approval
     public List<EnrollmentDetailsDto> findPendingUsers(ManagerTrainingRequestDto managerTrainingRequestDto) throws MissingDataException {
 
         String email = managerTrainingRequestDto.getEmail();
@@ -86,6 +88,7 @@ public class UserService {
 
     }
 
+    // used for manager to put subordinates in PENDING
     public void savePendingSubordinates(ManagerResponseDto managerResponseDto) throws MissingDataException {
 
         Long trainingId = managerResponseDto.getTrainingId();
@@ -127,6 +130,7 @@ public class UserService {
 
     }
 
+    // used for SPOC to approve or deny enrollments and send mail
     public void saveSubordinatesStatusAndSendEmail(List<UserStatusDto> userStatusDtos) throws MissingDataException {
         List<String> approvedUserEmails = new ArrayList<>();
         List<String> declinedUserEmails = new ArrayList<>();
@@ -191,7 +195,7 @@ public class UserService {
         this.sendEmailToDeclinedSubordinates(declinedUserEmails, trainingId);
     }
 
-
+    // used to send email to approved subordinates
     public void sendEmailToApprovedSubordinates(List<String> emails, Long trainingId){
         try {
             emailService.sendEmailToUsers(emails,"Congratulations! \n You've been approved at the training "
@@ -202,6 +206,7 @@ public class UserService {
         }
     }
 
+    // used to send email to declined subordinates
     public void sendEmailToDeclinedSubordinates(List<String> emails, Long trainingId){
         try{
             emailService.sendEmailToUsers(emails, "We are sorry to inform you that your enrollment at the training "
@@ -211,6 +216,7 @@ public class UserService {
         }
     }
 
+    // used to send email to the manager
     public void sendEmailToManagersWithSubordinates(List<String> managers, Long trainingId){
         try {
             List<String> emails;
@@ -225,7 +231,7 @@ public class UserService {
         }
     }
 
-
+    // used to format email
     public String emailFormatter(List<String> emails){
         StringBuilder stringBuilder = new StringBuilder();
         for(int i = 0; i < emails.size(); i++) {
@@ -241,7 +247,8 @@ public class UserService {
         return stringBuilder.toString();
     }
 
-    public void saveUserSaveEnroll(ManagerRequestDto managerRequestDto) throws MissingDataException {
+    // used by the user to self-enroll
+    public void saveUserSelfEnroll(ManagerRequestDto managerRequestDto) throws MissingDataException {
 
         Long trainingId = managerRequestDto.getId();
         String userEmail = managerRequestDto.getEmail();
@@ -259,6 +266,7 @@ public class UserService {
         enrollmentRepository.save(enrollment);
     }
 
+    // used to get all subordinates of a manager self-enrolled at a training
     public List<UserDto> findSelfEnrolledSubordinates(ManagerRequestDto managerRequestDto) throws MissingDataException {
         String email = managerRequestDto.getEmail(); //manager email
         Long id = managerRequestDto.getId(); //training id
@@ -278,6 +286,7 @@ public class UserService {
          return userDtoTransformer.getUserSubordinates1(userRepository.findUsersSelfEnrolled(idManager, id));
     }
 
+    // used to get data about the user at login
     public UserDto getUserData (EmailDto emailDto) {
         UserDtoTransformer userDtoTransformer = new UserDtoTransformer();
         User user = userRepository.findByMail(emailDto.getEmail());
@@ -287,6 +296,7 @@ public class UserService {
         return userDtoTransformer.transform(user);
     }
 
+    // used to get gender statistics of accepted users
     public Integer[] getGenderCount () {
         Integer males = userRepository.countAcceptedUsersByGender(UserGenderType.MALE);
         Integer females = userRepository.countAcceptedUsersByGender(UserGenderType.FEMALE);

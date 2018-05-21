@@ -18,13 +18,13 @@ public class NotificationController {
         this.notificationService = notificationService;
     }
 
-    // Get all the notifications of an user
+    // get all the notifications of an user
     @PostMapping("/getAllNotifications")
     public List<Notification> getAllNotifications(@RequestBody EmailDto emailDto) {
         return notificationService.getAllNotifications(emailDto);
     }
 
-    // Get the new notifications of an user
+    // get the new notifications of an user
     @PostMapping("/getNewNotifications")
     public List<Notification> getNewNotifications(@RequestBody EmailDto emailDto) {
         return notificationService.getNewNotifications(emailDto);
