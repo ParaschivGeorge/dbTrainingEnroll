@@ -77,10 +77,9 @@ public class TrainingService {
             }
 
         if(wrongTrainings.size()!=0)
-            throw new MissingDataException("The file could not been uploaded because you inserted emails " +
-                    "that does not exist. You have to " +
+            throw new MissingDataException("You have to " +
                     "insert real user email as responsible: "+ wrongTrainings.toString()
-                    + " and upload the file again!");
+                    + " !");
 
         for(TrainingDto trainingDto : trainingDtos) {
             Training training = new Training();
@@ -100,10 +99,9 @@ public class TrainingService {
             }
 
         if(wrongTrainings.size()!=0)
-            throw new MissingDataException("The file could not been uploaded because you inserted emails " +
-                    "that does not exist. You have to " +
+            throw new MissingDataException("You have to " +
                     "insert real user email as responsible: "+ wrongTrainings.toString()
-                    + " and upload the file again!");
+                    + " !");
 
         for(TrainingDto trainingDto : trainingDtos) {
             long id = trainingDto.getId();

@@ -21,18 +21,19 @@ public class UserController {
         this.userService = userService;
     }
 
+    // used to get all subordinates of an manager
     @PostMapping("/subordinates")
     public List<UserDto> getSubordinates(@RequestBody ManagerRequestDto managerRequestDto) throws MissingDataException {
         return userService.findSubordinates(managerRequestDto);
     }
 
-    //users waiting for SPOC approval
+    // users waiting for SPOC approval
     @PostMapping("/pendingUsers")
     public List<EnrollmentDetailsDto> getUserTrainings(@RequestBody ManagerTrainingRequestDto managerTrainingRequestDto) throws MissingDataException {
         return userService.findPendingUsers(managerTrainingRequestDto);
     }
 
-    //used for manager to put subordinates in PENDING
+    // used for manager to put subordinates in PENDING
     @PostMapping("/subordinatesResult")
     public void saveSubordinates(@RequestBody ManagerResponseDto managerResponseDto) throws MissingDataException {
         userService.savePendingSubordinates(managerResponseDto);
@@ -43,16 +44,19 @@ public class UserController {
         userService.saveSubordinatesStatusAndSendEmail(userStatusDto);
     }
 
+    // used to get data about the user at login
     @PostMapping("/getUserData")
     public UserDto getUserData(@RequestBody EmailDto emailDto) {
         return userService.getUserData(emailDto);
     }
 
+    // used by the user to self-enroll
     @PostMapping("/userSelfEnroll")
     public void userSelfEnroll(@RequestBody ManagerRequestDto managerRequestDto) throws MissingDataException {
         userService.saveUserSaveEnroll(managerRequestDto);
     }
 
+    // used
     @PostMapping("/getSelfEnrolled")
     public List<UserDto> getUsersSelfEnrolled(@RequestBody ManagerRequestDto managerRequestDto) throws MissingDataException {
         return userService.findSelfEnrolledSubordinates(managerRequestDto);
