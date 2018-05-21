@@ -11,4 +11,7 @@ public interface RatingRepository extends JpaRepository<Rating, Long> {
     @Query("SELECT avg(r.rating) FROM Rating r " +
             "WHERE r.training.id = ?1")
     Double getRating(Long trainingId);
+
+    Rating findByTrainingId(Long training_id);
+    Rating findByTrainingIdAndUserId(Long training_id, Long user_id);
 }

@@ -21,4 +21,5 @@ public class TrainingDto {
     private Long nrMax;
     private UserDto trainingResponsible;
     private String vendor;
+    private Double rating;
 }

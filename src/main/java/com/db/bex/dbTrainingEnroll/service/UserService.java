@@ -108,7 +108,11 @@ public class UserService {
             if((enrollment != null))
                 if(enrollment.getStatus() == EnrollmentStatusType.SELF_ENROLLED) {
                     enrollment.setStatus(EnrollmentStatusType.PENDING);
-                    enrollmentRepository.save(enrollment); }
+                    enrollment.setManagerComment(comment);
+                    enrollment.setTrainingType(trainingType);
+                    enrollment.setUrgency(urgencyType);
+                    enrollmentRepository.save(enrollment);
+            }
                 else throw new MissingDataException("User already enrolled");
             else {
                 Enrollment newEnrollment = new Enrollment();
