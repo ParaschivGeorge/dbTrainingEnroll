@@ -45,11 +45,12 @@ public class EmailService {
 
     // used to send email to  manager
     public void sendEmailToManager(@NotEmpty String manager,@NotEmpty String text, @NotEmpty String subject) throws MessagingException {
+        String content = mailContentBuilder.build(text);
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
         helper.setTo(manager);
         helper.setSubject(subject);
-        helper.setText(text);
+        helper.setText(content);
         mailSender.send(mimeMessage);
     }
 }

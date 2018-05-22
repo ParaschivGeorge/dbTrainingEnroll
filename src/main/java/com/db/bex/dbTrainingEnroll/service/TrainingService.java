@@ -257,9 +257,7 @@ public class TrainingService {
             for(Long i : trainingsId) {
                 if(trainingRepository.findById(i).isPresent())
                     trainings.add(trainingRepository.findById(i).get());
-                System.out.println(i);
             }
-
         }
         List<TrainingDto> trainingDtoList = dateSetter(trainings);
         return this.setRating(trainingDtoList);
