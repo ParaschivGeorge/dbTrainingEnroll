@@ -4,6 +4,7 @@ import com.db.bex.dbTrainingEnroll.dto.*;
 import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
 import com.db.bex.dbTrainingEnroll.service.TrainingService;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class TrainingController {
 
     //get all trainings
     @GetMapping("/trainings")
-    public List<TrainingDto> getTrainings(Pageable pageable){
+    public List<TrainingDto> getTrainings(@PageableDefault(page = 0, value = Integer.MAX_VALUE) Pageable pageable){
         return trainingService.findTrainings(pageable).getContent();
     }
 
