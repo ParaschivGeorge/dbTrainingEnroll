@@ -5,6 +5,8 @@ import com.db.bex.dbTrainingEnroll.exceptions.MissingDataException;
 import com.db.bex.dbTrainingEnroll.service.TrainingService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -72,9 +74,13 @@ public class TrainingController {
     }
 
     //used for recommendation
+    //    used for recommendation
     @PostMapping("/recommend")
-    public List<TrainingDto> recommend(@RequestBody EmailDto emailDto) {
-        return trainingService.findRecommendedTrainings(emailDto.getEmail());
+    public ResponseEntity<List<TrainingDto>> recommend(@RequestBody EmailDto emailDto) {
+        List<TrainingDto> list = trainingService.findRecommendedTrainings(emailDto.getEmail());
+        for(TrainingDto i : list)
+            System.out.println(i.getName());
+        return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
     }
 
     //methods used for reports

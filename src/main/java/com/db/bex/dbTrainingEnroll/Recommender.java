@@ -13,6 +13,8 @@ import org.apache.mahout.cf.taste.recommender.RecommendedItem;
 import org.apache.mahout.cf.taste.similarity.ItemSimilarity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Component;
 import org.apache.mahout.cf.taste.impl.model.jdbc.MySQLJDBCDataModel;
 
@@ -23,6 +25,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+@EnableAsync
 public class Recommender {
 
     private TrainingRepository trainingRepository;
@@ -33,6 +36,7 @@ public class Recommender {
         this.dataSource = dataSource;
     }
 
+    @Async
     public List<Long> recommendTraining(Long idUser, int itemsRecommended){
         List<Long> list = null;
         try {
