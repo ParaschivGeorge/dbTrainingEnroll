@@ -75,13 +75,13 @@ public class TrainingController {
 
     //used for recommendation
     //    used for recommendation
-    @PostMapping("/recommend")
-    public ResponseEntity<List<TrainingDto>> recommend(@RequestBody EmailDto emailDto) {
-        List<TrainingDto> list = trainingService.findRecommendedTrainings(emailDto.getEmail());
-        for(TrainingDto i : list)
-            System.out.println(i.getName());
-        return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
-    }
+//    @PostMapping("/recommend")
+//    public ResponseEntity<List<TrainingDto>> recommend(@RequestBody EmailDto emailDto) {
+//        List<TrainingDto> list = trainingService.findRecommendedTrainings(emailDto.getEmail());
+//        for(TrainingDto i : list)
+//            System.out.println(i.getName());
+//        return new ResponseEntity<>(list, HttpStatus.ACCEPTED);
+//    }
 
     //methods used for reports
 
